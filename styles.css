@@ -494,3 +494,27 @@ section {
     font-size: 12px;
     border: 1px solid rgba(39, 201, 63, 0.2);
 }
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .terminal {
+        margin: 0 10px;
+    }
+
+    .terminal-content {
+        height: 250px;
+        /* Slightly shorter on mobile to leave room for keyboard */
+    }
+
+    /* Ensure smooth scrolling behavior */
+    .terminal-section {
+        scroll-margin-top: 60px;
+        /* Account for fixed header */
+    }
+
+    /* Make the input text larger on mobile for better usability */
+    .terminal-input {
+        font-size: 16px;
+        /* Prevents iOS zoom on focus */
+    }
+}

@@ -163,14 +163,14 @@ const projects = [
         github: "https://github.com/NoahDorfman00/ece2035-mbed-rpg",
         demo: "https://youtu.be/H5QuszITFQo"
     },
-    {
-        title: "General Web Development",
-        description: "Developing multiple websites with Bootstrap, HTML, CSS, JavaScript, and Google Firebase for backend services.",
-        technologies: ["Bootstrap", "HTML/CSS", "JavaScript", "Firebase"],
-        image: "project3-placeholder.jpg",
-        github: "https://github.com/NoahDorfman00/",
-        demo: "#"
-    }
+    // {
+    //     title: "General Web Development",
+    //     description: "Developing multiple websites with Bootstrap, HTML, CSS, JavaScript, and Google Firebase for backend services.",
+    //     technologies: ["Bootstrap", "HTML/CSS", "JavaScript", "Firebase"],
+    //     image: "project3-placeholder.jpg",
+    //     github: "https://github.com/NoahDorfman00/",
+    //     demo: "#"
+    // }
 ];
 
 // Skills Data Structure
@@ -232,6 +232,34 @@ if (terminal.input && terminal.output) {
     // Add welcome message when terminal loads
     window.addEventListener('load', () => {
         terminal.execute('welcome');
+    });
+
+    // Handle mobile keyboard and scrolling
+    terminal.input.addEventListener('focus', () => {
+        // Wait for the keyboard to appear
+        setTimeout(() => {
+            const terminalContent = document.querySelector('.terminal-content');
+            const inputLine = document.querySelector('.terminal-input-line');
+
+            // Scroll the terminal content to show the input line
+            if (terminalContent && inputLine) {
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+
+                // Scroll the page to show the terminal
+                const terminalSection = document.querySelector('.terminal-section');
+                if (terminalSection) {
+                    const rect = terminalSection.getBoundingClientRect();
+                    const isVisible = (
+                        rect.top >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                    );
+
+                    if (!isVisible) {
+                        inputLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            }
+        }, 500); // Delay to account for keyboard animation
     });
 
     // Terminal input handling
