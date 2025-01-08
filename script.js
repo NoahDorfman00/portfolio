@@ -156,21 +156,21 @@ const projects = [
         demo: "https://youtube.com/shorts/h9AsVB2ot0Q?feature=share"
     },
     {
+        title: "All Roads",
+        description: "Web application that uses Google Maps API to find the shortest route between all of your friends, helping you find the perfect meeting place.",
+        technologies: ["HTML/CSS", "JavaScript", "Google Maps API"],
+        image: "assets/roadsThumb.png",
+        github: "https://github.com/NoahDorfman00/allRoads",
+        demo: "https://allroadslead2rome.com"
+    },
+    {
         title: "Saving Starman",
         description: "Designed and implemented a secure IoT network for real-time data collection, focusing on zero-trust principles. Demonstrated system security through practical hacking scenarios.",
         technologies: ["Embedded Systems", "C++"],
         image: "assets/starmanThumb.png",
         github: "https://github.com/NoahDorfman00/ece2035-mbed-rpg",
         demo: "https://youtu.be/H5QuszITFQo"
-    },
-    // {
-    //     title: "General Web Development",
-    //     description: "Developing multiple websites with Bootstrap, HTML, CSS, JavaScript, and Google Firebase for backend services.",
-    //     technologies: ["Bootstrap", "HTML/CSS", "JavaScript", "Firebase"],
-    //     image: "project3-placeholder.jpg",
-    //     github: "https://github.com/NoahDorfman00/",
-    //     demo: "#"
-    // }
+    }
 ];
 
 // Skills Data Structure
