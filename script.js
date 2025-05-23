@@ -68,6 +68,8 @@ const terminal = {
     output: document.querySelector('.terminal-output'),
     history: [],
     historyIndex: -1,
+    isFirstOutput: true,
+    hasLoaded: false,
 
     commands: {
         help: () => `Available commands:
@@ -121,10 +123,14 @@ Try these commands:
         this.historyIndex = this.history.length;
         this.input.value = '';
 
-        // Ensure the input line is visible
+        // Ensure the input line is visible, but skip on initial load
         const inputLine = document.querySelector('.terminal-input-line');
         if (inputLine) {
-            inputLine.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if (this.hasLoaded) {
+                inputLine.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                this.hasLoaded = true;
+            }
         }
     },
 
@@ -137,8 +143,12 @@ Try these commands:
         const terminalSection = document.querySelector('.terminal-section');
         const currentScroll = window.scrollY;
 
-        // Force scroll to bottom of terminal
-        this.output.scrollTop = this.output.scrollHeight;
+        // Only auto-scroll if not the first output (i.e., not on initial load)
+        if (!this.isFirstOutput) {
+            this.output.scrollTop = this.output.scrollHeight;
+        } else {
+            this.isFirstOutput = false;
+        }
 
         // Restore page scroll position
         window.scrollTo(0, currentScroll);
@@ -148,20 +158,28 @@ Try these commands:
 // Project data
 const projects = [
     {
+        title: "Flashcard Generator",
+        description: "React web application with Google Firebase backend (Authentication, Realtime Database, and Functions) and Anthropic AI integration for generating flashcards of any topic.",
+        technologies: ["React", "Firebase", "Anthropic API", "TypeScript"],
+        image: "https://study.noahgdorfman.com/assets/social.png?1234",
+        github: "https://github.com/NoahDorfman00/flashcards",
+        demo: "https://study.noahgdorfman.com/"
+    },
+    {
+        title: "all roads",
+        description: "Web application that uses Google Maps API to find the shortest route between all of your friends, helping you find the perfect meeting place.",
+        technologies: ["HTML/CSS", "JavaScript", "Google Maps API"],
+        image: "https://allroads.noahgdorfman.com/assets/social.png?1234",
+        github: "https://github.com/NoahDorfman00/allRoads",
+        demo: "https://allroads.noahgdorfman.com"
+    },
+    {
         title: "JackedTracker",
-        description: "React Native application with Google Firebase backend for data-centric tracking of weightlifting progress. Engineering prompts for Claude 3.5 Sonnet API to provide data-driven feedback.",
-        technologies: ["React Native", "Firebase", "Claude API", "JavaScript"],
+        description: "React Native application with Google Firebase backend for data-centric tracking of weightlifting progress. Engineering prompts for Anthropic API to provide data-driven feedback.",
+        technologies: ["React Native", "Firebase", "Antrhopic API", "JavaScript"],
         image: "assets/jackedThumb.png",
         github: "https://github.com/NoahDorfman00/jackedTracker",
         demo: "https://youtube.com/shorts/h9AsVB2ot0Q?feature=share"
-    },
-    {
-        title: "All Roads",
-        description: "Web application that uses Google Maps API to find the shortest route between all of your friends, helping you find the perfect meeting place.",
-        technologies: ["HTML/CSS", "JavaScript", "Google Maps API"],
-        image: "assets/roadsThumb.png",
-        github: "https://github.com/NoahDorfman00/allRoads",
-        demo: "https://allroadslead2rome.com"
     },
     {
         title: "Saving Starman",
