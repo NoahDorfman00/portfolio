@@ -158,6 +158,14 @@ Try these commands:
 // Project data
 const projects = [
     {
+        title: "Claudio",
+        description: "Italian-American AI companion, built as a web application with Google Firebase Functions backend and Anthropic AI integration.",
+        technologies: ["HTML/CSS", "JavaScript", "Firebase", "Anthropic API"],
+        image: "https://claudio.noahgdorfman.com/assets/social.png?1234",
+        github: "https://github.com/NoahDorfman00/claudio",
+        demo: "https://claudio.noahgdorfman.com/"
+    },
+    {
         title: "Flashcard Generator",
         description: "React web application with Google Firebase backend (Authentication, Realtime Database, and Functions) and Anthropic AI integration for generating flashcards of any topic.",
         technologies: ["React", "Firebase", "Anthropic API", "TypeScript"],
