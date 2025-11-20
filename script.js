@@ -84,7 +84,7 @@ const terminal = {
 
         about: () => `Hi! I'm Noah Dorfman, a Computer Engineer from Georgia Tech with expertise in embedded systems, software development, and hardware design. 
 
-Currently working at EM Photonics on advanced video signal processing. Previously, I led software development at Lockheed Martin for a solid state radar.
+                    Currently doing device validation at Flock Safety. Previously, I worked at EM Photonics on advanced video signal processing and led software development of environmental controls for solid state radar at Lockheed Martin.
         
 I specialize in developing efficient solutions across the full stack, from embedded systems to high-level software applications.`,
 
@@ -158,6 +158,14 @@ Try these commands:
 // Project data
 const projects = [
     {
+        title: "CoD: Black Ops 7 - Race to Master Prestige Leaderboard",
+        description: "Computer vision based web application that scans popular streamers' gameplay and displays their progress to master prestige in a leaderboard.",
+        technologies: ["OpenCV", "Python", "Firebase", "Tesseract OCR", "EasyOCR", "JavaScript", "HTML/CSS"],
+        image: "https://theraceboard.com/social.png?1234",
+        github: "https://github.com/NoahDorfman00/raceToPrestigeTracker",
+        demo: "https://theraceboard.com/"
+    },
+    {
         title: "Claudio",
         description: "Italian-American AI companion, built as a web application with Google Firebase Functions backend and Anthropic AI integration.",
         technologies: ["HTML/CSS", "JavaScript", "Firebase", "Anthropic API"],
@@ -182,12 +190,20 @@ const projects = [
         demo: "https://allroads.noahgdorfman.com"
     },
     {
-        title: "JackedTracker",
-        description: "React Native application with Google Firebase backend for data-centric tracking of weightlifting progress. Engineering prompts for Anthropic API to provide data-driven feedback.",
-        technologies: ["React Native", "Firebase", "Antrhopic API", "JavaScript"],
-        image: "assets/jackedThumb.png",
-        github: "https://github.com/NoahDorfman00/jackedTracker",
-        demo: "https://youtube.com/shorts/h9AsVB2ot0Q?feature=share"
+        title: "liftbook",
+        description: "React Native application with Google Firebase backend for simplified tracking of weightlifting progress. Premium subscription add-on with AI powered analytics.",
+        technologies: ["React Native", "Firebase", "JavaScript"],
+        image: "https://liftbookapp.com/assets/images/social.png?1234",
+        github: "https://github.com/NoahDorfman00/liftbook",
+        demo: "https://liftbookapp.com/demo"
+    },
+    {
+        title: "FIT 9to5",
+        description: "Web suite of tools for lifestyle coaching business. Simple macronutrient calculator and Stripe-based subscription management.",
+        technologies: ["React", "Firebase", "TypeScript", "Stripe", "Google Firebase"],
+        image: "https://fit9to5.com/assets/social.png?1234",
+        github: "https://github.com/NoahDorfman00/fit9to5",
+        demo: "https://fit9to5.com"
     },
     {
         title: "Saving Starman",
