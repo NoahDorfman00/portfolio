@@ -195,7 +195,7 @@ const projects = [
         technologies: ["React Native", "Firebase", "JavaScript"],
         image: "https://liftbookapp.com/assets/images/social.png?1234",
         github: "https://github.com/NoahDorfman00/liftbook",
-        demo: "https://liftbookapp.com/demo"
+        demo: "https://apps.apple.com/us/app/liftbook-strength-log/id6755925820"
     },
     {
         title: "FIT 9to5",
@@ -352,7 +352,7 @@ if (projectGrid) {
                         <i class="fab fa-github"></i> View Code
                     </a>
                     <a href="${project.demo}" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> Live Demo
+                        <i class="fas fa-external-link-alt"></i> Try it
                     </a>
                 </div>
             </div>
