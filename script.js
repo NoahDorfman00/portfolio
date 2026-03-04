@@ -191,7 +191,7 @@ const projects = [
     },
     {
         title: "liftbook",
-        description: "React Native application with Google Firebase backend for simplified tracking of weightlifting progress. Premium subscription add-on with AI powered analytics.",
+        description: "React Native application with Google Firebase backend for simplified tracking of weightlifting progress.",
         technologies: ["React Native", "Firebase", "JavaScript"],
         image: "https://liftbookapp.com/assets/images/social.png?1234",
         github: "https://github.com/NoahDorfman00/liftbook",
