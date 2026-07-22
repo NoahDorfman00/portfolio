@@ -158,6 +158,14 @@ Try these commands:
 // Project data
 const projects = [
     {
+        title: "PetLibro Reposition Button",
+        description: "One-button wall plug that reschedules two smart pet feeders through the PetLibro cloud API. ESP32-S3 running MicroPython, powered by a gutted USB charger inside a custom 3D-printed outlet-mount enclosure.",
+        technologies: ["ESP32-S3", "MicroPython", "Embedded Systems", "3D Printing", "REST"],
+        image: "assets/petlibroThumb.jpg",
+        github: "https://github.com/NoahDorfman00/petlibro-reposition-button",
+        demo: "https://noahgdorfman.com/assets/petlibroDemo.mp4"
+    },
+    {
         title: "CoD: Black Ops 7 - Race to Master Prestige Leaderboard",
         description: "Computer vision based web application that scans popular streamers' gameplay and displays their progress to master prestige in a leaderboard.",
         technologies: ["OpenCV", "Python", "Firebase", "Tesseract OCR", "EasyOCR", "JavaScript", "HTML/CSS"],
