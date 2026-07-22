@@ -215,7 +215,7 @@ const projects = [
     },
     {
         title: "Saving Starman",
-        description: "Designed and implemented a secure IoT network for real-time data collection, focusing on zero-trust principles. Demonstrated system security through practical hacking scenarios.",
+        description: "Tile-based adventure game built from scratch on an ARM mbed microcontroller, with a uLCD display, hardware audio, and button input driven entirely in C++.",
         technologies: ["Embedded Systems", "C++"],
         image: "assets/starmanThumb.png",
         github: "https://github.com/NoahDorfman00/ece2035-mbed-rpg",
