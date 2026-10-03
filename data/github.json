@@ -1,26 +1,48 @@
 {
-  "generatedAt": "2026-10-03T03:45:15.724Z",
+  "generatedAt": "2026-10-03T03:55:46.863Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 24,
   "lastCommit": {
-    "repo": "ece2035-mbed-rpg",
-    "repoUrl": "https://github.com/NoahDorfman00/ece2035-mbed-rpg",
-    "message": "Rewrite README: why it exists, how it works, lessons learned",
-    "url": "https://github.com/NoahDorfman00/ece2035-mbed-rpg/commit/523f87b75b49223c16daa0bf88f95a15ec317158",
-    "date": "2026-10-03T03:42:28Z"
+    "repo": "portfolio",
+    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
+    "message": "New social preview image in the site's style",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/dcb3aea18f3a198709c6929226242fe30c7ce315",
+    "date": "2026-10-03T03:55:22Z"
   },
   "active": [
+    "portfolio",
+    "raceToPrestigeTracker",
+    "flashcards",
     "ece2035-mbed-rpg",
     "fit9to5",
     "liftbook",
-    "flashcards",
     "claudio",
     "allRoads",
     "raceToPrestigeTrackerFrontend",
-    "raceToPrestigeTracker",
     "liftbooksite"
   ],
   "recent": [
+    {
+      "name": "portfolio",
+      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
+      "language": "HTML",
+      "pushedAt": "2026-10-03T03:55:28Z",
+      "url": "https://github.com/NoahDorfman00/portfolio"
+    },
+    {
+      "name": "raceToPrestigeTracker",
+      "description": null,
+      "language": "Python",
+      "pushedAt": "2026-10-03T03:54:32Z",
+      "url": "https://github.com/NoahDorfman00/raceToPrestigeTracker"
+    },
+    {
+      "name": "flashcards",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-10-03T03:52:06Z",
+      "url": "https://github.com/NoahDorfman00/flashcards"
+    },
     {
       "name": "ece2035-mbed-rpg",
       "description": null,
@@ -41,53 +63,32 @@
       "language": "TypeScript",
       "pushedAt": "2026-10-03T03:42:26Z",
       "url": "https://github.com/NoahDorfman00/liftbook"
-    },
-    {
-      "name": "flashcards",
-      "description": null,
-      "language": "TypeScript",
-      "pushedAt": "2026-10-03T03:42:25Z",
-      "url": "https://github.com/NoahDorfman00/flashcards"
-    },
-    {
-      "name": "claudio",
-      "description": "Italian-American AI Chatbot",
-      "language": "JavaScript",
-      "pushedAt": "2026-10-03T03:42:24Z",
-      "url": "https://github.com/NoahDorfman00/claudio"
-    },
-    {
-      "name": "allRoads",
-      "description": "Find the perfect meeting place",
-      "language": "JavaScript",
-      "pushedAt": "2026-10-03T03:42:22Z",
-      "url": "https://github.com/NoahDorfman00/allRoads"
     }
   ],
   "languages": [
     {
-      "name": "C",
-      "pct": 33
-    },
-    {
-      "name": "JavaScript",
-      "pct": 14.9
+      "name": "Jupyter Notebook",
+      "pct": 20.7
     },
     {
       "name": "C++",
-      "pct": 10
+      "pct": 14.7
     },
     {
       "name": "HTML",
-      "pct": 9.9
+      "pct": 14.1
     },
     {
-      "name": "Python",
-      "pct": 7.1
+      "name": "C",
+      "pct": 13.9
+    },
+    {
+      "name": "TypeScript",
+      "pct": 11.7
     },
     {
       "name": "Other",
-      "pct": 25.1
+      "pct": 24.9
     }
   ]
 }
