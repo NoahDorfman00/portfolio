@@ -5,7 +5,7 @@
 #
 # Usage: scripts/sync-images.sh            (needs ffmpeg and Chrome)
 # Build photos (PetLibro), the Race Board detection frame, the all roads results
-# screenshot, and the Claudio portrait are curated by hand and not synced.
+# screenshot, and the Claudio and Claudia portraits are curated by hand and not synced.
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -47,7 +47,7 @@ shot() {
 P=assets/projects
 
 asset https://study.noahgdorfman.com/assets/social.png     $P/flashcards/social.jpg 1600
-asset https://claudio.noahgdorfman.com/assets/social.png   $P/claudio/social.jpg    1600
+asset https://ai.noahgdorfman.com/assets/social.png        $P/artificial-italian/social.jpg 1600
 asset https://fit9to5.com/assets/social.png                $P/fit9to5/social.jpg    1600
 asset https://theraceboard.com/social.png                  $P/race-board/social.jpg 1600
 for i in 1 2 3 4 5; do
@@ -55,7 +55,8 @@ for i in 1 2 3 4 5; do
 done
 
 shot https://study.noahgdorfman.com                        $P/flashcards/home.jpg      1440 810
-shot https://claudio.noahgdorfman.com                      $P/claudio/chat.jpg         1200 900
+# Its app shell is 100dvh, which headless Chrome makes 88px shorter than the window, so overshoot and crop.
+shot https://ai.noahgdorfman.com                           $P/artificial-italian/chat.jpg 1440 898 1440:810:0:0
 shot https://fit9to5.com                                   $P/fit9to5/home.jpg         1200 900
 shot "https://fit9to5.com/macros?cw=180&tw=170"            $P/fit9to5/macros.jpg       1000 750
 shot https://theraceboard.com                              $P/race-board/leaderboard.jpg 1440 810

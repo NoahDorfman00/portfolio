@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artificial Italian — Noah Dorfman</title>
+<meta name="description" content="A full Claude chat app that talks like Claudio and Claudia, two Italian-American grandparents from South Jersey. Streaming replies, synced chats, a free trial and a $6 subscription.">
+<link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<meta property="og:title" content="Artificial Italian — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/artificial-italian/social.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top wide">
+        <div>
+            <h1>Artificial Italian</h1>
+            <p class="dek">A full Claude chat app with a South Jersey accent. You talk to Claudio, a retired machinist, or his wife Claudia, a retired seamstress and the best cook in the family. Both have opinions about your gravy.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2025, rebuilt in 2026</dd>
+                <dt>Made with</dt><dd>HTML, CSS, vanilla JS, Firebase (Functions, Auth, Firestore, Storage), Stripe, Claude Sonnet 5.5 with web search and fetch</dd>
+                <dt>Links</dt><dd><a class="link" href="https://ai.noahgdorfman.com">Live site</a><a class="link" href="https://github.com/NoahDorfman00/claudio">Source on GitHub</a></dd>
+            </dl>
+        </div>
+        <figure class="hero-media">
+            <img src="/assets/projects/artificial-italian/social.jpg" alt="Illustrated portraits of Claudio in a black flat cap on sage green and Claudia in gold-rimmed glasses on tomato red, next to the words 'Claudio & Claudia: Artificial Italian' and a small green, white and red bar">
+            <figcaption class="cap">The tagline is still the whole pitch.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>This was my first time playing with prompt building. I'm Italian-American, wrapping a language model in that heritage sounded like fun, and Claude → Claudio was too on the nose not to do.</p>
+            <p>The first version was a portrait, a text box and a send button. Its whole personality lived in the system prompt, and it couldn't do much besides talk about pasta. The rebuild makes it a real chat app that can do anything Claude can, in his voice. Then it got a second character, and the portraits got redrawn from photos of my late grandparents.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <p>The page is still plain HTML, CSS and a handful of ES modules, no framework and no build step. It looks like any chat app: past chats in a sidebar, a thread, and a composer that takes images, PDFs and text files. Under the hood it's one Firebase Function making one streaming call to Claude Sonnet 5.5 with adaptive thinking, web search, web fetch and prompt caching.</p>
+            <div class="steps"><span>Your message</span><i>→</i><span>claudioChat</span><i>→</i><span>messages.stream</span><i>→</i><span>Server-sent events</span><i>→</i><span>The thread</span></div>
+
+            <h3>Two characters</h3>
+            <p>A toggle next to the name switches between Claudio and Claudia. Each has a backstory, a system prompt, an avatar and an accent color: sage green for him, tomato red for her. Their trades only come up when a question is near them. Ask about a leaky faucet and you'll hear about the shop floor; ask about recursion and you just get a good explanation of recursion.</p>
+            <p>A conversation stays with whoever it started with. Toggling mid-chat starts a new chat with the other one and keeps whatever you'd typed.</p>
+
+            <h3>Replies that keep going</h3>
+            <p>The function streams thinking, text, a line each time he searches or reads a page, and the sources he cited. A reply belongs to its chat, not the screen. Switch chats mid-answer and it keeps streaming in the background and saves when it's done. Come back while it's still going and the chat catches up and continues live.</p>
+            <p>Chats live in IndexedDB. For signed-in users they're mirrored to Firestore, one document per message, so they follow you to another device. A message too big for a document, like a large image or a long fetched page, goes to Cloud Storage instead.</p>
+
+            <h3>Who pays</h3>
+            <p>Every visitor is signed in anonymously in the background, and gets $0.30 of actual API cost on my key, about ten messages. There's no counter; you chat until it runs out. The budget is per network over 30 days, so clearing storage doesn't buy more. After that, you can bring your own Anthropic key or pay $6 a month for a $5 allowance that resets on your billing date.</p>
+            <p>Each reply's cost is worked out from the token and search counts the API reports. That's what gets charged against the trial or the allowance, so a message that fails before he says anything costs nothing.</p>
+            <div class="steps"><span>Subscription</span><i>→</i><span>Key from the browser</span><i>→</i><span>Saved key</span><i>→</i><span>Free trial</span></div>
+            <p>Saved keys are encrypted with AES-256-GCM, with the user's ID bound in, so a copied ciphertext won't decrypt on another account. The browser only ever sees the last four characters.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">Screens</div>
+        <div>
+            <figure class="hero-media">
+                <img src="/assets/projects/artificial-italian/chat.jpg" alt="The Artificial Italian chat page: a sidebar with Claudio's avatar, a character toggle and a green New chat button, and a cream main area with his round portrait, a greeting, four suggested prompts and a 'Talk to Claudio' composer with a 'Think it through' button">
+                <figcaption class="cap">ai.noahgdorfman.com. Claude writes a new batch of greetings and suggestions every day.</figcaption>
+            </figure>
+            <div class="grid2">
+                <figure><img src="/assets/projects/artificial-italian/claudio.jpg" alt="Screen-print style illustration of Claudio: black flat cap, deep smile lines, black jacket, on a sage green and cream background"><figcaption class="cap">Claudio, in my great-grandfather's flat cap</figcaption></figure>
+                <figure><img src="/assets/projects/artificial-italian/claudia.jpg" alt="Screen-print style illustration of Claudia: grey curls, gold-rimmed tinted glasses, a wide smile and a white collar, on a tomato red and cream background"><figcaption class="cap">Claudia, who will ask if you've eaten</figcaption></figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>Server tools change the response shape</h4><p>In v1, web search split the reply into a dozen blocks and <code>content[0]</code> was Claudio's private thoughts, not his answer.</p></div></li>
+            <li><span class="n">2</span><div><h4>Search is billed in input tokens</h4><p>One chicken-parm question ran two searches and about 49k tokens.</p></div></li>
+            <li><span class="n">3</span><div><h4>Let the model do the character work</h4><p>v1 hid its reasoning in tags and re-paid for it every turn. The rebuild uses real thinking, and the reply is just the reply.</p></div></li>
+            <li><span class="n">4</span><div><h4>A reply belongs to its chat</h4><p>Tying the stream to the chat instead of the screen is what made switching mid-answer safe.</p></div></li>
+            <li><span class="n">5</span><div><h4>Charge what it actually cost</h4><p>A dollar budget from the API's own usage counts is fairer than a message count, and failed replies are free.</p></div></li>
+            <li><span class="n">6</span><div><h4>Don't trust the first forwarded address</h4><p>Only the last <code>X-Forwarded-For</code> entry comes from Google's front end. The rest can be spoofed.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="row">
+        <div class="label">Stack</div>
+        <div>
+            <div class="parts">
+                <div><span class="p">Frontend</span><span class="d">Static HTML, CSS and ES modules; marked, DOMPurify and highlight.js from jsDelivr</span></div>
+                <div><span class="p">Hosting</span><span class="d">GitHub Pages with a custom domain</span></div>
+                <div><span class="p">Backend</span><span class="d">Firebase Functions v2 (<code>onRequest</code>), Node 22: streaming chat, account API, Stripe webhook</span></div>
+                <div><span class="p">Model</span><span class="d">Claude Sonnet 5.5 with adaptive thinking, web search and web fetch</span></div>
+                <div><span class="p">Auth and data</span><span class="d">Firebase Auth (anonymous, then Google), IndexedDB, Firestore, Cloud Storage</span></div>
+                <div><span class="p">Payments</span><span class="d">Stripe Checkout, Customer Portal, webhooks</span></div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/liftbook.html"><span>← Previous project</span><b>liftbook</b></a>
+        <a href="/projects/all-roads.html"><span>Next project →</span><b>all roads</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>

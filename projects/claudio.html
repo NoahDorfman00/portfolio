@@ -2,111 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claudio — Noah Dorfman</title>
-<meta name="description" content="A chatbot that plays Claudio, a second-generation Italian-American restaurant owner from Brooklyn. One static page, one Firebase Function, one very long system prompt.">
-<link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
-<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
-<meta property="og:title" content="Claudio — Noah Dorfman">
-<meta property="og:image" content="https://noahgdorfman.com/assets/projects/claudio/social.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/site.css">
+<title>Artificial Italian — Noah Dorfman</title>
+<link rel="canonical" href="https://noahgdorfman.com/projects/artificial-italian.html">
+<meta http-equiv="refresh" content="0; url=/projects/artificial-italian.html">
 </head>
 <body>
-<div class="wrap">
-    <header>
-        <div class="bar">
-            <a class="name" href="/">Noah Dorfman</a>
-            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
-        </div>
-    </header>
-
-    <a class="crumb" href="/#work">← All work</a>
-
-    <section class="top wide">
-        <div>
-            <h1>Claudio</h1>
-            <p class="dek">A chatbot that plays Claudio: second-generation Italian-American, late 40s, runs the family restaurant in Brooklyn, and has opinions about your chicken parm.</p>
-            <dl class="facts">
-                <dt>Year</dt><dd>2025</dd>
-                <dt>Made with</dt><dd>HTML, CSS, vanilla JS, one Firebase Function, Claude Sonnet 4.5 with web search</dd>
-                <dt>Links</dt><dd><a class="link" href="https://claudio.noahgdorfman.com">Live site</a><a class="link" href="https://github.com/NoahDorfman00/claudio">Source on GitHub</a></dd>
-            </dl>
-        </div>
-        <figure class="hero-media">
-            <img src="/assets/projects/claudio/social.jpg" alt="Illustrated portrait of Claudio in a flat cap and jacket, next to the words 'Claudio: Artificial Italian'">
-            <figcaption class="cap">The tagline is the whole pitch.</figcaption>
-        </figure>
-    </section>
-
-    <section class="row">
-        <div class="label">Why</div>
-        <div class="prose">
-            <p>This was my first time playing with prompt building. I'm Italian-American, wrapping a language model in that heritage sounded like fun, and Claude → Claudio was too on the nose not to do.</p>
-        </div>
-    </section>
-
-    <section class="row">
-        <div class="label">How it works</div>
-        <div class="prose">
-            <p>The page is plain HTML and one ES module, no build step. It keeps the conversation in a browser array and sends the whole thing to a single Firebase Function every turn. Nothing is stored, so a refresh wipes Claudio's memory of you.</p>
-            <p>The function makes one call to Claude Sonnet 4.5 with a long system prompt: grandparents who came from Sicily in the 1930s, a Brooklyn childhood, Italian that's mostly about family, food and feelings, and an explicit instruction to skip the caricature. Then it asks him to work in two steps.</p>
-            <div class="steps"><span>Your message</span><i>→</i><span>&lt;character_analysis&gt;</span><i>→</i><span>&lt;response&gt;</span><i>→</i><span>Chat bubble</span></div>
-
-            <h3>Hiding the backstage</h3>
-            <p>Claudio thinks first, inside <code>&lt;character_analysis&gt;</code> tags: which expressions fit, how a restaurant owner would see it, which family story applies. Then he answers inside <code>&lt;response&gt;</code>. The client shows only the answer.</p>
-            <p>If the closing tag gets cut off by the 1024-token limit, the client falls back to everything after the opening tag. If there's no tag at all, you get an apology and a Retry button instead of a blank bubble.</p>
-
-            <h3>Web search changes the shape</h3>
-            <p>Claudio can look things up, like where to get chicken parm in Delco. With search on, the reply arrives as a dozen text blocks split around citations, so reading the first block got me his private thoughts and none of what he actually said. The function now joins every text block before the client parses anything.</p>
-            <p>Search is also paid for in input tokens. One chicken-parm question ran two searches and about 49k tokens, so it's capped at one search per turn.</p>
-        </div>
-    </section>
-
-    <section class="row">
-        <div class="label">Screens</div>
-        <div>
-            <div class="prose">
-                <p>The whole interface is a portrait, a text box and a send button. Claudio brings the rest.</p>
-            </div>
-            <div class="grid2">
-                <figure><img src="/assets/projects/claudio/portrait.jpg" alt="Close-up illustration of Claudio: flat cap, heavy brows, grey mustache, dark jacket, on an orange and cream background"><figcaption class="cap">Claudio, who has notes on your sauce</figcaption></figure>
-                <figure><img src="/assets/projects/claudio/chat.jpg" alt="The Claudio chat page: a small round portrait and his name at the top, an empty cream page, and a 'Say something to Claudio' text box with a Send button"><figcaption class="cap">The live site, waiting for you to say something</figcaption></figure>
-            </div>
-        </div>
-    </section>
-
-    <section class="row">
-        <div class="label">What it taught me</div>
-        <ol class="lessons">
-            <li><span class="n">1</span><div><h4>Server tools change the response shape</h4><p>With web search on, <code>content[0]</code> was Claudio's private thoughts, not his answer.</p></div></li>
-            <li><span class="n">2</span><div><h4>Search is billed in input tokens</h4><p>One chicken-parm question cost about 49k tokens, so <code>max_uses</code> is now 1.</p></div></li>
-            <li><span class="n">3</span><div><h4>Hidden reasoning is billed twice</h4><p>The UI hides the analysis but the history keeps it, so every turn re-pays for the earlier thinking.</p></div></li>
-            <li><span class="n">4</span><div><h4>Tag-based output needs a way out</h4><p>A fallback regex and a Retry button beat an empty chat bubble.</p></div></li>
-        </ol>
-    </section>
-
-    <section class="row">
-        <div class="label">Stack</div>
-        <div>
-            <div class="parts">
-                <div><span class="p">Frontend</span><span class="d">Static HTML, CSS and an ES module, Firebase JS SDK from the CDN</span></div>
-                <div><span class="p">Hosting</span><span class="d">GitHub Pages with a custom domain</span></div>
-                <div><span class="p">Backend</span><span class="d">One Firebase Function (v2 <code>onCall</code>), Node 18</span></div>
-                <div><span class="p">Model</span><span class="d">Claude Sonnet 4.5 with the Anthropic web search tool</span></div>
-            </div>
-        </div>
-    </section>
-
-    <nav class="pager">
-        <a href="/projects/liftbook.html"><span>← Previous project</span><b>liftbook</b></a>
-        <a href="/projects/all-roads.html"><span>Next project →</span><b>all roads</b></a>
-    </nav>
-
-    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
-</div>
+<p>Claudio is now <a href="/projects/artificial-italian.html">Artificial Italian</a>.</p>
 </body>
 </html>
