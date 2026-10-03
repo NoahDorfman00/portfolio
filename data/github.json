@@ -1,24 +1,23 @@
 {
-  "generatedAt": "2026-10-03T03:57:25.166Z",
+  "generatedAt": "2026-10-03T03:59:00.481Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 24,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Ignore notebook output in language stats; only say 'which tracks' for C-family",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/60e4a9f8e31cdde87a65ba0646388f864688eab2",
-    "date": "2026-10-03T03:57:10Z"
+    "message": "Stats: skip the bot's own commits; date repos by last real commit",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/fb3112c69f8819bc0fac33b965a76bd44c885c6f",
+    "date": "2026-10-03T03:58:43Z"
   },
   "active": [
     "portfolio",
-    "raceToPrestigeTracker",
     "flashcards",
+    "raceToPrestigeTracker",
     "ece2035-mbed-rpg",
     "fit9to5",
     "liftbook",
     "claudio",
     "allRoads",
-    "raceToPrestigeTrackerFrontend",
     "liftbooksite"
   ],
   "recent": [
@@ -26,15 +25,8 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-10-03T03:57:11Z",
+      "pushedAt": "2026-10-03T03:58:43Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
-    },
-    {
-      "name": "raceToPrestigeTracker",
-      "description": null,
-      "language": "Python",
-      "pushedAt": "2026-10-03T03:54:32Z",
-      "url": "https://github.com/NoahDorfman00/raceToPrestigeTracker"
     },
     {
       "name": "flashcards",
@@ -44,24 +36,31 @@
       "url": "https://github.com/NoahDorfman00/flashcards"
     },
     {
+      "name": "raceToPrestigeTracker",
+      "description": null,
+      "language": "Python",
+      "pushedAt": "2026-10-03T03:45:34Z",
+      "url": "https://github.com/NoahDorfman00/raceToPrestigeTracker"
+    },
+    {
       "name": "ece2035-mbed-rpg",
       "description": null,
       "language": "C++",
-      "pushedAt": "2026-10-03T03:42:29Z",
+      "pushedAt": "2026-10-03T03:42:28Z",
       "url": "https://github.com/NoahDorfman00/ece2035-mbed-rpg"
     },
     {
       "name": "fit9to5",
       "description": null,
       "language": "TypeScript",
-      "pushedAt": "2026-10-03T03:42:28Z",
+      "pushedAt": "2026-10-03T03:42:27Z",
       "url": "https://github.com/NoahDorfman00/fit9to5"
     },
     {
       "name": "liftbook",
       "description": null,
       "language": "TypeScript",
-      "pushedAt": "2026-10-03T03:42:26Z",
+      "pushedAt": "2026-10-03T03:42:25Z",
       "url": "https://github.com/NoahDorfman00/liftbook"
     }
   ],
@@ -76,7 +75,7 @@
     },
     {
       "name": "C",
-      "pct": 17.6
+      "pct": 17.5
     },
     {
       "name": "TypeScript",
@@ -88,7 +87,7 @@
     },
     {
       "name": "Other",
-      "pct": 18.6
+      "pct": 18.7
     }
   ]
 }
