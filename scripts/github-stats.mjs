@@ -6,6 +6,8 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 
 const LOGIN = 'NoahDorfman00';
 const ACTIVE_DAYS = 45;
+// Notebook byte counts are mostly saved cell output, not code.
+const IGNORED_LANGUAGES = new Set(['Jupyter Notebook']);
 const token = process.env.GITHUB_TOKEN;
 if (!token) throw new Error('GITHUB_TOKEN is required');
 
@@ -36,7 +38,9 @@ const pub = repos.filter(r => !r.isPrivate);
 
 const langBytes = {};
 for (const r of repos) {
-    for (const { size, node } of r.languages.edges) langBytes[node.name] = (langBytes[node.name] || 0) + size;
+    for (const { size, node } of r.languages.edges) {
+        if (!IGNORED_LANGUAGES.has(node.name)) langBytes[node.name] = (langBytes[node.name] || 0) + size;
+    }
 }
 const total = Object.values(langBytes).reduce((a, b) => a + b, 0);
 const ranked = Object.entries(langBytes).sort((a, b) => b[1] - a[1]);

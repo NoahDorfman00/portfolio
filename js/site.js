@@ -39,7 +39,8 @@ if ($('github')) {
         $('gh-ago').textContent = shortAgo(gh.lastCommit.date);
         $('gh-bar').innerHTML = gh.languages.map((l, i) => `<i style="flex:${l.pct} 1 0;background:${SHADES[i]}" title="${l.name} ${l.pct}%"></i>`).join('');
         $('gh-key').innerHTML = gh.languages.map((l, i) => `<span><i style="background:${SHADES[i]}"></i>${l.name} ${Math.round(l.pct)}%</span>`).join('');
-        $('gh-summary').textContent = `Mostly ${gh.languages[0].name}, which tracks.`;
+        const top = gh.languages[0].name;
+        $('gh-summary').textContent = ['C', 'C++', 'Assembly'].includes(top) ? `Mostly ${top}, which tracks.` : `Mostly ${top}.`;
         $('gh-repolist').innerHTML = gh.recent.slice(0, 5).map(r => `<a href="${r.url}"><span class="n">${r.name}</span><span class="l">${r.language ?? ''}</span><span class="w">${ago(r.pushedAt)}</span></a>`).join('');
         $('gh-gen').textContent = `GitHub data as of ${new Date(gh.generatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}`;
     }).catch(() => {
