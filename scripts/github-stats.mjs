@@ -19,7 +19,7 @@ const query = `query($login: String!) {
         name description url isPrivate pushedAt
         primaryLanguage { name }
         languages(first: 10) { edges { size node { name } } }
-        defaultBranchRef { target { ... on Commit { message committedDate url } } }
+        defaultBranchRef { target { ... on Commit { history(first: 10) { nodes { message committedDate url author { name } } } } } }
       }
     }
   }
@@ -33,7 +33,11 @@ const res = await fetch('https://api.github.com/graphql', {
 const { data, errors } = await res.json();
 if (errors) throw new Error(JSON.stringify(errors));
 
-const repos = data.user.repositories.nodes;
+// Each repo's latest human commit on the default branch. The stats bot's own commits don't count as activity.
+const BOT = 'github-actions[bot]';
+const repos = data.user.repositories.nodes
+    .map(r => ({ ...r, last: r.defaultBranchRef?.target.history.nodes.find(c => c.author?.name !== BOT) ?? null }))
+    .sort((a, b) => Date.parse(b.last?.committedDate ?? 0) - Date.parse(a.last?.committedDate ?? 0));
 const pub = repos.filter(r => !r.isPrivate);
 
 const langBytes = {};
@@ -48,7 +52,7 @@ const languages = ranked.slice(0, 5).map(([name, bytes]) => ({ name, pct: +(byte
 const otherPct = +(100 - languages.reduce((a, l) => a + l.pct, 0)).toFixed(1);
 if (otherPct > 0) languages.push({ name: 'Other', pct: otherPct });
 
-const latest = pub.find(r => r.defaultBranchRef);
+const latest = pub.find(r => r.last);
 const cutoff = Date.now() - ACTIVE_DAYS * 864e5;
 
 const out = {
@@ -58,16 +62,16 @@ const out = {
     lastCommit: latest && {
         repo: latest.name,
         repoUrl: latest.url,
-        message: latest.defaultBranchRef.target.message.split('\n')[0],
-        url: latest.defaultBranchRef.target.url,
-        date: latest.defaultBranchRef.target.committedDate,
+        message: latest.last.message.split('\n')[0],
+        url: latest.last.url,
+        date: latest.last.committedDate,
     },
-    active: pub.filter(r => Date.parse(r.pushedAt) > cutoff).map(r => r.name),
+    active: pub.filter(r => r.last && Date.parse(r.last.committedDate) > cutoff).map(r => r.name),
     recent: pub.slice(0, 6).map(r => ({
         name: r.name,
         description: r.description,
         language: r.primaryLanguage?.name ?? null,
-        pushedAt: r.pushedAt,
+        pushedAt: r.last?.committedDate ?? r.pushedAt,
         url: r.url,
     })),
     languages,
