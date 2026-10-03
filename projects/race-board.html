@@ -58,6 +58,7 @@
             <h3>Reading the numbers</h3>
             <p>The level crop gets three binarizations, a 4x upscale and a digits-only Tesseract pass. Only plausible numbers get a vote, and the most common answer wins.</p>
             <p>Prestige is stylized text, which is harder. EasyOCR goes first, Tesseract tries sixteen preprocessing and page-mode combinations if that comes up empty, and a fuzzy matcher forgives the usual misreadings: <code>PRESTICE</code>, <code>PREST0E</code>, <code>PREST6E</code>. "Prestige Master" is stored as prestige 20 so it sorts above everything else.</p>
+            <p>Anything lower than what's already stored is treated as a misread. It only sticks if lower readings keep coming for five detections and ten minutes, so one bad frame can't knock anyone down the board.</p>
             <h3>No server for the public site</h3>
             <p>The backend is the only writer, so state is a plain <code>streams_data.json</code>, re-uploaded to Firebase Storage on every save. theraceboard.com is one static page on GitHub Pages that fetches the file and ranks streamers client-side, prestige then level. Each row has an info button with the last annotated frame and the raw OCR text, so anyone can check the robot's work.</p>
         </div>
@@ -100,7 +101,6 @@
         <div class="prose">
             <ul>
                 <li>Detection regions are fixed percentages, so a stream overlay sitting on the menu can push the text out of the box.</li>
-                <li>The code can tell when a reading goes backwards but doesn't reject it yet, so one bad read can drop someone down the board until the next good one.</li>
                 <li>It can't see you level up mid-match. It finds out when you open the Progression screen on stream.</li>
             </ul>
         </div>
