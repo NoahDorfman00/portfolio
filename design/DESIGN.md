@@ -106,3 +106,7 @@ Short template (thinner projects): title block + facts + hero media → Why → 
 ```
 
 Bump the `?v=` on the `og:image` URLs when it changes so link previews refresh.
+
+## Favicon
+
+"ND" in IBM Plex Sans SemiBold, paper on an ink square, with the amber link underline beneath it. [`favicon.py`](favicon.py) writes the outlined SVGs; rasterize the PNG and ICO by inlining each SVG in a page, screenshotting with headless Chrome at a 600×600 window, and cropping to size (macOS Chrome won't render a smaller window). Outputs: `assets/favicon.svg`, `/favicon.ico` (32 px), `assets/apple-touch-icon.png` (180 px, square corners; iOS rounds them). Bump the `?v=` on the icon links when it changes.
