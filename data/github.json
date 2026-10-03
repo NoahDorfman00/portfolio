@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-10-03T11:44:55.251Z",
+  "generatedAt": "2026-10-03T16:26:45.781Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 24,
   "lastCommit": {
-    "repo": "claudio",
-    "repoUrl": "https://github.com/NoahDorfman00/claudio",
-    "message": "Add Claudia, cross-device chat sync, and background replies",
-    "url": "https://github.com/NoahDorfman00/claudio/commit/d11bae293c6a9baf33731de98dba6ba1d0c79843",
-    "date": "2026-10-03T09:59:12Z"
+    "repo": "portfolio",
+    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
+    "message": "Claudio is now Artificial Italian",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/1e5c73b10e83cdc716ff66e83dde8382f43c468d",
+    "date": "2026-10-03T14:33:04Z"
   },
   "active": [
+    "portfolio",
     "claudio",
     "flashcards",
     "fit9to5",
-    "portfolio",
     "raceToPrestigeTracker",
     "ece2035-mbed-rpg",
     "liftbook",
@@ -23,10 +23,17 @@
   ],
   "recent": [
     {
+      "name": "portfolio",
+      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
+      "language": "HTML",
+      "pushedAt": "2026-10-03T14:33:04Z",
+      "url": "https://github.com/NoahDorfman00/portfolio"
+    },
+    {
       "name": "claudio",
       "description": "Italian-American AI Chatbot",
       "language": "JavaScript",
-      "pushedAt": "2026-10-03T09:59:12Z",
+      "pushedAt": "2026-10-03T14:23:24Z",
       "url": "https://github.com/NoahDorfman00/claudio"
     },
     {
@@ -42,13 +49,6 @@
       "language": "TypeScript",
       "pushedAt": "2026-10-03T08:26:07Z",
       "url": "https://github.com/NoahDorfman00/fit9to5"
-    },
-    {
-      "name": "portfolio",
-      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
-      "language": "HTML",
-      "pushedAt": "2026-10-03T06:17:32Z",
-      "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
       "name": "raceToPrestigeTracker",
@@ -68,15 +68,15 @@
   "languages": [
     {
       "name": "C++",
-      "pct": 17.2
+      "pct": 17.1
     },
     {
       "name": "HTML",
-      "pct": 16.8
+      "pct": 16.9
     },
     {
       "name": "C",
-      "pct": 16.3
+      "pct": 16.2
     },
     {
       "name": "TypeScript",
@@ -88,7 +88,7 @@
     },
     {
       "name": "Other",
-      "pct": 20.8
+      "pct": 20.9
     }
   ]
 }
