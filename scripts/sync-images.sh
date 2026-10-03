@@ -21,11 +21,11 @@ fi
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-# Flatten onto white (drops any alpha), cap the width, write a JPEG.
+# Flatten onto white (drops any alpha), optionally crop (w:h:x:y), cap the width, write a JPEG.
 to_jpg() {
-    local in="$1" out="$2" max="$3"
+    local in="$1" out="$2" max="$3" crop="${4:+crop=$4,}"
     ffmpeg -loglevel error -y -i "$in" -filter_complex \
-        "color=white[bg];[bg][0]scale2ref[bg][img];[bg][img]overlay=shortest=1,scale='min($max,iw)':-2" \
+        "color=white[bg];[bg][0]scale2ref[bg][img];[bg][img]overlay=shortest=1,${crop}scale='min($max,iw)':-2" \
         -frames:v 1 -q:v 3 "$out"
 }
 
@@ -35,12 +35,12 @@ asset() {
         || echo "FAILED asset $1"
 }
 
-# shot <url> <out> <width> <height>
+# shot <url> <out> <width> <height> [crop w:h:x:y, in window pixels]
 shot() {
     "$CHROME" --headless=new --hide-scrollbars --force-device-scale-factor=1 \
         --window-size="$3,$4" --virtual-time-budget=8000 \
         --screenshot="$tmp/shot.png" "$1" >/dev/null 2>&1 \
-        && to_jpg "$tmp/shot.png" "$2" "$3" && echo "shot  $2" \
+        && to_jpg "$tmp/shot.png" "$2" "$3" "${5:-}" && echo "shot  $2" \
         || echo "FAILED shot $1"
 }
 
@@ -57,7 +57,8 @@ done
 shot https://study.noahgdorfman.com                        $P/flashcards/home.jpg      1440 810
 shot https://claudio.noahgdorfman.com                      $P/claudio/chat.jpg         1200 900
 shot https://fit9to5.com                                   $P/fit9to5/home.jpg         1200 900
-shot "https://fit9to5.com/macros?cw=180&tw=170"            $P/fit9to5/macros.jpg       1000 750
+# Cropped to the gainer buttons and the results; re-check the crop if the calculator's layout changes.
+shot "https://fit9to5.com/macros?cw=180&tw=170"            $P/fit9to5/macros.jpg       1000 1250 760:570:120:600
 shot https://theraceboard.com                              $P/race-board/leaderboard.jpg 1440 810
 
 # The homepage feature image: the first three liftbook screens side by side, 4:3.
