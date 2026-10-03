@@ -1,4 +1,4 @@
-// Live clock, project-table hover previews, and GitHub data for the homepage.
+// Live clock and GitHub data for the homepage.
 
 const $ = id => document.getElementById(id);
 
@@ -7,15 +7,6 @@ if (clock) {
     const tick = () => clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     tick();
     setInterval(tick, 30000);
-}
-
-const peek = $('peek');
-if (peek) {
-    document.querySelectorAll('.trow[data-img]').forEach(row => {
-        row.addEventListener('mouseenter', () => { peek.style.backgroundImage = `url(${row.dataset.img})`; peek.style.opacity = 1; });
-        row.addEventListener('mouseleave', () => peek.style.opacity = 0);
-        row.addEventListener('mousemove', e => { peek.style.left = (e.clientX + 24) + 'px'; peek.style.top = (e.clientY - 70) + 'px'; });
-    });
 }
 
 const ago = iso => {

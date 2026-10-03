@@ -31,7 +31,7 @@ body {
 a { color: inherit; }
 
 /* Every photo is "printed" onto the paper */
-img, video, .peek { filter: var(--printed); mix-blend-mode: multiply; }
+img, video { filter: var(--printed); mix-blend-mode: multiply; }
 .link {
     text-decoration: none;
     background-image: linear-gradient(var(--signal), var(--signal));
@@ -113,7 +113,6 @@ footer { display: flex; justify-content: space-between; padding: 28px 0 40px; fo
 .trow .d { color: var(--ink-2); font-size: 15px; }
 .trow .arr { color: var(--muted); transition: transform .15s; }
 .trow:hover .arr { transform: translateX(3px); color: var(--ink); }
-.peek { position: fixed; width: 260px; aspect-ratio: 1.91/1; pointer-events: none; opacity: 0; transition: opacity .12s; z-index: 5; background: var(--paper-2) center/cover; border: 0.5px solid var(--ink); }
 
 /* About */
 .about { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 48px; }
@@ -173,8 +172,7 @@ footer { display: flex; justify-content: space-between; padding: 28px 0 40px; fo
     .trow .d { grid-column: 1; grid-row: 2; }
     .trow .stack { display: none; }
     .xp div { grid-template-columns: 1fr; gap: 2px; }
-    .peek { display: none; }
-}
+    }
 
 /* ---------- Project pages ---------- */
 .crumb { display: inline-block; margin-top: 40px; font-family: var(--mono); font-size: 13px; color: var(--muted); text-decoration: none; }

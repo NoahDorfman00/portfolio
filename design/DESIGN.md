@@ -76,7 +76,7 @@ Real photos of real builds (cutting mats, guts, the thing on the wall) beat rend
 
 ## Motion
 
-Minimal: link fill (.2s), row hover wash (.15s), arrow nudge, the status-dot pulse, hover preview thumbnails on the project table. No scroll-triggered animations, no particles.
+Minimal: link fill (.2s), row hover wash (.15s), arrow nudge, the status-dot pulse. No hover previews or popovers. No scroll-triggered animations, no particles.
 
 ## Data
 
