@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-03T03:55:46.863Z",
+  "generatedAt": "2026-10-03T03:57:25.166Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 24,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "New social preview image in the site's style",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/dcb3aea18f3a198709c6929226242fe30c7ce315",
-    "date": "2026-10-03T03:55:22Z"
+    "message": "Ignore notebook output in language stats; only say 'which tracks' for C-family",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/60e4a9f8e31cdde87a65ba0646388f864688eab2",
+    "date": "2026-10-03T03:57:10Z"
   },
   "active": [
     "portfolio",
@@ -26,7 +26,7 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-10-03T03:55:28Z",
+      "pushedAt": "2026-10-03T03:57:11Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
@@ -67,28 +67,28 @@
   ],
   "languages": [
     {
-      "name": "Jupyter Notebook",
-      "pct": 20.7
-    },
-    {
       "name": "C++",
-      "pct": 14.7
+      "pct": 18.5
     },
     {
       "name": "HTML",
-      "pct": 14.1
+      "pct": 17.8
     },
     {
       "name": "C",
-      "pct": 13.9
+      "pct": 17.6
     },
     {
       "name": "TypeScript",
-      "pct": 11.7
+      "pct": 14.7
+    },
+    {
+      "name": "Python",
+      "pct": 12.8
     },
     {
       "name": "Other",
-      "pct": 24.9
+      "pct": 18.6
     }
   ]
 }
