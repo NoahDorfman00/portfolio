@@ -1,45 +1,60 @@
 {
-  "generatedAt": "2026-10-03T03:59:00.481Z",
+  "generatedAt": "2026-10-03T11:44:55.251Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 24,
   "lastCommit": {
-    "repo": "portfolio",
-    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Stats: skip the bot's own commits; date repos by last real commit",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/fb3112c69f8819bc0fac33b965a76bd44c885c6f",
-    "date": "2026-10-03T03:58:43Z"
+    "repo": "claudio",
+    "repoUrl": "https://github.com/NoahDorfman00/claudio",
+    "message": "Add Claudia, cross-device chat sync, and background replies",
+    "url": "https://github.com/NoahDorfman00/claudio/commit/d11bae293c6a9baf33731de98dba6ba1d0c79843",
+    "date": "2026-10-03T09:59:12Z"
   },
   "active": [
-    "portfolio",
+    "claudio",
     "flashcards",
+    "fit9to5",
+    "portfolio",
     "raceToPrestigeTracker",
     "ece2035-mbed-rpg",
-    "fit9to5",
     "liftbook",
-    "claudio",
     "allRoads",
+    "raceToPrestigeTrackerFrontend",
     "liftbooksite"
   ],
   "recent": [
     {
-      "name": "portfolio",
-      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
-      "language": "HTML",
-      "pushedAt": "2026-10-03T03:58:43Z",
-      "url": "https://github.com/NoahDorfman00/portfolio"
+      "name": "claudio",
+      "description": "Italian-American AI Chatbot",
+      "language": "JavaScript",
+      "pushedAt": "2026-10-03T09:59:12Z",
+      "url": "https://github.com/NoahDorfman00/claudio"
     },
     {
       "name": "flashcards",
       "description": null,
       "language": "TypeScript",
-      "pushedAt": "2026-10-03T03:52:06Z",
+      "pushedAt": "2026-10-03T08:26:51Z",
       "url": "https://github.com/NoahDorfman00/flashcards"
+    },
+    {
+      "name": "fit9to5",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-10-03T08:26:07Z",
+      "url": "https://github.com/NoahDorfman00/fit9to5"
+    },
+    {
+      "name": "portfolio",
+      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
+      "language": "HTML",
+      "pushedAt": "2026-10-03T06:17:32Z",
+      "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
       "name": "raceToPrestigeTracker",
       "description": null,
       "language": "Python",
-      "pushedAt": "2026-10-03T03:45:34Z",
+      "pushedAt": "2026-10-03T04:06:39Z",
       "url": "https://github.com/NoahDorfman00/raceToPrestigeTracker"
     },
     {
@@ -48,46 +63,32 @@
       "language": "C++",
       "pushedAt": "2026-10-03T03:42:28Z",
       "url": "https://github.com/NoahDorfman00/ece2035-mbed-rpg"
-    },
-    {
-      "name": "fit9to5",
-      "description": null,
-      "language": "TypeScript",
-      "pushedAt": "2026-10-03T03:42:27Z",
-      "url": "https://github.com/NoahDorfman00/fit9to5"
-    },
-    {
-      "name": "liftbook",
-      "description": null,
-      "language": "TypeScript",
-      "pushedAt": "2026-10-03T03:42:25Z",
-      "url": "https://github.com/NoahDorfman00/liftbook"
     }
   ],
   "languages": [
     {
       "name": "C++",
-      "pct": 18.5
+      "pct": 17.2
     },
     {
       "name": "HTML",
-      "pct": 17.8
+      "pct": 16.8
     },
     {
       "name": "C",
-      "pct": 17.5
+      "pct": 16.3
     },
     {
       "name": "TypeScript",
-      "pct": 14.7
+      "pct": 15.4
     },
     {
-      "name": "Python",
-      "pct": 12.8
+      "name": "JavaScript",
+      "pct": 13.5
     },
     {
       "name": "Other",
-      "pct": 18.7
+      "pct": 20.8
     }
   ]
 }
