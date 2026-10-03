@@ -1,138 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noah Dorfman</title>
+<meta name="description" content="Computer engineer and maker. Firmware, enclosures, apps, and the occasional button on the wall.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧑‍💻</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://noahgdorfman.com/">
+<meta property="og:title" content="Noah Dorfman">
+<meta property="og:description" content="Computer engineer and maker. Firmware, enclosures, apps, and the occasional button on the wall.">
+<meta property="og:image" content="https://noahgdorfman.com/assets/social.png?1234">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noahgdorfman.com/assets/social.png?1234">
 
-    <!-- HTML Meta Tags -->
-    <title>Noah Dorfman</title>
-    <meta name="description" content="Engineering Portfolio">
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://noahgdorfman.com/">
-    <meta property="og:title" content="noahgdorfman.com">
-    <meta property="og:description" content="Engineering Portfolio">
-    <meta property="og:image" content="https://noahgdorfman.com/assets/social.png?1234">
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://noahgdorfman.com/">
-    <meta name="twitter:title" content="noahgdorfman.com">
-    <meta name="twitter:description" content="Engineering Portfolio">
-    <meta name="twitter:image" content="https://noahgdorfman.com/assets/social.png?1234">
-
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
 </head>
+<body>
 
-<body data-theme="dark">
-    <div id="particles-js"></div>
-
-    <nav>
-        <div class="nav-content">
-            <div class="logo">
-                <a href="#home">🧑‍💻 Noah's Portfolio</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
         </div>
-    </nav>
+    </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content" data-aos="fade-up">
-            <h1>Noah Dorfman</h1>
-            <h2>Computer Engineer</h2>
-            <p>Building innovative solutions in embedded systems and software development</p>
-            <div class="social-links">
-                <a href="https://github.com/NoahDorfman00" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/noahdorfman" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="https://x.com/noahdorfman" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-            </div>
+    <section class="hero">
+        <div>
+            <h1>Noah<br>Dorfman</h1>
+            <p>I'm a computer engineer who builds fixes for my own life — <mark>a button for the cat feeders, an app for the gym, a leaderboard for a video game</mark> — and keeps polishing them long after they already work.</p>
         </div>
+        <aside class="status">
+            <div class="head"><span><span class="dot"></span>Now</span><span id="clock">—</span></div>
+            <dl>
+                <dt>Work</dt><dd>Device validation<span class="sub">Flock</span></dd>
+                <dt class="gh">Active in</dt><dd class="gh" id="gh-active">—<span class="sub">from GitHub</span></dd>
+                <dt class="gh">Last commit</dt><dd class="gh"><a class="link" id="gh-msg" href="#">—</a><span class="sub" id="gh-where">—</span></dd>
+            </dl>
+        </aside>
     </section>
 
-    <section id="about" class="about">
-        <h2 class="section-title" data-aos="fade-up">About Me</h2>
-        <div class="about-content" data-aos="fade-up">
-            <img src="assets/headshot.jpg" alt="Profile Picture" class="profile-pic">
-            <div class="about-text">
-                <p>I'm a Computer Engineer from Georgia Tech, currently doing device validation at Flock Safety.
-                    Previously, I worked at EM Photonics on advanced video signal processing
-                    and led software development of environmental controls for solid state radar at Lockheed Martin.
-                    With experience in embedded systems and full-stack development, I specialize in
-                    creating efficient solutions across the technology stack.</p>
-                <div style="text-align: center; margin-top: 20px;">
-                    <a href="resume.pdf" class="resume-download" download>
-                        <i class="fas fa-file-download"></i>
-                        Download Resume
-                    </a>
+    <section class="row" id="work">
+        <div class="label">Selected work</div>
+        <div>
+            <div class="feature">
+                <figure><a href="/projects/petlibro.html"><img src="/assets/projects/petlibro/installed-success.jpg" alt="PetLibro reposition button mounted on a wall outlet"></a></figure>
+                <div>
+                    <h3><a href="/projects/petlibro.html">PetLibro reposition button</a></h3>
+                    <p>A one-button wall plug that reschedules two smart cat feeders through the PetLibro cloud API. A gutted USB charger powers an ESP32-S3 inside a custom 3D-printed outlet-mount enclosure.</p>
+                    <div class="meta">ESP32-S3 · MicroPython · REST · 3D printing<br>2026</div>
+                    <div class="actions"><a class="link" href="/projects/petlibro.html">The full build story</a><a class="link" href="https://github.com/NoahDorfman00/petlibro-reposition-button">Source</a></div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="skills" class="skills" data-aos="fade-up">
-        <h2 class="section-title">Skills</h2>
-        <div class="skills-container">
-            <div class="skills-grid">
-                <!-- Skills categories will be added dynamically -->
+            <div class="table" id="projects">
+                <div class="thead"><span>Year</span><span>Project</span><span>What it is</span><span>Built with</span><span></span></div>
+                <a class="trow" href="/projects/race-board.html" data-img="https://theraceboard.com/social.png?1234"><span class="yr">2025</span><span class="t">The Race Board</span><span class="d">Reads streamers' prestige straight off their Twitch broadcasts and ranks them live</span><span class="stack">OpenCV, Tesseract, EasyOCR, Firebase</span><span class="arr">→</span></a>
+                <a class="trow" href="/projects/liftbook.html" data-img="https://liftbookapp.com/assets/images/social.png?1234"><span class="yr">2025</span><span class="t">liftbook</span><span class="d">An iPhone lifting log that feels like a paper notebook, on the App Store</span><span class="stack">React Native, TypeScript</span><span class="arr">→</span></a>
+                <a class="trow" href="/projects/claudio.html" data-img="https://claudio.noahgdorfman.com/assets/social.png?1234"><span class="yr">2025</span><span class="t">Claudio</span><span class="d">An Italian-American AI companion with opinions about your pasta</span><span class="stack">Firebase Functions, Claude API</span><span class="arr">→</span></a>
+                <a class="trow" href="/projects/all-roads.html" data-img="https://allroads.noahgdorfman.com/assets/social.png?1234"><span class="yr">2025</span><span class="t">all roads</span><span class="d">Ranks real places by whoever has the worst trip, so the group meets somewhere fair</span><span class="stack">Google Places, Distance Matrix</span><span class="arr">→</span></a>
+                <a class="trow" href="/projects/flashcards.html" data-img="https://study.noahgdorfman.com/assets/social.png?1234"><span class="yr">2025</span><span class="t">Flashcards</span><span class="d">Turns any topic into a study deck</span><span class="stack">React, Firebase, Claude API, Stripe</span><span class="arr">→</span></a>
+                <a class="trow" href="/projects/fit9to5.html" data-img="https://fit9to5.com/assets/social.png?1234"><span class="yr">2025</span><span class="t">FIT 9to5</span><span class="d">My coaching site: a shareable macro calculator and subscriptions</span><span class="stack">React, Stripe, Firebase</span><span class="arr">→</span></a>
+                <a class="trow" href="/projects/saving-starman.html" data-img="/assets/starmanThumb.png"><span class="yr">2019</span><span class="t">Saving Starman</span><span class="d">A tilt-controlled space adventure on a bare ARM microcontroller</span><span class="stack">C++, mbed</span><span class="arr">→</span></a>
             </div>
         </div>
     </section>
 
-    <section id="projects" class="projects">
-        <h2 class="section-title" data-aos="fade-up">Projects</h2>
-        <div class="project-grid">
-            <!-- Project cards will be dynamically added here -->
+
+    <section class="row" id="github">
+        <div class="label">On GitHub</div>
+        <div>
+            <div class="gh-stats">
+                <div><b id="gh-repos">—</b><span>public repos</span></div>
+                <div><b id="gh-since">—</b><span>on GitHub since</span></div>
+                <div><b id="gh-ago">—</b><span>since last commit</span></div>
+            </div>
+            <div class="langs">
+                <div class="bar" id="gh-bar"></div>
+                <div class="key" id="gh-key"></div>
+                <p class="summary" id="gh-summary"></p>
+            </div>
+            <div class="repos" id="gh-repolist"></div>
         </div>
     </section>
 
-    <section id="contact" class="contact">
-        <h2 class="section-title" data-aos="fade-up">Contact</h2>
-        <div class="contact-content" data-aos="fade-up">
-            <p>Feel free to reach out for collaborations or opportunities.</p>
-            <a href="mailto:n.dorfman00@gmail.com" class="contact-button">Get in Touch</a>
-        </div>
-    </section>
-
-    <section id="terminal" class="terminal-section" data-aos="fade-up">
-        <h2 class="section-title">Prefer the terminal?</h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-buttons">
-                    <span class="terminal-button close"></span>
-                    <span class="terminal-button minimize"></span>
-                    <span class="terminal-button maximize"></span>
+    <section class="row" id="about">
+        <div class="label">About</div>
+        <div class="about">
+            <div>
+                <p>By day I do device validation at Flock, which mostly means finding the ways things break before customers do. Before that: GPU image processing at EM Photonics and radar software at Lockheed Martin.</p>
+                <p>At Georgia Tech I ran the Solar Racing team — a 16-person crew, a 5,000-mile race across the country, and a better education in shipping hardware on a deadline than any class gave me.</p>
+                <p>These days my projects start wherever life is mildly annoying me:</p>
+                <div class="origins">
+                    <div><span class="h">Problem</span><span></span><span class="h">Fix</span></div>
+                    <div><span>Repositioning two cat feeders, one tap at a time, every night</span><span class="ar">→</span><a class="fix link" href="/projects/petlibro.html">A button on the wall</a></div>
+                    <div><span>Fitness apps are bloated</span><span class="ar">→</span><a class="fix link" href="/projects/liftbook.html">liftbook</a></div>
+                    <div><span>Finding somewhere to meet for family, friends, and coworkers — by hand</span><span class="ar">→</span><a class="fix link" href="/projects/all-roads.html">all roads</a></div>
+                    <div><span>Checking every stream to see who's winning the prestige race</span><span class="ar">→</span><a class="fix link" href="/projects/race-board.html">The Race Board</a></div>
+                    <div><span>Job interviews coming up</span><span class="ar">→</span><a class="fix link" href="/projects/flashcards.html">Flashcards</a></div>
                 </div>
-                <div class="terminal-title">📁 noahs_portfolio</div>
             </div>
-            <div class="terminal-content">
-                <div class="terminal-output"></div>
-                <div class="terminal-input-line">
-                    <span class="prompt">visitor@ark:~/noahs_portfolio$</span>
-                    <input type="text" class="terminal-input">
-                </div>
+            <div>
+                <div class="shot"><img src="/assets/headshot.jpg" alt="Noah Dorfman"></div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2025 Noah Dorfman. All rights reserved.</p>
-    </footer>
+    <section class="row">
+        <div class="label">Experience</div>
+        <div class="xp">
+            <div><span class="y">Now</span><span class="c">Flock</span><span class="r">Device validation</span></div>
+            <div><span class="y">2024</span><span class="c">EM Photonics</span><span class="r">Embedded C++ and CUDA image processing</span></div>
+            <div><span class="y">2022–2024</span><span class="c">Lockheed Martin</span><span class="r">Component software lead, solid state radar</span></div>
+            <div><span class="y">2021</span><span class="c">Milwaukee Tool</span><span class="r">Firmware and GPS hardware, power tools</span></div>
+            <div><span class="y">2021</span><span class="c">Georgia Tech</span><span class="r">B.S. Computer Engineering · President, Solar Racing</span></div>
+        </div>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="script.js"></script>
+    <section class="row contact" id="contact">
+        <div class="label">Contact</div>
+        <div>
+            <h2>Building something? I want to hear about it.<br><a class="link" href="mailto:n.dorfman00@gmail.com">n.dorfman00@gmail.com</a></h2>
+            <div class="elsewhere">
+                <a class="link" href="https://github.com/NoahDorfman00">GitHub</a>
+                <a class="link" href="https://linkedin.com/in/noahdorfman">LinkedIn</a>
+                <a class="link" href="https://x.com/noahdorfman">X</a>
+                <a class="link" href="/resume.pdf">Résumé (PDF)</a>
+            </div>
+        </div>
+    </section>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span id="gh-gen">noahgdorfman.com</span></footer>
+</div>
+
+<div class="peek" id="peek"></div>
+
+<script src="/js/site.js"></script>
 </body>
-
 </html>

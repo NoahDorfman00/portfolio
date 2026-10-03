@@ -1,0 +1,93 @@
+{
+  "generatedAt": "2026-10-03T03:45:15.724Z",
+  "since": "2017-10-08T18:32:55Z",
+  "publicRepos": 24,
+  "lastCommit": {
+    "repo": "ece2035-mbed-rpg",
+    "repoUrl": "https://github.com/NoahDorfman00/ece2035-mbed-rpg",
+    "message": "Rewrite README: why it exists, how it works, lessons learned",
+    "url": "https://github.com/NoahDorfman00/ece2035-mbed-rpg/commit/523f87b75b49223c16daa0bf88f95a15ec317158",
+    "date": "2026-10-03T03:42:28Z"
+  },
+  "active": [
+    "ece2035-mbed-rpg",
+    "fit9to5",
+    "liftbook",
+    "flashcards",
+    "claudio",
+    "allRoads",
+    "raceToPrestigeTrackerFrontend",
+    "raceToPrestigeTracker",
+    "liftbooksite"
+  ],
+  "recent": [
+    {
+      "name": "ece2035-mbed-rpg",
+      "description": null,
+      "language": "C++",
+      "pushedAt": "2026-10-03T03:42:29Z",
+      "url": "https://github.com/NoahDorfman00/ece2035-mbed-rpg"
+    },
+    {
+      "name": "fit9to5",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-10-03T03:42:28Z",
+      "url": "https://github.com/NoahDorfman00/fit9to5"
+    },
+    {
+      "name": "liftbook",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-10-03T03:42:26Z",
+      "url": "https://github.com/NoahDorfman00/liftbook"
+    },
+    {
+      "name": "flashcards",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-10-03T03:42:25Z",
+      "url": "https://github.com/NoahDorfman00/flashcards"
+    },
+    {
+      "name": "claudio",
+      "description": "Italian-American AI Chatbot",
+      "language": "JavaScript",
+      "pushedAt": "2026-10-03T03:42:24Z",
+      "url": "https://github.com/NoahDorfman00/claudio"
+    },
+    {
+      "name": "allRoads",
+      "description": "Find the perfect meeting place",
+      "language": "JavaScript",
+      "pushedAt": "2026-10-03T03:42:22Z",
+      "url": "https://github.com/NoahDorfman00/allRoads"
+    }
+  ],
+  "languages": [
+    {
+      "name": "C",
+      "pct": 33
+    },
+    {
+      "name": "JavaScript",
+      "pct": 14.9
+    },
+    {
+      "name": "C++",
+      "pct": 10
+    },
+    {
+      "name": "HTML",
+      "pct": 9.9
+    },
+    {
+      "name": "Python",
+      "pct": 7.1
+    },
+    {
+      "name": "Other",
+      "pct": 25.1
+    }
+  ]
+}

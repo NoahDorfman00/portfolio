@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIT 9to5 — Noah Dorfman</title>
+<meta name="description" content="The site for my coaching business: a shareable macro calculator anyone can use, plus sign-in and Stripe subscriptions for coaching clients.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="FIT 9to5 — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/fit9to5/social.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top wide">
+        <div>
+            <h1>FIT 9to5</h1>
+            <p class="dek">The site for my coaching business: a macro calculator anyone can use and share, plus sign-in and a Stripe subscription for the people I coach.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2025</dd>
+                <dt>Made with</dt><dd>React, TypeScript, Material UI, Firebase Auth and Functions, Stripe, Vercel</dd>
+                <dt>Links</dt><dd><a class="link" href="https://fit9to5.com">Live site</a><a class="link" href="https://github.com/NoahDorfman00/fit9to5">Source on GitHub</a></dd>
+            </dl>
+        </div>
+        <figure class="hero-media">
+            <img src="/assets/projects/fit9to5/social.jpg" alt="Before-and-after photos of me: a shirtless mirror selfie on the left and a much leaner me in a gym locker room on the right, joined by a blue FIT 9to5 arrow">
+            <figcaption class="cap">The before, the after, and the business in between</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>FIT 9to5 is my coaching business, and I'm the coach. I started it to share what I learned on my own weight-loss and fitness journey. The pitch is "Get Fit on Your Time": fitness, nutrition and mindset coaching for people with day jobs.</p>
+            <p>The site has two jobs: take subscription payments without ever touching a card number, and host a free macro calculator that clients and anyone else can use. It started as a copy of <a class="link" href="/projects/flashcards.html">Flashcards</a>, my first project with working Stripe subscriptions, and the calculator moved in from its own subdomain later.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <h3>The macro formula</h3>
+            <p>The calculator runs entirely in the browser and needs no account. It starts from a maintenance estimate of 14 kcal per pound of current weight, then nudges it toward your goal: one kcal/lb for every 5 lb you want to change, after a 1 lb dead zone.</p>
+            <p>Every input is mirrored into the query string, so a link reproduces the exact result with no database. The total on screen is recomputed from the rounded grams, so it can land a few kcal above the target. That's on purpose: it matches what you'd actually eat.</p>
+            <pre><code>multiplier = 14 kcal per lb
+  ± (|target − current| − 1) / 5
+    toward the goal
+  + 1 hard gainer, − 1 easy gainer
+calories = ceil(current × multiplier)
+protein  = 1 g per lb of target
+fat      = 25% of calories ÷ 9
+carbs    = whatever's left ÷ 4
+
+180 lb → 170 lb, neutral:
+multiplier = 14 − 9/5 = 12.2
+calories   = ceil(180 × 12.2) = 2,196
+protein 170 g, fat 61 g, carbs 242 g
+(2,197 kcal on screen)</code></pre>
+
+            <h3>Billing I didn't have to build</h3>
+            <p>Stripe hosts checkout and billing. <code>createCheckoutSession</code> verifies the Firebase ID token, finds or creates the Stripe customer, and passes the uid along as <code>client_reference_id</code>. After that, cancelling, reactivating, updating a card and viewing invoices all happen in Stripe's Customer Portal.</p>
+            <p>Every one of those changes arrives at <code>stripeWebhook</code>, which checks the signature and writes a single field per user: <code>subscriptionStatus</code>. The site reads that field to decide which button to show.</p>
+            <div class="steps"><span>Subscribe</span><i>→</i><span>Stripe Checkout</span><i>→</i><span>stripeWebhook</span><i>→</i><span>subscriptionStatus</span></div>
+
+            <h3>Signing in on phones</h3>
+            <p>Google sign-in broke twice on mobile before it worked:</p>
+            <ol>
+                <li><code>signInWithPopup</code> failed silently on mobile Chrome, so phones now use the redirect flow and desktop keeps the popup.</li>
+                <li>The redirect then broke on third-party storage blocking, because the OAuth handler lived on Firebase's own domain.</li>
+                <li><code>vercel.json</code> now proxies <code>/__/auth/*</code> to that handler, so the whole handshake happens on fit9to5.com.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">Screens</div>
+        <div>
+            <div class="prose">
+                <p>The home page, and the calculator showing the worked example above. The second one is just a URL: <code>/macros?cw=180&amp;tw=170</code>.</p>
+            </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/fit9to5/home.jpg" alt="FIT 9to5 home page: the headline 'Get Fit on Your Time', a Get Started button, and four cards for fitness, nutrition, mindset and flexible scheduling"><figcaption class="cap">fit9to5.com</figcaption></figure>
+                <figure><img src="/assets/projects/fit9to5/macros.jpg" alt="Macro calculator with 180 lb current and 170 lb target weight, neutral gainer type, showing 2197 kcal, 170 g protein, 242 g carbs and 61 g fat, with a Share button"><figcaption class="cap">180 → 170, neutral. Shareable as a link or a PNG.</figcaption></figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>Let the webhook own the state</h4><p>It doesn't matter whether a cancellation came from my site, the Portal or the Stripe dashboard.</p></div></li>
+            <li><span class="n">2</span><div><h4>Don't build what Stripe already hosts</h4><p>The Customer Portal replaced my cancel buttons and threw in card updates and invoices.</p></div></li>
+            <li><span class="n">3</span><div><h4>Mobile browsers eat OAuth popups</h4><p>Then they eat third-party storage, so proxy the auth handler through your own domain.</p></div></li>
+            <li><span class="n">4</span><div><h4>A URL is a free database</h4><p>Putting the inputs in the query string made every result shareable with zero backend.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="row">
+        <div class="label">Stack</div>
+        <div>
+            <div class="parts">
+                <div><span class="p">Frontend</span><span class="d">React 18, TypeScript, Material UI 5, React Router 6</span></div>
+                <div><span class="p">Hosting</span><span class="d">Vercel, plus a first-party proxy for the Firebase auth handler</span></div>
+                <div><span class="p">Auth and data</span><span class="d">Firebase Auth (email or Google), Realtime Database</span></div>
+                <div><span class="p">Backend</span><span class="d">Firebase Cloud Functions v2, TypeScript, Node 22</span></div>
+                <div><span class="p">Payments</span><span class="d">Stripe Checkout, Customer Portal, webhooks</span></div>
+                <div><span class="p">Sharing</span><span class="d"><code>html2canvas</code> and the Web Share API</span></div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/flashcards.html"><span>← Previous project</span><b>Flashcards</b></a>
+        <a href="/projects/saving-starman.html"><span>Next project →</span><b>Saving Starman</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>

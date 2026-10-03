@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>all roads — Noah Dorfman</title>
+<meta name="description" content="Finds the fairest place for a group to meet by ranking real places on the trip of whoever has it worst. Plain JavaScript, one Firebase Function, Google Maps Platform.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="all roads — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/all-roads/results.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top wide">
+        <div>
+            <h1>all roads</h1>
+            <p class="dek">Finds the fairest place for a group to meet by ranking real places on the trip of whoever has it worst, not on the midpoint of a map.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2025, redesigned 2026</dd>
+                <dt>Made with</dt><dd>Plain HTML, CSS and JavaScript, one Firebase Function, Google Maps Platform</dd>
+                <dt>Links</dt><dd><a class="link" href="https://allroads.noahgdorfman.com">Live site</a><a class="link" href="https://github.com/NoahDorfman00/allRoads">Source on GitHub</a></dd>
+            </dl>
+        </div>
+        <figure class="hero-media">
+            <img src="/assets/projects/all-roads/results.jpg" alt="all roads with three people entered (Manayunk, Citizens Bank Park, Fishtown) searching for tacos; the map shows their pins and numbered results, with number 1 near Center City">
+            <figcaption class="cap">Manayunk, South Philly and Fishtown want tacos. Number 1 is the fairest one.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>Every time family, friends or coworkers needed somewhere to meet, I did it by hand: open a map, guess a spot in the middle, check everyone's trip, try another spot. all roads does that part for me.</p>
+            <p>The obvious answer is the geographic midpoint, but straight-line distance isn't travel time. So the midpoint never decides anything. Every person gets a real drive, transit or walking time to every candidate.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <p>A search is two Google calls on the backend: one to find candidate places, one to time every person's trip to every candidate.</p>
+            <div class="steps"><span>Search area</span><i>→</i><span>Text Search</span><i>→</i><span>Filter</span><i>→</i><span>Distance Matrix</span><i>→</i><span>Rank</span></div>
+
+            <h3>Where to look</h3>
+            <p>The backend averages everyone's coordinates into a centroid and measures how far the farthest person is from it. The search radius is half that spread, clamped between 1.5 and 50 km, so a group across one neighborhood and a group across a state both get a sensible area.</p>
+
+            <h3>What to throw out</h3>
+            <p>Places Text Search treats location as a suggestion, so anything more than <code>2 × radius + 2 km</code> from the middle gets dropped, along with anything permanently closed. Then a brand filter: if you search "starbucks," you want Starbucks, not the coffee shop next door. When enough results contain every word of the query in their name, only those stay. "Coffee" rarely matches names, so it passes through untouched.</p>
+            <p>The top 20 go into one Distance Matrix pass covering everyone × every candidate, chunked to fit the API's per-request limits and run in parallel.</p>
+
+            <h3>Rank by the worst trip</h3>
+            <p>Venues sort by their longest trip, rounded to the minute, with the average breaking ties. The first version minimized total travel time instead, which will happily send one friend on a 50-minute drive to save the other two ten minutes each. In the search up top, El Toro wins on total time, 42 minutes to 43. Ranking by the worst trip gives whoever is coming from Manayunk two minutes back, and nobody has to hear about it.</p>
+            <figure class="figure">
+                <div class="parts">
+                    <div><span class="p">1. Tacos Daily Fresh</span><span class="d">20, 14, 9 min. Worst trip 20</span></div>
+                    <div><span class="p">2. Tacos El Toro</span><span class="d">22, 16, 4 min. Worst 22, average 14</span></div>
+                    <div><span class="p">3. Tacos Estilo Oaxaca</span><span class="d">22, 15, 8 min. Worst 22, average 15</span></div>
+                    <div><span class="p">4. Mr. Tacos Birria</span><span class="d">24, 6, 18 min. Worst 24</span></div>
+                </div>
+                <figcaption class="cap">The search up top, driving. Trips from Manayunk, Citizens Bank Park and Fishtown, in that order.</figcaption>
+            </figure>
+
+            <h3>Links are the state</h3>
+            <p>The URL holds everyone's rounded coordinates and labels, the query and the mode, so a shared link just re-runs the search. Links from before the 2026 redesign used a base64 <code>?state=</code> param, and those still decode.</p>
+
+            <h3>Stack</h3>
+            <div class="parts">
+                <div><span class="p">Frontend</span><span class="d">Plain HTML, CSS and JavaScript on GitHub Pages. No framework, no build step</span></div>
+                <div><span class="p">Backend</span><span class="d">One Firebase Functions v2 HTTPS function, Node 22</span></div>
+                <div><span class="p">Google Maps Platform</span><span class="d">Maps JavaScript, Places, Distance Matrix, Geocoding</span></div>
+                <div><span class="p">Keys</span><span class="d">The browser key only does maps and autocomplete; everything that costs money runs server-side</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>Fair isn't the same as efficient</h4><p>Minimizing total travel time can stick one person with the worst trip.</p></div></li>
+            <li><span class="n">2</span><div><h4>"Location bias" means bias</h4><p>Text Search returns results well outside your radius, so the distance filter has to be yours.</p></div></li>
+            <li><span class="n">3</span><div><h4>Count round trips, not functions</h4><p>Five endpoints and a matrix call per venue became one function, one search and one batched matrix.</p></div></li>
+            <li><span class="n">4</span><div><h4>A static site can't keep a secret</h4><p>The fix was a server-side key and a browser key locked to the domain.</p></div></li>
+            <li><span class="n">5</span><div><h4>Share links are an API</h4><p>Once people have sent links around, the old format has to keep working.</p></div></li>
+        </ol>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/claudio.html"><span>← Previous project</span><b>Claudio</b></a>
+        <a href="/projects/flashcards.html"><span>Next project →</span><b>Flashcards</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>

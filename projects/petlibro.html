@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PetLibro reposition button — Noah Dorfman</title>
+<meta name="description" content="A one-button wall plug that fixes both cat feeders' schedules at once. ESP32-S3, MicroPython, a gutted USB charger, and a 3D-printed housing.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="PetLibro reposition button — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/petlibro/installed-success.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top">
+        <div>
+            <h1>PetLibro reposition button</h1>
+            <p class="dek">A one-button wall plug that fixes both cat feeders' schedules at once. Press it, an ESP32 calls the PetLibro cloud, and a light tells you how it went. No hub, no phone.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2026</dd>
+                <dt>Made with</dt><dd>ESP32-S3, MicroPython, a gutted USB charger, 3D-printed housing</dd>
+                <dt>I did</dt><dd>Everything: firmware, wiring, enclosure, the API client</dd>
+                <dt>Links</dt><dd><a class="link" href="https://github.com/NoahDorfman00/petlibro-reposition-button">Source on GitHub</a><a class="link" href="/assets/projects/petlibro/demo.mp4">Full video</a></dd>
+            </dl>
+        </div>
+        <figure class="clip">
+            <video src="/assets/projects/petlibro/demo.mp4" autoplay muted loop playsinline poster="/assets/projects/petlibro/installed-success.jpg"></video>
+            <figcaption class="cap">Boot, ready, press, success. Twenty seconds, real time.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>My cats eat from two Polar wet-food feeders. Every night when I refill them, each feeder's schedule has to be <em>repositioned</em> so the next feeding lines up — and in the app, that's several taps deep, per feeder, every single night.</p>
+            <p>I got tired of it. So now there's a button on the kitchen wall: one press does both feeders, and the light shows how it went.</p>
+            <div class="states">
+                <div><span class="led" style="background:#3B82F6"></span><span class="c">Blue</span><span class="m">Pressed, talking to the API</span></div>
+                <div><span class="led" style="background:#22C55E"></span><span class="c">Green, 3s</span><span class="m">Both feeders repositioned</span></div>
+                <div><span class="led" style="background:#D946EF"></span><span class="c">Magenta, 5s</span><span class="m">Refused — a feeding is happening right now</span></div>
+                <div><span class="led" style="background:#EF4444"></span><span class="c">Red, 5s</span><span class="m">Something actually failed</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <p>The protocol comes from the excellent <a class="link" href="https://github.com/jjjonesjr33/petlibro">jjjonesjr33/petlibro</a> Home Assistant integration, re-implemented as a ~150-line client that runs unchanged on both CPython and MicroPython. The exact code I test on my desk is the code that ships to the ESP32.</p>
+            <div class="steps"><span>Log in</span><i>→</i><span>List devices</span><i>→</i><span>Reposition both</span></div>
+            <p>PetLibro only allows one app session per account, so the button gets its own account with the feeders shared to it. Tokens are cached on flash and only refreshed when the API says they've expired.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">The build</div>
+        <div>
+            <div class="stage prose">
+                <h3>v1: honest and boxy</h3>
+                <p>The devkit and an off-the-shelf USB charger side by side in a printed case. It worked. It was also three times bigger than it needed to be.</p>
+            </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/petlibro/prototype-v1.jpg" alt="First prototype: devkit and intact USB charger in a white printed box"><figcaption class="cap">Devkit and charger, just sharing a box</figcaption></figure>
+                <figure><img src="/assets/projects/petlibro/prototype-v1-closeup.jpg" alt="Close-up of the charger seated on the devkit"><figcaption class="cap">Joined by a USB-A adapter</figcaption></figure>
+            </div>
+            <div class="stage prose">
+                <h3>v2: delete the air</h3>
+                <p>The charger got gutted — shell cut open, USB port desoldered — and its bare PCB now feeds the devkit's 5V pin directly. Everything sandwiches into an outlet-format housing: prongs out the back, button and light through the faceplate, two screws holding it together.</p>
+            </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/petlibro/wall-wart-teardown.jpg" alt="Wall-wart teardown"><figcaption class="cap">Teardown: shell open, USB port gone</figcaption></figure>
+                <figure><img src="/assets/projects/petlibro/final-parts.jpg" alt="All final parts laid out"><figcaption class="cap">Housing, faceplate, insert, supply, devkit</figcaption></figure>
+                <figure><img src="/assets/projects/petlibro/housing-interior.jpg" alt="Inside the printed housing"><figcaption class="cap">Prong slots and standoffs</figcaption></figure>
+                <figure><img src="/assets/projects/petlibro/guts-assembled.jpg" alt="Electronics sandwich assembled"><figcaption class="cap">The sandwich, before it closes</figcaption></figure>
+                <figure><img src="/assets/projects/petlibro/final-assembled.jpg" alt="Assembled unit on the bench"><figcaption class="cap">Closed up on the bench</figcaption></figure>
+                <figure><img src="/assets/projects/petlibro/installed-idle.jpg" alt="Installed on the outlet, idle"><figcaption class="cap">On the wall, waiting for dinner to run late</figcaption></figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>RGBW is not RGB</h4><p>Send a 4-die LED 3-byte frames and it doesn't glitch — it stays completely dark.</p></div></li>
+            <li><span class="n">2</span><div><h4>Clone boards lie about the 5V pin</h4><p>Two power faults, each hidden by the other depending on where it was plugged in.</p></div></li>
+            <li><span class="n">3</span><div><h4>Run a 5V pixel from 3.3V</h4><p>The logic threshold drops with it, so no level shifter needed.</p></div></li>
+            <li><span class="n">4</span><div><h4>Amp ratings mean nothing to WiFi</h4><p>A cheap "1A" wall wart browned out the instant the radio fired.</p></div></li>
+            <li><span class="n">5</span><div><h4>Give headless devices a flight recorder</h4><p>A boot log on flash turned "it doesn't work on the wall" into a read-back.</p></div></li>
+            <li><span class="n">6</span><div><h4>Simulate before soldering</h4><p>Wokwi proved the whole button-to-cloud loop before any hardware existed.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="row">
+        <div class="label">Parts</div>
+        <div>
+            <div class="parts">
+                <div><span class="p">ESP32-S3-DevKitC-1 clone</span><span class="d">16MB flash, 8MB PSRAM</span></div>
+                <div><span class="p">SK6812 RGBW pixel</span><span class="d">Cut from a flex strip, powered from 3.3V</span></div>
+                <div><span class="p">Tactile pushbutton</span><span class="d">Internal pull-up, no resistor</span></div>
+                <div><span class="p">5V USB charger, gutted</span><span class="d">Mains in, 5V straight to the devkit</span></div>
+                <div><span class="p">Housing, insert, faceplate</span><span class="d"><a class="link" href="https://github.com/NoahDorfman00/petlibro-reposition-button/tree/main/parts">3D-printed — STLs on GitHub</a></span></div>
+            </div>
+            <p class="warn"><b>Heads up:</b> this carries mains voltage inside a printed enclosure. If you build one, mind creepage around the charger board and insulate the prong connections.</p>
+        </div>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/saving-starman.html"><span>← Previous project</span><b>Saving Starman</b></a>
+        <a href="/projects/race-board.html"><span>Next project →</span><b>The Race Board</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>

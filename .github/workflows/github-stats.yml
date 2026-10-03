@@ -1,0 +1,30 @@
+name: Refresh GitHub stats
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # GH_STATS_TOKEN (optional, read-only PAT) lets private repos count toward language totals.
+      # Without it, the default token sees public repos only.
+      - run: node scripts/github-stats.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_STATS_TOKEN || github.token }}
+      - name: Commit if changed
+        run: |
+          git diff --quiet data/github.json && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Refresh GitHub stats" data/github.json
+          git push

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>liftbook — Noah Dorfman</title>
+<meta name="description" content="A lifting log for iPhone that works like a paper notebook. Type a movement, type your sets, and it tells you what you did last time. No accounts, no cloud.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="liftbook — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/liftbook/screen-1.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top">
+        <div>
+            <h1>liftbook</h1>
+            <p class="dek">A lifting log for iPhone that works like a paper notebook: type a movement, type your sets, and it quietly tells you what you did last time.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2025, in the App Store since 2026</dd>
+                <dt>Made with</dt><dd>React Native, TypeScript, AsyncStorage, react-native-svg</dd>
+                <dt>Links</dt><dd><a class="link" href="https://apps.apple.com/us/app/liftbook-strength-log/id6755925820">App Store</a><a class="link" href="https://liftbookapp.com">Live site</a><a class="link" href="https://github.com/NoahDorfman00/liftbook">Source on GitHub</a></dd>
+            </dl>
+        </div>
+        <figure class="clip">
+            <video src="/assets/projects/liftbook/demo.mp4" autoplay muted loop playsinline poster="/assets/projects/liftbook/demo-poster.jpg" aria-label="Screen recording of logging a pull day: typing a movement, then weight and reps for each set"></video>
+            <figcaption class="cap">An early build logging a pull day. The UI has moved on; the notebook hasn't.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>I got tired of bloated fitness apps. Most want an account, a profile and a tour before you can log one set. I wanted something about as fast as writing it down, and nothing else.</p>
+            <p>So the rule is "as simple as a notebook": black and white, a handwritten font, ruled lines, and as little as possible between you and the next set. It was also my first app to make it all the way into the App Store.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <h3>One page, one footer</h3>
+            <p>A lift is a notebook page: a date, a title like "Push Day," and movements with sets of weight × reps. All the typing happens in one footer that rides on the keyboard and changes mode as you go. There's no save button; every submit writes through.</p>
+            <div class="steps"><span>Title</span><i>→</i><span>Movement</span><i>→</i><span>Weight × reps</span></div>
+
+            <h3>Suggestions from your own history</h3>
+            <p>There's no exercise database. Titles predict your rotation: after Push, Pull, Legs, Push, it suggests Pull. Movements come from the last time you did that same day, and matching is by word prefix, so "inc pr" finds Incline Press.</p>
+            <p>Sets get no suggestions, just a line under the input: <code>last time: 135x8, 140x6</code>. That replaced something cleverer. The app used to find the tightest cluster of your working sets from last time, to filter out warmups and drop sets, and suggest weights around it. The plain note took its place when the charts landed.</p>
+
+            <h3>Nothing leaves the phone</h3>
+            <p>Every lift lives on the device as one JSON blob in AsyncStorage. No accounts, no server. <code>liftStore.ts</code> reads it once per launch, serves everything from memory, and writes back through a serialized queue so fast edits can't interleave.</p>
+            <p>That makes the phone the only copy, so the store is paranoid. A corrupt blob gets copied to a backup key before starting fresh, and if the backup or the read itself fails, the app runs in memory for that session and refuses to write.</p>
+
+            <h3>Stack</h3>
+            <div class="parts">
+                <div><span class="p">React Native 0.80</span><span class="d">TypeScript, Fabric, Hermes</span></div>
+                <div><span class="p">AsyncStorage</span><span class="d">One JSON blob, no backend</span></div>
+                <div><span class="p">react-native-svg</span><span class="d">Hand-drawn charts and the ruled lines</span></div>
+                <div><span class="p">react-native-keyboard-controller</span><span class="d">Keeps the footer on the keyboard, plus a small patch to React Native</span></div>
+                <div><span class="p">Jest</span><span class="d">The store and the suggestion engine</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">Screens</div>
+        <div>
+            <div class="phones">
+                <img src="/assets/projects/liftbook/screen-1.jpg" alt="App Store screenshot: the list of lifts, one dated row per workout, under the headline 'Finally, an uncomplicated fitness app'">
+                <img src="/assets/projects/liftbook/screen-2.jpg" alt="App Store screenshot: a Push Day page with sets logged under Fly and Tricep Pushdown, and movement suggestions above the keyboard">
+                <img src="/assets/projects/liftbook/screen-3.jpg" alt="App Store screenshot: the charts screen plotting max, average and min weight for Rope Tricep Pushdown">
+                <img src="/assets/projects/liftbook/screen-4.jpg" alt="App Store screenshot: entering weight and reps for Rope Tricep Pushdown with a 'last time' note under the input">
+                <img src="/assets/projects/liftbook/screen-5.jpg" alt="App Store screenshot: an empty list with a hand-drawn arrow pointing to the plus button and the liftbook logo">
+            </div>
+            <p class="cap">The App Store screenshots. Yes, the font is the whole personality.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>The best suggestion was the last workout</h4><p>A clustering algorithm for predicting weights lost to one line of text.</p></div></li>
+            <li><span class="n">2</span><div><h4>Sometimes the bug is in node_modules</h4><p>The keyboard flickered on every mode switch because Fabric skips a <code>reloadInputViews</code> call, so I patched it back in.</p></div></li>
+            <li><span class="n">3</span><div><h4>One state value beats five flags</h4><p>Collapsing the editor's focus logic into one descriptor deleted a pile of timers and race conditions.</p></div></li>
+            <li><span class="n">4</span><div><h4>Local-only means you are the backup</h4><p>With no server copy, the store would rather not write than overwrite something it can't read.</p></div></li>
+        </ol>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/race-board.html"><span>← Previous project</span><b>The Race Board</b></a>
+        <a href="/projects/claudio.html"><span>Next project →</span><b>Claudio</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>

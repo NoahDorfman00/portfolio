@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Race Board — Noah Dorfman</title>
+<meta name="description" content="A live leaderboard for the Black Ops 7 race to Master Prestige that reads each streamer's rank off their Twitch broadcast with OpenCV and OCR.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="The Race Board — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/race-board/social.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top wide">
+        <div>
+            <h1>The Race Board</h1>
+            <p class="dek">A live leaderboard for the Black Ops 7 race to Master Prestige that reads each streamer's rank straight off their Twitch broadcast, so nobody has to type in a score.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2025</dd>
+                <dt>Made with</dt><dd>Python, Flask, streamlink, OpenCV, Tesseract, EasyOCR, Firebase</dd>
+                <dt>Links</dt><dd><a class="link" href="https://theraceboard.com/">Live site</a><a class="link" href="https://github.com/NoahDorfman00/raceToPrestigeTracker">Source on GitHub</a><a class="link" href="https://github.com/NoahDorfman00/raceToPrestigeTrackerFrontend">Frontend source</a></dd>
+            </dl>
+        </div>
+        <figure class="hero-media">
+            <img src="/assets/projects/race-board/leaderboard.jpg" alt="The Race Board leaderboard: streamers ranked by prestige and level, the top two at Prestige Master, each with a Watch Stream button">
+            <figcaption class="cap">Two made it to Master. The board found out by watching.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>A handful of streamers were racing to Master Prestige in Black Ops 7, and the only way to know who was ahead was to check in on every stream. I wanted the standings without the tab-hopping, so I built something to watch them for me.</p>
+            <p>It was just for fun. Nobody asked for it, which is most of the appeal.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <p>Each channel gets its own capture thread. streamlink turns the channel into an HLS URL, OpenCV reads it, and a two-slot queue keeps only the newest frame, so a slow detector never builds a backlog. Every two seconds the detector looks at whatever is current.</p>
+            <div class="steps"><span>Twitch stream</span><i>→</i><span>Newest frame</span><i>→</i><span>Find "PROGRESSION"</span><i>→</i><span>OCR level + prestige</span><i>→</i><span>JSON in Firebase</span><i>→</i><span>Static site</span></div>
+            <h3>Is this the Progression screen?</h3>
+            <p>Almost every frame is gameplay. The detector crops the top-middle of the frame, binarizes it three ways, and asks Tesseract for the word <code>PROGRESSION</code>. No word, no detection. When the header is found it becomes the anchor, and the level and prestige boxes are defined as percentages of it.</p>
+            <h3>Reading the numbers</h3>
+            <p>The level crop gets three binarizations, a 4x upscale and a digits-only Tesseract pass. Only plausible numbers get a vote, and the most common answer wins.</p>
+            <p>Prestige is stylized text, which is harder. EasyOCR goes first, Tesseract tries sixteen preprocessing and page-mode combinations if that comes up empty, and a fuzzy matcher forgives the usual misreadings: <code>PRESTICE</code>, <code>PREST0E</code>, <code>PREST6E</code>. "Prestige Master" is stored as prestige 20 so it sorts above everything else.</p>
+            <h3>No server for the public site</h3>
+            <p>The backend is the only writer, so state is a plain <code>streams_data.json</code>, re-uploaded to Firebase Storage on every save. theraceboard.com is one static page on GitHub Pages that fetches the file and ranks streamers client-side, prestige then level. Each row has an info button with the last annotated frame and the raw OCR text, so anyone can check the robot's work.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it sees</div>
+        <figure class="hero-media">
+            <img src="/assets/projects/race-board/detection-frame.jpg" alt="A Black Ops 7 Progression screen captured from a Twitch stream, with detection boxes drawn around the header, the Prestige 10 label and the level number 45">
+            <figcaption class="cap">A published detection: header in green, prestige in magenta, level in yellow. This is what the info button shows.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Stack</div>
+        <div class="parts">
+            <div><span class="p">Python, Flask</span><span class="d">API, admin and test pages, background threads</span></div>
+            <div><span class="p">streamlink</span><span class="d">Twitch channel to HLS URL, and "is this channel live?" once a minute</span></div>
+            <div><span class="p">OpenCV</span><span class="d">Capture, cropping, thresholding, annotation</span></div>
+            <div><span class="p">Tesseract</span><span class="d">Header, level, and fallback prestige OCR</span></div>
+            <div><span class="p">EasyOCR</span><span class="d">Primary prestige OCR, optional</span></div>
+            <div><span class="p">Firebase</span><span class="d">Storage for the published JSON and frames; Auth for the admin page</span></div>
+            <div><span class="p">HTML, CSS, JS</span><span class="d">The public leaderboard, one static page</span></div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>Find the word, not the picture</h4><p>OCRing the header beat template-matching the UI; the old matcher is still in the repo, unused.</p></div></li>
+            <li><span class="n">2</span><div><h4>OCR is a vote, not a read</h4><p>No single preprocessing pass gets trusted on its own.</p></div></li>
+            <li><span class="n">3</span><div><h4>Teach the code your OCR's typos</h4><p>Part of the detector exists only to forgive a misread G.</p></div></li>
+            <li><span class="n">4</span><div><h4>One writer, one JSON file</h4><p>With a single writer, a file in a bucket is a perfectly good database.</p></div></li>
+            <li><span class="n">5</span><div><h4>Better OCR costs gigabytes</h4><p>EasyOCR reads the prestige font better and needs 1–2 GB of RAM to do it, hence the off switch.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="row">
+        <div class="label">Rough edges</div>
+        <div class="prose">
+            <ul>
+                <li>Detection regions are fixed percentages, so a stream overlay sitting on the menu can push the text out of the box.</li>
+                <li>The code can tell when a reading goes backwards but doesn't reject it yet, so one bad read can drop someone down the board until the next good one.</li>
+                <li>It can't see you level up mid-match. It finds out when you open the Progression screen on stream.</li>
+            </ul>
+        </div>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/petlibro.html"><span>← Previous project</span><b>PetLibro reposition button</b></a>
+        <a href="/projects/liftbook.html"><span>Next project →</span><b>liftbook</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saving Starman — Noah Dorfman</title>
+<meta name="description" content="A tilt-controlled space adventure on an ARM mbed microcontroller, written in C++ with no engine for Georgia Tech's ECE 2035.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Saving Starman — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/saving-starman/breadboard.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top wide">
+        <div>
+            <h1>Saving Starman</h1>
+            <p class="dek">A tilt-controlled space adventure for a bare ARM microcontroller and a 128×128 screen, written in C++ with no engine, starring a Dragon capsule and a Roadster with a dead battery.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2019</dd>
+                <dt>Made with</dt><dd>C++, mbed LPC1768, a 128×128 uLCD, an accelerometer, three buttons, a speaker</dd>
+                <dt>I did</dt><dd>The game on top of the course skeleton: story, sprites, maps, hash table, menus</dd>
+                <dt>Links</dt><dd><a class="link" href="https://youtu.be/H5QuszITFQo">Trailer on YouTube</a><a class="link" href="https://github.com/NoahDorfman00/ece2035-mbed-rpg">Source on GitHub</a></dd>
+            </dl>
+        </div>
+        <figure class="hero-media embed">
+            <iframe src="https://www.youtube-nocookie.com/embed/H5QuszITFQo" title="Saving Starman trailer" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <figcaption class="cap">Yes, the class project has a trailer.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>It was Project 2 of ECE 2035, Georgia Tech's embedded systems class, in spring 2019. The course handed us a skeleton: pin setup, the outline of a game loop, a few interfaces. The game was up to us. On the last day of class, mine was featured as one of the best.</p>
+            <p>The theme is SpaceX's Starman, stranded in space with a dead Roadster. The only battery is in the Tesla Gigafactory on Earth, so you fly there, work through a two-door maze to get it, and bring it back. Then the Roadster reveals a secret power, blowing up asteroids, and you blast your way through the ring around Mars to land.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <p><code>main()</code> is a fixed 100 ms loop, so at most ten frames a second and one tile of movement per frame. Tilt the board far enough and you move one tile that way, if the tile is walkable.</p>
+            <div class="steps"><span>Read inputs</span><i>→</i><span>Pick an action</span><i>→</i><span>Update</span><i>→</i><span>Draw</span><i>→</i><span>Sleep to 100 ms</span></div>
+            <h3>The map is a hash table</h3>
+            <p>The world isn't a 2D array. Each map is a chained hash table that stores only occupied cells, so empty space is just a lookup that returns <code>NULL</code>. <code>XY_KEY</code> packs x and y into one key, and the hash is <code>key % 127</code>.</p>
+            <p>Every <code>MapItem</code> carries a pointer to its own draw function, and the renderer never switches on type. It just calls <code>item-&gt;draw(u, v)</code>. That turned every state change into a pointer swap: a floor button lights up, an asteroid explodes, Starman's tile becomes your empty capsule.</p>
+            <h3>Only redraw what changed</h3>
+            <p>The screen hangs off a serial link, so every pixel costs time. The view is an 11×9 window of 11-pixel tiles, and each frame compares the <code>MapItem</code> pointer under every tile to the one there last frame. Same pointer, no draw. Flying through empty space mostly repaints the stars as they slide past.</p>
+            <p>Sprites are 121-character string literals, one character per pixel, so the art lives in flash and is sort of visible right in the source.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">Hardware</div>
+        <div class="parts">
+            <div><span class="p">mbed LPC1768</span><span class="d">ARM Cortex-M3, 512 KB flash, 32 KB of main RAM</span></div>
+            <div><span class="p">4D Systems uLCD, 128×128</span><span class="d">Serial, driven at 3 Mbaud</span></div>
+            <div><span class="p">MMA8452 accelerometer</span><span class="d">I2C; tilt to move</span></div>
+            <div><span class="p">Three pushbuttons</span><span class="d">Action, Menu, and Omni, which walks through walls (for testing, mostly)</span></div>
+            <div><span class="p">Speaker</span><span class="d">PWM music, each note re-armed from a timer interrupt</span></div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>Draw less</h4><p>Over a serial link, the cheapest pixel is the one you never send.</p></div></li>
+            <li><span class="n">2</span><div><h4>Function pointers beat switch statements</h4><p>Giving every map item its own draw function made "change how this looks" a one-line swap.</p></div></li>
+            <li><span class="n">3</span><div><h4>A sparse world is a hash table</h4><p>Storing only occupied cells kept memory proportional to what's actually on the map.</p></div></li>
+            <li><span class="n">4</span><div><h4>Seed with the human</h4><p>How long you sit on the title screen seeds the galaxy, no entropy hardware required.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="row">
+        <div class="label">Rough edges</div>
+        <div class="prose">
+            <ul>
+                <li>The walkability check dereferences <code>NULL</code> for empty space. Address 0 on this chip is readable flash, so it reads as walkable. It works for reasons nobody should rely on.</li>
+                <li>Replaying calls <code>main()</code> again, so every playthrough nests one more frame on a 4 KB stack.</li>
+                <li><code>deleteItem</code> logs an error on every call, successful or not.</li>
+            </ul>
+        </div>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/fit9to5.html"><span>← Previous project</span><b>FIT 9to5</b></a>
+        <a href="/projects/petlibro.html"><span>Next project →</span><b>PetLibro reposition button</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>
