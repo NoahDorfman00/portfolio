@@ -30,13 +30,13 @@
             <p class="dek">Type a topic, pick 10, 20 or 30 cards, and Claude writes you a study deck. Flip through it right away or save it for the night before.</p>
             <dl class="facts">
                 <dt>Year</dt><dd>2025</dd>
-                <dt>Made with</dt><dd>React, TypeScript, Material UI, Firebase Functions, Claude Sonnet 4.5, Stripe</dd>
+                <dt>Made with</dt><dd>React, TypeScript, Material UI, Firebase Functions, Claude Sonnet 5.5, Stripe</dd>
                 <dt>Links</dt><dd><a class="link" href="https://study.noahgdorfman.com">Live site</a><a class="link" href="https://github.com/NoahDorfman00/flashcards">Source on GitHub</a></dd>
             </dl>
         </div>
         <figure class="hero-media">
-            <img src="/assets/projects/flashcards/social.jpg" alt="Social card on a dark green background: 'Instant AI Flashcards. Any Topic' next to a phone showing cards for Photosynthesis, Pythagorean Theorem and WWII">
-            <figcaption class="cap">Photosynthesis, Pythagoras and WWII, sharing a phone</figcaption>
+            <img src="/assets/projects/flashcards/social.jpg" alt="Flashcard Generator social card: 'Any topic. Instant flashcards.' beside a question card and an answer card about photosynthesis">
+            <figcaption class="cap">Question, answer, done</figcaption>
         </figure>
     </section>
 
@@ -52,11 +52,11 @@
         <div class="label">How it works</div>
         <div class="prose">
             <h3>Getting cards, not prose</h3>
-            <p>The topic and card count go to an HTTPS Firebase Function that calls Claude Sonnet 4.5 with two tools. One is <code>flash_cards</code>, a custom tool whose input schema is just <code>{ cards: [{ question, answer }] }</code>. It never runs anything; it exists so the model hands back structured output. The other is web search, capped at two uses, so decks on niche or recent topics rest on something real.</p>
+            <p>The topic and card count go to an HTTPS Firebase Function that calls Claude Sonnet 5.5 with two tools. One is <code>flash_cards</code>, a custom tool whose input schema is just <code>{ cards: [{ question, answer }] }</code>. It never runs anything; it exists so the model hands back structured output. The other is web search, capped at two uses, so decks on niche or recent topics rest on something real.</p>
             <p>Tool use isn't forced, so parsing is defensive: take the <code>flash_cards</code> block if there is one, otherwise slice the first text block from the first <code>[</code> to the last <code>]</code> and parse that. The prompt also has to tell the model to keep citation tags out of the cards.</p>
 
             <h3>Who pays for the tokens</h3>
-            <p>Generating needs an account, and the function verifies your Firebase ID token before anything else. Subscribers use my Anthropic key. People who saved their own key use theirs. Everyone else gets one deck on me.</p>
+            <p>Generating needs an account, and the function verifies your Firebase ID token before anything else. Subscribers use my Anthropic key. People who saved their own key use theirs, which is stored encrypted and only ever shown as its last four characters. Everyone else gets one deck on me.</p>
             <p>That free deck used to be a flag in <code>localStorage</code>, which is an honor system. Now it's claimed atomically in a server-only field, <code>freeGenerationUsed</code>, so two tabs can't both win, and it's handed back if the Anthropic call fails.</p>
 
             <h3>Subscriptions</h3>
@@ -68,8 +68,8 @@
     <section class="row">
         <div class="label">Screens</div>
         <figure class="hero-media">
-            <img src="/assets/projects/flashcards/home.jpg" alt="Flashcard Generator home page: a white card on a green gradient reading 'Instant AI Flashcards', with a topic field, a card-count dropdown set to 10, and a Generate Flashcards button">
-            <figcaption class="cap">One field, one dropdown, one button</figcaption>
+            <img src="/assets/projects/flashcards/home.jpg" alt="Flashcard Generator home page: 'Any topic. Instant flashcards.' above a topic field with suggested topics and a 10, 20 or 30 card-count switch">
+            <figcaption class="cap">One field, a few suggestions, one button</figcaption>
         </figure>
     </section>
 
@@ -90,7 +90,7 @@
                 <div><span class="p">Frontend</span><span class="d">React 18, TypeScript, Material UI 5, React Router 6</span></div>
                 <div><span class="p">Auth and data</span><span class="d">Firebase Auth (email or Google), Realtime Database</span></div>
                 <div><span class="p">Backend</span><span class="d">Firebase Functions v2, TypeScript, Node 22</span></div>
-                <div><span class="p">Model</span><span class="d">Claude Sonnet 4.5 with a custom tool and web search</span></div>
+                <div><span class="p">Model</span><span class="d">Claude Sonnet 5.5 with a custom tool and web search</span></div>
                 <div><span class="p">Payments</span><span class="d">Stripe Checkout in subscription mode, plus a webhook</span></div>
                 <div><span class="p">Hosting</span><span class="d">Vercel, deploying from <code>main</code></span></div>
             </div>

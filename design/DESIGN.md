@@ -72,6 +72,8 @@ Every photo and video gets the **printed** treatment, so it sits on the paper li
 img, video { filter: saturate(.75) contrast(1.08) sepia(.15); mix-blend-mode: multiply; }
 ```
 
+Project images that live on a project's own site (social cards, App Store screenshots, screenshots of the live app) are pulled by [`scripts/sync-images.sh`](../scripts/sync-images.sh), which a weekly workflow runs. To add one, add a line to its manifest rather than copying the file by hand. Build photos are curated by hand.
+
 Real photos of real builds (cutting mats, guts, the thing on the wall) beat renders and stock. Captions are mono, muted, short, and allowed to be funny.
 
 ## Motion

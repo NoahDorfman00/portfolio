@@ -1,0 +1,29 @@
+name: Sync project images
+
+# Pulls each project's public images and fresh screenshots of the live sites,
+# so restyles of those projects show up here without copying files by hand.
+on:
+  schedule:
+    - cron: '41 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-color-emoji
+      - run: scripts/sync-images.sh
+        env:
+          CHROME: google-chrome
+      - name: Commit if changed
+        run: |
+          git add assets/projects
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync project images"
+          git push
