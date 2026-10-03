@@ -57,8 +57,7 @@ done
 shot https://study.noahgdorfman.com                        $P/flashcards/home.jpg      1440 810
 shot https://claudio.noahgdorfman.com                      $P/claudio/chat.jpg         1200 900
 shot https://fit9to5.com                                   $P/fit9to5/home.jpg         1200 900
-# Cropped to the gainer buttons and the results; re-check the crop if the calculator's layout changes.
-shot "https://fit9to5.com/macros?cw=180&tw=170"            $P/fit9to5/macros.jpg       1000 1250 760:570:120:600
+shot "https://fit9to5.com/macros?cw=180&tw=170"            $P/fit9to5/macros.jpg       1000 750
 shot https://theraceboard.com                              $P/race-board/leaderboard.jpg 1440 810
 
 # The homepage feature image: the first three liftbook screens side by side, 4:3.
