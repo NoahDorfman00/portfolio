@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- Source for assets/social.png. Render: see design/DESIGN.md ("Social image"). -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+html, body { width: 1200px; height: 630px; overflow: hidden; }
+.card { width: 1200px; height: 630px; padding: 56px 72px; display: grid; grid-template-rows: auto 1fr auto; }
+.card .bar { font-size: 22px; padding-bottom: 16px; border-bottom-width: 3px; }
+.card .bar span { font-family: var(--mono); font-size: 20px; color: var(--muted); font-weight: 400; }
+.card main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 56px; align-items: end; padding-bottom: 8px; }
+.card h1 { font-size: 104px; font-weight: 600; letter-spacing: -0.04em; line-height: .92; }
+.card p { font-size: 27px; line-height: 1.4; color: var(--ink-2); margin-top: 26px; }
+.card p mark { background: linear-gradient(transparent 58%, rgba(255, 179, 65, .5) 58%); color: inherit; }
+.card .status { font-size: 19px; border-top-width: 3px; }
+.card .status .head { font-size: 16px; padding: 14px 0 10px; }
+.card .dot { width: 11px; height: 11px; animation: none; }
+.card .status dl { grid-template-columns: 110px 1fr; }
+.card .status dt { font-size: 16px; padding-top: 15px; }
+.card .status dt, .card .status dd { padding-bottom: 12px; }
+.card footer { padding: 0; font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="bar"><span>Engineer &amp; maker</span><span>noahgdorfman.com</span></div>
+    <main>
+        <div>
+            <h1>Noah<br>Dorfman</h1>
+            <p>Computer engineer who builds <mark>fixes for his own life</mark> — firmware, enclosures, apps.</p>
+        </div>
+        <aside class="status">
+            <div class="head"><span><span class="dot"></span>Selected work</span></div>
+            <dl>
+                <dt>Hardware</dt><dd>A button on the wall</dd>
+                <dt>Vision</dt><dd>The Race Board</dd>
+                <dt>iOS</dt><dd>liftbook</dd>
+                <dt>Games</dt><dd>Saving Starman</dd>
+            </dl>
+        </aside>
+    </main>
+</div>
+</body>
+</html>

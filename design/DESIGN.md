@@ -94,3 +94,13 @@ Minimal: link fill (.2s), row hover wash (.15s), arrow nudge, the status-dot pul
 Full template (when the README is rich): title block + facts + hero media → Why → How it works → The build → What it taught me → Parts/stack → pager.
 
 Short template (thinner projects): title block + facts + hero media → Why → a few images → pager.
+
+## Social image
+
+`assets/social.png` (1200×630) is rendered from [`social.html`](social.html) with the local server running:
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=6000 --screenshot=assets/social.png http://localhost:8737/design/social.html
+```
+
+Bump the `?v=` on the `og:image` URLs when it changes so link previews refresh.
