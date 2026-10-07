@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-10-03T16:26:45.781Z",
+  "generatedAt": "2026-10-07T23:09:03.755Z",
   "since": "2017-10-08T18:32:55Z",
-  "publicRepos": 24,
+  "publicRepos": 25,
   "lastCommit": {
-    "repo": "portfolio",
-    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Claudio is now Artificial Italian",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/1e5c73b10e83cdc716ff66e83dde8382f43c468d",
-    "date": "2026-10-03T14:33:04Z"
+    "repo": "flycastarcade",
+    "repoUrl": "https://github.com/NoahDorfman00/flycastarcade",
+    "message": "Create CNAME",
+    "url": "https://github.com/NoahDorfman00/flycastarcade/commit/2f98df8e57b498815f47244b4fccac316d13d6e6",
+    "date": "2026-10-07T20:42:44Z"
   },
   "active": [
+    "flycastarcade",
     "portfolio",
     "claudio",
     "flashcards",
@@ -22,6 +23,13 @@
     "liftbooksite"
   ],
   "recent": [
+    {
+      "name": "flycastarcade",
+      "description": "Flycade: Maniac's Road to the Flycast — an unofficial fan-made arcade game",
+      "language": "HTML",
+      "pushedAt": "2026-10-07T20:42:44Z",
+      "url": "https://github.com/NoahDorfman00/flycastarcade"
+    },
     {
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
@@ -56,39 +64,32 @@
       "language": "Python",
       "pushedAt": "2026-10-03T04:06:39Z",
       "url": "https://github.com/NoahDorfman00/raceToPrestigeTracker"
-    },
-    {
-      "name": "ece2035-mbed-rpg",
-      "description": null,
-      "language": "C++",
-      "pushedAt": "2026-10-03T03:42:28Z",
-      "url": "https://github.com/NoahDorfman00/ece2035-mbed-rpg"
     }
   ],
   "languages": [
     {
-      "name": "C++",
-      "pct": 17.1
+      "name": "HTML",
+      "pct": 18.9
     },
     {
-      "name": "HTML",
-      "pct": 16.9
+      "name": "C++",
+      "pct": 16.7
     },
     {
       "name": "C",
-      "pct": 16.2
+      "pct": 15.8
     },
     {
       "name": "TypeScript",
-      "pct": 15.4
+      "pct": 15
     },
     {
       "name": "JavaScript",
-      "pct": 13.5
+      "pct": 13.2
     },
     {
       "name": "Other",
-      "pct": 20.9
+      "pct": 20.4
     }
   ]
 }
