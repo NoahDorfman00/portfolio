@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-13T00:46:53.887Z",
+  "generatedAt": "2026-10-13T14:18:45.989Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "deskcal",
     "repoUrl": "https://github.com/NoahDorfman00/deskcal",
-    "message": "Add MIT license",
-    "url": "https://github.com/NoahDorfman00/deskcal/commit/ae9b5c6af7baca7bd8e16d80485c045eae2534f3",
-    "date": "2026-10-12T21:30:28Z"
+    "message": "Give the demo schedule an 8-minute lead before the next meeting",
+    "url": "https://github.com/NoahDorfman00/deskcal/commit/c7339d1ebeb57468d38acb923957b7ba12067a6f",
+    "date": "2026-10-13T04:43:17Z"
   },
   "active": [
     "deskcal",
@@ -28,7 +28,7 @@
       "name": "deskcal",
       "description": "A \"what's my next meeting\" desk display for a Raspberry Pi touchscreen, fed by Google Apps Script",
       "language": "Python",
-      "pushedAt": "2026-10-12T21:30:28Z",
+      "pushedAt": "2026-10-13T04:43:17Z",
       "url": "https://github.com/NoahDorfman00/deskcal"
     },
     {
@@ -70,7 +70,7 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.7
+      "pct": 18.6
     },
     {
       "name": "C++",
@@ -86,11 +86,11 @@
     },
     {
       "name": "JavaScript",
-      "pct": 13.1
+      "pct": 13
     },
     {
       "name": "Other",
-      "pct": 21.3
+      "pct": 21.5
     }
   ]
 }
