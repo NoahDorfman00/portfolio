@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-13T14:18:45.989Z",
+  "generatedAt": "2026-10-13T22:51:01.326Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "deskcal",
     "repoUrl": "https://github.com/NoahDorfman00/deskcal",
-    "message": "Give the demo schedule an 8-minute lead before the next meeting",
-    "url": "https://github.com/NoahDorfman00/deskcal/commit/c7339d1ebeb57468d38acb923957b7ba12067a6f",
-    "date": "2026-10-13T04:43:17Z"
+    "message": "Fit the stand to the real speakers and add a photo of the print",
+    "url": "https://github.com/NoahDorfman00/deskcal/commit/67752c166d21f61b8b8fef51777a0c1006e15ace",
+    "date": "2026-10-13T15:59:23Z"
   },
   "active": [
     "deskcal",
@@ -20,15 +20,14 @@
     "ece2035-mbed-rpg",
     "liftbook",
     "allRoads",
-    "raceToPrestigeTrackerFrontend",
-    "liftbooksite"
+    "raceToPrestigeTrackerFrontend"
   ],
   "recent": [
     {
       "name": "deskcal",
       "description": "A \"what's my next meeting\" desk display for a Raspberry Pi touchscreen, fed by Google Apps Script",
       "language": "Python",
-      "pushedAt": "2026-10-13T04:43:17Z",
+      "pushedAt": "2026-10-13T15:59:23Z",
       "url": "https://github.com/NoahDorfman00/deskcal"
     },
     {
@@ -70,19 +69,19 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.6
+      "pct": 18.5
     },
     {
       "name": "C++",
-      "pct": 16.5
+      "pct": 16.4
     },
     {
       "name": "C",
-      "pct": 15.6
+      "pct": 15.5
     },
     {
       "name": "TypeScript",
-      "pct": 14.8
+      "pct": 14.7
     },
     {
       "name": "JavaScript",
@@ -90,7 +89,7 @@
     },
     {
       "name": "Other",
-      "pct": 21.5
+      "pct": 21.9
     }
   ]
 }
