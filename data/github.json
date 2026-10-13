@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-10-07T23:09:03.755Z",
+  "generatedAt": "2026-10-13T00:46:53.887Z",
   "since": "2017-10-08T18:32:55Z",
-  "publicRepos": 25,
+  "publicRepos": 26,
   "lastCommit": {
-    "repo": "flycastarcade",
-    "repoUrl": "https://github.com/NoahDorfman00/flycastarcade",
-    "message": "Create CNAME",
-    "url": "https://github.com/NoahDorfman00/flycastarcade/commit/2f98df8e57b498815f47244b4fccac316d13d6e6",
-    "date": "2026-10-07T20:42:44Z"
+    "repo": "deskcal",
+    "repoUrl": "https://github.com/NoahDorfman00/deskcal",
+    "message": "Add MIT license",
+    "url": "https://github.com/NoahDorfman00/deskcal/commit/ae9b5c6af7baca7bd8e16d80485c045eae2534f3",
+    "date": "2026-10-12T21:30:28Z"
   },
   "active": [
+    "deskcal",
     "flycastarcade",
     "portfolio",
     "claudio",
@@ -23,6 +24,13 @@
     "liftbooksite"
   ],
   "recent": [
+    {
+      "name": "deskcal",
+      "description": "A \"what's my next meeting\" desk display for a Raspberry Pi touchscreen, fed by Google Apps Script",
+      "language": "Python",
+      "pushedAt": "2026-10-12T21:30:28Z",
+      "url": "https://github.com/NoahDorfman00/deskcal"
+    },
     {
       "name": "flycastarcade",
       "description": "Flycade: Maniac's Road to the Flycast — an unofficial fan-made arcade game",
@@ -57,39 +65,32 @@
       "language": "TypeScript",
       "pushedAt": "2026-10-03T08:26:07Z",
       "url": "https://github.com/NoahDorfman00/fit9to5"
-    },
-    {
-      "name": "raceToPrestigeTracker",
-      "description": null,
-      "language": "Python",
-      "pushedAt": "2026-10-03T04:06:39Z",
-      "url": "https://github.com/NoahDorfman00/raceToPrestigeTracker"
     }
   ],
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.9
+      "pct": 18.7
     },
     {
       "name": "C++",
-      "pct": 16.7
+      "pct": 16.5
     },
     {
       "name": "C",
-      "pct": 15.8
+      "pct": 15.6
     },
     {
       "name": "TypeScript",
-      "pct": 15
+      "pct": 14.8
     },
     {
       "name": "JavaScript",
-      "pct": 13.2
+      "pct": 13.1
     },
     {
       "name": "Other",
-      "pct": 20.4
+      "pct": 21.3
     }
   ]
 }
