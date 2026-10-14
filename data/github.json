@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-13T22:51:01.326Z",
+  "generatedAt": "2026-10-14T04:59:36.312Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
-    "repo": "deskcal",
-    "repoUrl": "https://github.com/NoahDorfman00/deskcal",
-    "message": "Fit the stand to the real speakers and add a photo of the print",
-    "url": "https://github.com/NoahDorfman00/deskcal/commit/67752c166d21f61b8b8fef51777a0c1006e15ace",
-    "date": "2026-10-13T15:59:23Z"
+    "repo": "portfolio",
+    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
+    "message": "Add deskcal: the desk calendar in an oscilloscope",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/83db174d824410d349f607c6d694b6be93075759",
+    "date": "2026-10-14T02:20:49Z"
   },
   "active": [
+    "portfolio",
     "deskcal",
     "flycastarcade",
-    "portfolio",
     "claudio",
     "flashcards",
     "fit9to5",
@@ -23,6 +23,13 @@
     "raceToPrestigeTrackerFrontend"
   ],
   "recent": [
+    {
+      "name": "portfolio",
+      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
+      "language": "HTML",
+      "pushedAt": "2026-10-14T02:20:49Z",
+      "url": "https://github.com/NoahDorfman00/portfolio"
+    },
     {
       "name": "deskcal",
       "description": "A \"what's my next meeting\" desk display for a Raspberry Pi touchscreen, fed by Google Apps Script",
@@ -36,13 +43,6 @@
       "language": "HTML",
       "pushedAt": "2026-10-07T20:42:44Z",
       "url": "https://github.com/NoahDorfman00/flycastarcade"
-    },
-    {
-      "name": "portfolio",
-      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
-      "language": "HTML",
-      "pushedAt": "2026-10-03T14:33:04Z",
-      "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
       "name": "claudio",
@@ -69,23 +69,23 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.5
+      "pct": 18.9
     },
     {
       "name": "C++",
-      "pct": 16.4
+      "pct": 16.3
     },
     {
       "name": "C",
-      "pct": 15.5
+      "pct": 15.4
     },
     {
       "name": "TypeScript",
-      "pct": 14.7
+      "pct": 14.6
     },
     {
       "name": "JavaScript",
-      "pct": 13
+      "pct": 12.9
     },
     {
       "name": "Other",
