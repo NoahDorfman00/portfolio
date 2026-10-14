@@ -97,6 +97,8 @@ Full template (when the README is rich): title block + facts + hero media → Wh
 
 Short template (thinner projects): title block + facts + hero media → Why → a few images → pager.
 
+Hero media: `.top.wide` + `.hero-media` for landscape images and embeds (cropped to 16:9), `.clip` for portrait video, `.top.still` + `.photo` for a still photo shown at its own shape beside the title. Screenshots that aren't 4:3 go in `.grid2.screens`.
+
 ## Social image
 
 `assets/social.png` (1200×630) is rendered from [`social.html`](social.html) with the local server running:

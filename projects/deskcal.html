@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>deskcal — Noah Dorfman</title>
+<meta name="description" content="A desk display that counts down to my next meeting and chimes before it starts. A Raspberry Pi, a 3.5-inch touchscreen, a Google Apps Script feed, and a 3D-printed stand shaped like an oscilloscope.">
+<link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<meta property="og:title" content="deskcal — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/deskcal/assembled.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top still">
+        <div>
+            <h1>deskcal</h1>
+            <p class="dek">A very small oscilloscope that measures one signal: how long until my next meeting. A Raspberry Pi counts down, draws the day as a waveform, and chimes five minutes before I have to be somewhere.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2026</dd>
+                <dt>Made with</dt><dd>Raspberry Pi 5, a 3.5-inch touchscreen, Python and PyQt5, Google Apps Script, OpenSCAD, about 250 g of PLA</dd>
+                <dt>I did</dt><dd>Everything: the app, the calendar feed, the stand</dd>
+                <dt>Links</dt><dd><a class="link" href="https://github.com/NoahDorfman00/deskcal">Source on GitHub</a><a class="link" href="https://github.com/NoahDorfman00/deskcal/tree/main/hardware/stand">Stand files</a></dd>
+            </dl>
+        </div>
+        <figure class="photo">
+            <img src="/assets/projects/deskcal/assembled.jpg" alt="A cream 3D-printed stand shaped like a small oscilloscope, with black knobs and a handle, its screen counting down fifteen minutes to the next meeting above a waveform of the day">
+            <figcaption class="cap">The first full print. The knobs spin, and that is all they do.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>The question I ask my calendar most is "what's next, and how long do I have?" That seemed worth a dedicated screen: one that sits on the desk, shows the meeting I'm in and the one coming up, and makes a noise before I'm late.</p>
+            <p>The display turned out to be the easy part. The hard part was getting at the calendar at all, because work accounts tend to block third-party apps, secret iCal links and external sharing, which is every normal way in.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <p>The first version signed in through the Google Calendar API, which is exactly the kind of outside app a work account turns away. So the calendar gets published from the inside instead. About forty lines of Google Apps Script run as me, inside the account, and serve the next week of meetings as JSON. The Pi polls that URL every five minutes.</p>
+            <div class="steps"><span>Google Calendar</span><i>→</i><span>Apps Script</span><i>→</i><span>JSON over HTTPS</span><i>→</i><span>The Pi</span><i>→</i><span>Screen and speakers</span></div>
+            <p>The feed carries only what the display draws: titles, times, locations and which video call it is. No attendee names, no emails, and descriptions are cut down to their links before they leave the account.</p>
+
+            <h3>The day as a waveform</h3>
+            <p>The screen is laid out like a logic analyzer. Up top, an <code>hh:mm:ss</code> countdown to the next meeting and its title. Underneath, the next few hours as a trace where every pulse is a meeting and the cursor is now. Double-book me and it becomes a collision: a banner, both meetings listed, and a second trace with the overlap hatched.</p>
+            <div class="grid2 screens">
+                <figure><img src="/assets/projects/deskcal/screen.jpg" alt="The display in demo mode: 11:27 PM, a countdown reading 00:08:01, 'Design review, 11:35 PM to 12:05 AM, Meet', and a square-wave trace of the next few hours"><figcaption class="cap">Demo schedule: eight minutes to a design review</figcaption></figure>
+                <figure><img src="/assets/projects/deskcal/collision.jpg" alt="The display with a '2 AT ONCE' banner above Design review and Vendor sync, and two traces with the overlapping stretch hatched"><figcaption class="cap">Double-booked. The hatching is the part I can't attend twice.</figcaption></figure>
+            </div>
+            <p>The panel is about 70 × 50 mm, so nothing is drawn smaller than 32 px. All-day events, cancellations, working-location and out-of-office entries, and anything I declined never make it to the screen.</p>
+
+            <h3>Alerts</h3>
+            <div class="parts">
+                <div><span class="p">Five minutes before</span><span class="d">The screen flashes and a chime plays</span></div>
+                <div><span class="p">At the start</span><span class="d">Again, with a longer chime</span></div>
+                <div><span class="p">Tap it</span><span class="d">Dismissed. Ignore it and it clears itself after three minutes</span></div>
+                <div><span class="p">Restarted mid-meeting</span><span class="d">Alerts more than 90 seconds stale are skipped, not played late</span></div>
+            </div>
+            <p>The chimes are synthesized in code, so there are no audio files to ship. There are three to pick from: bells, bench-instrument beeps, and the buzz of an old computer terminal.</p>
+
+            <h3>When the network goes away</h3>
+            <p>The last good download is kept on disk. A Wi-Fi blip, or booting before Wi-Fi is up, shows the schedule it already had with a red OFFLINE flag next to the clock, not a blank screen. A broken deployment answers with a sign-in page where the JSON should be, so the feed has to parse before it's allowed to replace the cache.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">The build</div>
+        <div>
+            <div class="stage prose">
+                <h3>A stand in costume</h3>
+                <p>The display already looked like test equipment, so the stand became a mini oscilloscope: five knobs that spin, two dummy BNC jacks, a handle that folds flat along the top, and a model number on the panel. The Pi, screen, audio HAT and speakers slot in from the back. Nothing is screwed down, and the only glue is on the BNC jacks.</p>
+                <p>It's one parametric OpenSCAD file. Every part prints without supports, and fitting a different screen or speakers means changing a few numbers at the top.</p>
+            </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/deskcal/model.jpg" alt="OpenSCAD render of the assembled stand at an angle, showing the tilted front panel, side vents and handle"><figcaption class="cap">The OpenSCAD model, leaning back 18°</figcaption></figure>
+                <figure><img src="/assets/projects/deskcal/parts.jpg" alt="OpenSCAD render of the parts laid out for printing: body, back panel, handle, five knobs, two BNC jacks and five clips"><figcaption class="cap">Everything as it prints. One clip per knob.</figcaption></figure>
+            </div>
+            <div class="stage prose">
+                <h3>Print the risky part first</h3>
+                <p>The screen tilts in under the roof and drops onto a shelf, held by two lips that sit in the 3 mm gap between the display board and the Pi. That's a lot to trust to a drawing, so before the full case I printed only the section that holds the screen.</p>
+            </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/deskcal/fit-test-front.jpg" alt="The screen running the demo schedule, seated in a printed frame that is just the middle of the front panel"><figcaption class="cap">The fit test: just the screen's corner of the case</figcaption></figure>
+                <figure><img src="/assets/projects/deskcal/fit-test-back.jpg" alt="The back of the fit test, with the Pi and audio HAT hanging off the display and resting on the printed shelf"><figcaption class="cap">From behind: Pi and audio HAT resting on the shelf</figcaption></figure>
+            </div>
+            <div class="stage prose">
+                <h3>The first full print</h3>
+                <p>The one on my desk is the first full print, and its speaker bays came out tight. The model has since been widened from measurements of the real speakers. That change hasn't been reprinted yet.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it taught me</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>Ask from inside the account</h4><p>An app knocking from outside needs approval. A script that runs as you is already in.</p></div></li>
+            <li><span class="n">2</span><div><h4>Print the risky part first</h4><p>A fit test of the screen mount is a much cheaper way to be wrong than the whole case.</p></div></li>
+            <li><span class="n">3</span><div><h4>Measure the part in your hand</h4><p>The speaker bays were tight until the model was redone from the real speakers.</p></div></li>
+            <li><span class="n">4</span><div><h4>Keep the last good answer</h4><p>A stale schedule with an OFFLINE flag beats a blank screen every time Wi-Fi hiccups.</p></div></li>
+            <li><span class="n">5</span><div><h4>Keep the clock logic pure</h4><p>What's on, what's next and which alert is due are plain functions with no I/O, so they're tested without a Pi.</p></div></li>
+            <li><span class="n">6</span><div><h4>Design for the size it really is</h4><p>On a 70 × 50 mm panel, 32 px is the smallest thing worth drawing.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="row">
+        <div class="label">Parts</div>
+        <div>
+            <div class="parts">
+                <div><span class="p">Raspberry Pi 5</span><span class="d">Runs the app as a systemd user service: starts at boot, restarts if it crashes</span></div>
+                <div><span class="p">Waveshare 3.5-inch DSI touchscreen</span><span class="d">800 × 480. Tap to sync, tap to dismiss an alert</span></div>
+                <div><span class="p">WM8960 audio HAT</span><span class="d">On the GPIO header</span></div>
+                <div><span class="p">Two 8 Ω, 5 W speakers</span><span class="d">The pair that ships with the HAT, standing on end behind the side vents</span></div>
+                <div><span class="p">Stand, knobs, handle, jacks</span><span class="d"><a class="link" href="https://github.com/NoahDorfman00/deskcal/tree/main/hardware/stand">3D-printed — model and STLs on GitHub</a></span></div>
+            </div>
+            <p class="warn"><b>Heads up:</b> anyone holding the feed URL can read your next week of meetings. If you build one, treat that URL like a password.</p>
+        </div>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/saving-starman.html"><span>← Previous project</span><b>Saving Starman</b></a>
+        <a href="/projects/petlibro.html"><span>Next project →</span><b>PetLibro reposition button</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+</body>
+</html>

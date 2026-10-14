@@ -4,7 +4,7 @@
 # are screenshotted with headless Chrome. Outputs overwrite the files the pages use.
 #
 # Usage: scripts/sync-images.sh            (needs ffmpeg and Chrome)
-# Build photos (PetLibro), the Race Board detection frame, the all roads results
+# Build photos (PetLibro, deskcal), the Race Board detection frame, the all roads results
 # screenshot, and the Claudio and Claudia portraits are curated by hand and not synced.
 
 set -euo pipefail
@@ -50,6 +50,8 @@ asset https://study.noahgdorfman.com/assets/social.png     $P/flashcards/social.
 asset https://ai.noahgdorfman.com/assets/social.png        $P/artificial-italian/social.jpg 1600
 asset https://fit9to5.com/assets/social.png                $P/fit9to5/social.jpg    1600
 asset https://theraceboard.com/social.png                  $P/race-board/social.jpg 1600
+asset https://raw.githubusercontent.com/NoahDorfman00/deskcal/main/docs/screenshot.png $P/deskcal/screen.jpg    800
+asset https://raw.githubusercontent.com/NoahDorfman00/deskcal/main/docs/collision.png  $P/deskcal/collision.jpg 800
 for i in 1 2 3 4 5; do
     asset "https://liftbookapp.com/assets/images/preview$i.png" "$P/liftbook/screen-$i.jpg" 554
 done
