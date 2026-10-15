@@ -59,12 +59,13 @@
             <p>The feed carries only what the display draws: titles, times, locations and which video call it is. No attendee names, no emails, and descriptions are cut down to their links before they leave the account.</p>
 
             <h3>The day as a waveform</h3>
-            <p>The screen is laid out like a logic analyzer. Up top, an <code>hh:mm:ss</code> countdown to the next meeting and its title. Underneath, the next few hours as a trace where every pulse is a meeting and the cursor is now. Double-book me and it becomes a collision: a banner, both meetings listed, and a second trace with the overlap hatched.</p>
+            <p>The whole face is a scope screen: a graticule edge to edge, phosphor bloom on the text, faint scanlines and dark corners. Up top, an <code>hh:mm:ss</code> countdown to the next meeting and its title. Underneath, the next six hours on the graticule's own timebase, 40 minutes a division, where every pulse is a meeting and a beam sweeps along the trace.</p>
+            <p>Double-book me and it becomes a collision. The banner lists everyone involved (up to three, then "+N more"), and the trace steps up once for each meeting at once and buzzes with interference across the overlap.</p>
             <div class="grid2 screens">
-                <figure><img src="/assets/projects/deskcal/screen.jpg" alt="The display in demo mode: 11:27 PM, a countdown reading 00:08:01, 'Design review, 11:35 PM to 12:05 AM, Meet', and a square-wave trace of the next few hours"><figcaption class="cap">Demo schedule: eight minutes to a design review</figcaption></figure>
-                <figure><img src="/assets/projects/deskcal/collision.jpg" alt="The display with a '2 AT ONCE' banner above Design review and Vendor sync, and two traces with the overlapping stretch hatched"><figcaption class="cap">Double-booked. The hatching is the part I can't attend twice.</figcaption></figure>
+                <figure><img src="/assets/projects/deskcal/screen.jpg" alt="The display in demo mode on a full-screen graticule: 11:08 PM, a countdown reading 00:07:17, 'Design review, 11:16 to 11:46 PM, Meet', and a glowing square-wave trace of the next six hours"><figcaption class="cap">Demo schedule: seven minutes to a design review</figcaption></figure>
+                <figure><img src="/assets/projects/deskcal/collision.jpg" alt="The display with a '2 AT ONCE · 00:11:17' banner above '1:1 with Sam' and 'Vendor sync', and the trace stepped up and jagged with interference over the hatched overlap"><figcaption class="cap">Double-booked. The trace buzzes where I'd have to be in two places.</figcaption></figure>
             </div>
-            <p>The panel is about 70 × 50 mm, so nothing is drawn smaller than 32 px. All-day events, cancellations, working-location and out-of-office entries, and anything I declined never make it to the screen.</p>
+            <p>The panel is about 70 × 50 mm, so nothing is drawn smaller than 32 px, and nothing at all goes on the very edges, which this panel smears into a bar. All-day events, cancellations, working-location and out-of-office entries, and anything I declined never make it to the screen.</p>
 
             <h3>Alerts</h3>
             <div class="parts">
@@ -74,6 +75,10 @@
                 <div><span class="p">Restarted mid-meeting</span><span class="d">Alerts more than 90 seconds stale are skipped, not played late</span></div>
             </div>
             <p>The chimes are synthesized in code, so there are no audio files to ship. There are three to pick from: bells, bench-instrument beeps, and the buzz of an old computer terminal.</p>
+
+            <h3>Quiet stretches</h3>
+            <p>When nothing is on and the next meeting is more than six hours off, the screen drops to the time, the date and a slowly morphing Lissajous figure. Tap it and the full view comes back for 30 seconds.</p>
+            <figure class="figure photo"><img src="/assets/projects/deskcal/screensaver.jpg" alt="The screensaver: 11:08 PM and Wednesday, October 14 above a looping Lissajous figure traced on the graticule"><figcaption class="cap">The screensaver. Still technically measuring something.</figcaption></figure>
 
             <h3>When the network goes away</h3>
             <p>The last good download is kept on disk. A Wi-Fi blip, or booting before Wi-Fi is up, shows the schedule it already had with a red OFFLINE flag next to the clock, not a blank screen. A broken deployment answers with a sign-in page where the JSON should be, so the feed has to parse before it's allowed to replace the cache.</p>
