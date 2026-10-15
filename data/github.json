@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-14T04:59:36.312Z",
+  "generatedAt": "2026-10-15T04:48:14.726Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Add deskcal: the desk calendar in an oscilloscope",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/83db174d824410d349f607c6d694b6be93075759",
-    "date": "2026-10-14T02:20:49Z"
+    "message": "deskcal: the scope-screen redesign and the screensaver",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/e10902cef7f90750b18641ef463a7e974b24c489",
+    "date": "2026-10-15T03:16:41Z"
   },
   "active": [
     "portfolio",
@@ -27,14 +27,14 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-10-14T02:20:49Z",
+      "pushedAt": "2026-10-15T03:16:41Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
       "name": "deskcal",
       "description": "A \"what's my next meeting\" desk display for a Raspberry Pi touchscreen, fed by Google Apps Script",
       "language": "Python",
-      "pushedAt": "2026-10-13T15:59:23Z",
+      "pushedAt": "2026-10-15T03:08:51Z",
       "url": "https://github.com/NoahDorfman00/deskcal"
     },
     {
@@ -69,23 +69,23 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.9
+      "pct": 18.8
     },
     {
       "name": "C++",
-      "pct": 16.3
+      "pct": 16.2
     },
     {
       "name": "C",
-      "pct": 15.4
+      "pct": 15.3
     },
     {
       "name": "TypeScript",
-      "pct": 14.6
+      "pct": 14.5
     },
     {
-      "name": "JavaScript",
-      "pct": 12.9
+      "name": "Python",
+      "pct": 13.3
     },
     {
       "name": "Other",
