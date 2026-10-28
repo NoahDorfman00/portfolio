@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-10-15T04:48:14.726Z",
+  "generatedAt": "2026-10-28T22:39:38.259Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
-    "repo": "portfolio",
-    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "deskcal: the scope-screen redesign and the screensaver",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/e10902cef7f90750b18641ef463a7e974b24c489",
-    "date": "2026-10-15T03:16:41Z"
+    "repo": "liftbooksite",
+    "repoUrl": "https://github.com/NoahDorfman00/liftbooksite",
+    "message": "Merge pull request #2 from NoahDorfman00/add-social-short-links",
+    "url": "https://github.com/NoahDorfman00/liftbooksite/commit/71e60cd4b414f7fd7822de8e2f7b4250f02c8245",
+    "date": "2026-10-28T20:17:28Z"
   },
   "active": [
+    "liftbooksite",
     "portfolio",
     "deskcal",
     "flycastarcade",
@@ -23,6 +24,13 @@
     "raceToPrestigeTrackerFrontend"
   ],
   "recent": [
+    {
+      "name": "liftbooksite",
+      "description": null,
+      "language": "JavaScript",
+      "pushedAt": "2026-10-28T20:17:28Z",
+      "url": "https://github.com/NoahDorfman00/liftbooksite"
+    },
     {
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
@@ -57,13 +65,6 @@
       "language": "TypeScript",
       "pushedAt": "2026-10-03T08:26:51Z",
       "url": "https://github.com/NoahDorfman00/flashcards"
-    },
-    {
-      "name": "fit9to5",
-      "description": null,
-      "language": "TypeScript",
-      "pushedAt": "2026-10-03T08:26:07Z",
-      "url": "https://github.com/NoahDorfman00/fit9to5"
     }
   ],
   "languages": [
