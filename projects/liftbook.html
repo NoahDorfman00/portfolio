@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>liftbook — Noah Dorfman</title>
-<meta name="description" content="A lifting log for iPhone that works like a paper notebook. Type a movement, type your sets, and it tells you what you did last time. No accounts, no cloud.">
+<meta name="description" content="A lifting log for iPhone that works like a paper notebook. Type a movement, type your sets, and it tells you what you did last time. Share a lift as a notebook page. No accounts, no cloud.">
 <link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
 <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
@@ -32,7 +32,7 @@
             <p class="dek">A lifting log for iPhone that works like a paper notebook: type a movement, type your sets, and it quietly tells you what you did last time.</p>
             <dl class="facts">
                 <dt>Year</dt><dd>2025, in the App Store since 2026</dd>
-                <dt>Made with</dt><dd>React Native, TypeScript, AsyncStorage, react-native-svg</dd>
+                <dt>Made with</dt><dd>React Native, TypeScript, AsyncStorage, react-native-svg, a little Objective-C</dd>
                 <dt>Links</dt><dd><a class="link" href="https://apps.apple.com/us/app/liftbook-strength-log/id6755925820">App Store</a><a class="link" href="https://liftbookapp.com">Live site</a><a class="link" href="https://github.com/NoahDorfman00/liftbook">Source on GitHub</a></dd>
             </dl>
         </div>
@@ -65,13 +65,19 @@
             <p>Every lift lives on the device as one JSON blob in AsyncStorage. No accounts, no server. <code>liftStore.ts</code> reads it once per launch, serves everything from memory, and writes back through a serialized queue so fast edits can't interleave.</p>
             <p>That makes the phone the only copy, so the store is paranoid. A corrupt blob gets copied to a backup key before starting fresh, and if the backup or the read itself fails, the app runs in memory for that session and refuses to write.</p>
 
+            <h3>Sharing without a server</h3>
+            <p>A lift or a chart can be shared as an image of a notebook page: one row per movement, a pencil-hatched bar for each set, the top set on the right, and 🔥 on a PR. The layout is pure geometry, measured against the handwritten font's real glyph widths, then drawn off-screen and captured. Every share makes a 9:16 story and a 3:4 card for Messages, which crops anything taller.</p>
+            <p>The lift itself travels inside the link: <code>liftbookapp.com/l#v1=…</code>, packed into the URL fragment. Nothing is hosted, nothing expires, and fragments never reach a server. Tapping it opens a preview with <b>Try this lift</b>, which copies the movements into a new page and shows the sharer's numbers as a hint while you log your own.</p>
+            <p>The share sheet is a small native module that words the message per app. Messages gets the card and <code>Try it ↓</code>; Instagram and Snapchat drop shared text, so they get the App Store link on the clipboard for a link sticker instead.</p>
+
             <h3>Stack</h3>
             <div class="parts">
                 <div><span class="p">React Native 0.80</span><span class="d">TypeScript, Fabric, Hermes</span></div>
                 <div><span class="p">AsyncStorage</span><span class="d">One JSON blob, no backend</span></div>
-                <div><span class="p">react-native-svg</span><span class="d">Hand-drawn charts and the ruled lines</span></div>
+                <div><span class="p">react-native-svg</span><span class="d">Hand-drawn charts, share images and the ruled lines</span></div>
                 <div><span class="p">react-native-keyboard-controller</span><span class="d">Keeps the footer on the keyboard, plus a small patch to React Native</span></div>
-                <div><span class="p">Jest</span><span class="d">The store and the suggestion engine</span></div>
+                <div><span class="p">react-native-view-shot</span><span class="d">Captures the share images</span></div>
+                <div><span class="p">Jest</span><span class="d">The store, the suggestion engine, the share link and both share layouts</span></div>
             </div>
         </div>
     </section>
@@ -79,14 +85,17 @@
     <section class="row">
         <div class="label">Screens</div>
         <div>
-            <div class="phones">
+            <div class="phones four">
                 <img src="/assets/projects/liftbook/screen-1.jpg" alt="App Store screenshot: the list of lifts, one dated row per workout, under the headline 'Finally, an uncomplicated fitness app'">
-                <img src="/assets/projects/liftbook/screen-2.jpg" alt="App Store screenshot: a Push Day page with sets logged under Fly and Tricep Pushdown, and movement suggestions above the keyboard">
-                <img src="/assets/projects/liftbook/screen-3.jpg" alt="App Store screenshot: the charts screen plotting max, average and min weight for Rope Tricep Pushdown">
-                <img src="/assets/projects/liftbook/screen-4.jpg" alt="App Store screenshot: entering weight and reps for Rope Tricep Pushdown with a 'last time' note under the input">
-                <img src="/assets/projects/liftbook/screen-5.jpg" alt="App Store screenshot: an empty list with a hand-drawn arrow pointing to the plus button and the liftbook logo">
+                <img src="/assets/projects/liftbook/screen-2.jpg" alt="App Store screenshot: a Push Day page with Bench Press sets and movement suggestions above the keyboard">
+                <img src="/assets/projects/liftbook/screen-3.jpg" alt="App Store screenshot: entering weight for Incline Dumbbell Press with a 'last time' note under the input">
+                <img src="/assets/projects/liftbook/screen-4.jpg" alt="App Store screenshot: the charts screen plotting max, average and min weight for Bench Press">
+                <img src="/assets/projects/liftbook/screen-5.jpg" alt="App Store screenshot: a Push Day share image, one row per movement with hatched pencil bars, the top set and fire emoji on PRs">
+                <img src="/assets/projects/liftbook/screen-6.jpg" alt="App Store screenshot: the share card sent in Messages with a 'Try it' link, and a friend replying that they're doing it tomorrow">
+                <img src="/assets/projects/liftbook/screen-7.jpg" alt="App Store screenshot: a Push Day page in dark mode">
+                <img src="/assets/projects/liftbook/screen-8.jpg" alt="App Store screenshot: an empty list with a hand-drawn arrow pointing to the plus button, captioned 'log your first lift'">
             </div>
-            <p class="cap">The App Store screenshots. Yes, the font is the whole personality.</p>
+            <p class="cap">The App Store screenshots for 1.1. Yes, the font is the whole personality.</p>
         </div>
     </section>
 
@@ -97,6 +106,7 @@
             <li><span class="n">2</span><div><h4>Sometimes the bug is in node_modules</h4><p>The keyboard flickered on every mode switch because Fabric skips a <code>reloadInputViews</code> call, so I patched it back in.</p></div></li>
             <li><span class="n">3</span><div><h4>One state value beats five flags</h4><p>Collapsing the editor's focus logic into one descriptor deleted a pile of timers and race conditions.</p></div></li>
             <li><span class="n">4</span><div><h4>Local-only means you are the backup</h4><p>With no server copy, the store would rather not write than overwrite something it can't read.</p></div></li>
+            <li><span class="n">5</span><div><h4>Every app has its own idea of a link</h4><p>Messages stops recognizing a link at about 630 characters, Instagram's link sticker rejects long ones outright, and X's in-app browser ignores <code>liftbook://</code>. So the share text is worded per destination.</p></div></li>
         </ol>
     </section>
 
