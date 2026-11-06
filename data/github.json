@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-10-29T13:11:01.108Z",
+  "generatedAt": "2026-11-06T06:55:43.262Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
-    "repo": "portfolio",
-    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "liftbook: sharing, 1.1 screenshots, link lesson",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/efee8931a87c6d84f41046fac4d9ccdb50ac368f",
-    "date": "2026-10-29T06:41:32Z"
+    "repo": "liftbooksite",
+    "repoUrl": "https://github.com/NoahDorfman00/liftbooksite",
+    "message": "Merge pull request #3 from NoahDorfman00/claude/liftbookapp-x-social-image-rm159l",
+    "url": "https://github.com/NoahDorfman00/liftbooksite/commit/0cb79ae1a6b328201a0e1f2d18cb4c46b35dc44d",
+    "date": "2026-11-06T00:03:50Z"
   },
   "active": [
-    "portfolio",
     "liftbooksite",
+    "portfolio",
     "liftbook",
     "deskcal",
     "flycastarcade",
@@ -25,18 +25,18 @@
   ],
   "recent": [
     {
+      "name": "liftbooksite",
+      "description": null,
+      "language": "JavaScript",
+      "pushedAt": "2026-11-06T00:03:50Z",
+      "url": "https://github.com/NoahDorfman00/liftbooksite"
+    },
+    {
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
       "pushedAt": "2026-10-29T06:41:32Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
-    },
-    {
-      "name": "liftbooksite",
-      "description": null,
-      "language": "JavaScript",
-      "pushedAt": "2026-10-29T06:34:36Z",
-      "url": "https://github.com/NoahDorfman00/liftbooksite"
     },
     {
       "name": "liftbook",
@@ -70,7 +70,7 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.3
+      "pct": 18.4
     },
     {
       "name": "TypeScript",
@@ -90,7 +90,7 @@
     },
     {
       "name": "Other",
-      "pct": 21.4
+      "pct": 21.3
     }
   ]
 }
