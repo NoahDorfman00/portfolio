@@ -1,29 +1,43 @@
 {
-  "generatedAt": "2026-11-06T06:55:43.262Z",
+  "generatedAt": "2026-11-06T19:28:24.541Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
-    "repo": "liftbooksite",
-    "repoUrl": "https://github.com/NoahDorfman00/liftbooksite",
-    "message": "Merge pull request #3 from NoahDorfman00/claude/liftbookapp-x-social-image-rm159l",
-    "url": "https://github.com/NoahDorfman00/liftbooksite/commit/0cb79ae1a6b328201a0e1f2d18cb4c46b35dc44d",
-    "date": "2026-11-06T00:03:50Z"
+    "repo": "fit9to5",
+    "repoUrl": "https://github.com/NoahDorfman00/fit9to5",
+    "message": "Only act on this app's own Stripe checkouts and subscriptions",
+    "url": "https://github.com/NoahDorfman00/fit9to5/commit/b76702bf1bc4ba55a69a80fef68932d33c90c708",
+    "date": "2026-11-06T18:05:26Z"
   },
   "active": [
+    "fit9to5",
+    "flashcards",
     "liftbooksite",
     "portfolio",
     "liftbook",
     "deskcal",
     "flycastarcade",
     "claudio",
-    "flashcards",
-    "fit9to5",
     "raceToPrestigeTracker",
     "ece2035-mbed-rpg",
     "allRoads",
     "raceToPrestigeTrackerFrontend"
   ],
   "recent": [
+    {
+      "name": "fit9to5",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-11-06T18:05:26Z",
+      "url": "https://github.com/NoahDorfman00/fit9to5"
+    },
+    {
+      "name": "flashcards",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-11-06T18:05:24Z",
+      "url": "https://github.com/NoahDorfman00/flashcards"
+    },
     {
       "name": "liftbooksite",
       "description": null,
@@ -51,38 +65,24 @@
       "language": "Python",
       "pushedAt": "2026-10-15T03:08:51Z",
       "url": "https://github.com/NoahDorfman00/deskcal"
-    },
-    {
-      "name": "flycastarcade",
-      "description": "Flycade: Maniac's Road to the Flycast — an unofficial fan-made arcade game",
-      "language": "HTML",
-      "pushedAt": "2026-10-07T20:42:44Z",
-      "url": "https://github.com/NoahDorfman00/flycastarcade"
-    },
-    {
-      "name": "claudio",
-      "description": "Italian-American AI Chatbot",
-      "language": "JavaScript",
-      "pushedAt": "2026-10-03T14:23:24Z",
-      "url": "https://github.com/NoahDorfman00/claudio"
     }
   ],
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.4
+      "pct": 18.3
     },
     {
       "name": "TypeScript",
-      "pct": 17.1
+      "pct": 17.3
     },
     {
       "name": "C++",
-      "pct": 15.5
+      "pct": 15.4
     },
     {
       "name": "C",
-      "pct": 14.7
+      "pct": 14.6
     },
     {
       "name": "Python",
@@ -90,7 +90,7 @@
     },
     {
       "name": "Other",
-      "pct": 21.3
+      "pct": 21.4
     }
   ]
 }
