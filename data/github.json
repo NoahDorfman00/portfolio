@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-11-06T19:28:24.541Z",
+  "generatedAt": "2026-11-12T07:19:41.504Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
-    "repo": "fit9to5",
-    "repoUrl": "https://github.com/NoahDorfman00/fit9to5",
-    "message": "Only act on this app's own Stripe checkouts and subscriptions",
-    "url": "https://github.com/NoahDorfman00/fit9to5/commit/b76702bf1bc4ba55a69a80fef68932d33c90c708",
-    "date": "2026-11-06T18:05:26Z"
+    "repo": "portfolio",
+    "repoUrl": "https://github.com/NoahDorfman00/portfolio",
+    "message": "Add the scope gantry project page with an interactive 3D model (#1)",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/097069a91b7d5a5295c943509b5d32de606d5c24",
+    "date": "2026-11-12T01:59:52Z"
   },
   "active": [
+    "portfolio",
+    "liftbooksite",
     "fit9to5",
     "flashcards",
-    "liftbooksite",
-    "portfolio",
     "liftbook",
     "deskcal",
     "flycastarcade",
@@ -24,6 +24,20 @@
     "raceToPrestigeTrackerFrontend"
   ],
   "recent": [
+    {
+      "name": "portfolio",
+      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
+      "language": "HTML",
+      "pushedAt": "2026-11-12T01:59:52Z",
+      "url": "https://github.com/NoahDorfman00/portfolio"
+    },
+    {
+      "name": "liftbooksite",
+      "description": null,
+      "language": "JavaScript",
+      "pushedAt": "2026-11-11T22:06:52Z",
+      "url": "https://github.com/NoahDorfman00/liftbooksite"
+    },
     {
       "name": "fit9to5",
       "description": null,
@@ -37,20 +51,6 @@
       "language": "TypeScript",
       "pushedAt": "2026-11-06T18:05:24Z",
       "url": "https://github.com/NoahDorfman00/flashcards"
-    },
-    {
-      "name": "liftbooksite",
-      "description": null,
-      "language": "JavaScript",
-      "pushedAt": "2026-11-06T00:03:50Z",
-      "url": "https://github.com/NoahDorfman00/liftbooksite"
-    },
-    {
-      "name": "portfolio",
-      "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
-      "language": "HTML",
-      "pushedAt": "2026-10-29T06:41:32Z",
-      "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
       "name": "liftbook",
@@ -70,27 +70,27 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.3
+      "pct": 18.6
     },
     {
       "name": "TypeScript",
-      "pct": 17.3
+      "pct": 16.9
     },
     {
       "name": "C++",
-      "pct": 15.4
+      "pct": 15.1
     },
     {
       "name": "C",
-      "pct": 14.6
+      "pct": 14.3
     },
     {
-      "name": "Python",
-      "pct": 13
+      "name": "JavaScript",
+      "pct": 12.9
     },
     {
       "name": "Other",
-      "pct": 21.4
+      "pct": 22.2
     }
   ]
 }
