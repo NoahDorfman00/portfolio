@@ -63,6 +63,7 @@ Sentence case everywhere — no all-caps labels. Mono is for small factual detai
 - **Lessons** — numbered, bold title + one sentence, two columns on desktop. Keep to 3–6.
 - **Callout** — amber wash block, reserved for warnings.
 - **Pager** — previous / next project at the bottom of detail pages.
+- **Model** — an interactive three.js view in place of hero media (`.model`): a 16:9 viewport with mono view buttons on it, sliders and a readout row beneath. Paper, ink tints and amber only, with amber marking the parts the project made. A still image sits underneath for browsers without WebGL and doubles as the `og:image`. three.js is vendored in `js/vendor/`; each model gets its own script (see `js/scope-gantry.js`).
 
 ## Imagery
 
@@ -78,7 +79,7 @@ Real photos of real builds (cutting mats, guts, the thing on the wall) beat rend
 
 ## Motion
 
-Minimal: link fill (.2s), row hover wash (.15s), arrow nudge, the status-dot pulse. No hover previews or popovers. No scroll-triggered animations, no particles.
+Minimal: link fill (.2s), row hover wash (.15s), arrow nudge, the status-dot pulse. A 3D model moves only when the reader moves it. No hover previews or popovers. No scroll-triggered animations, no particles.
 
 ## Data
 

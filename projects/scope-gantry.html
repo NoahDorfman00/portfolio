@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scope gantry — Noah Dorfman</title>
+<meta name="description" content="A soldering microscope that hangs under the shelf above my bench and slides to wherever the board is. Two linear rails, three lengths of aluminum extrusion and a handful of printed parts. Still being built.">
+<link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<meta property="og:title" content="Scope gantry — Noah Dorfman">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/scope-gantry/model.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/#work">← All work</a>
+
+    <section class="top wide">
+        <div>
+            <h1>Scope gantry</h1>
+            <p class="dek">A soldering microscope that hangs under the shelf above my bench and slides to wherever the board is. Two linear rails, three lengths of aluminum extrusion and a handful of printed parts. It's still being built, so this page is too.</p>
+            <dl class="facts">
+                <dt>Year</dt><dd>2026, in progress</dd>
+                <dt>Made with</dt><dd>An Andonstar AD246S-M microscope, MGN12 linear rails, 2020 aluminum extrusion, OpenSCAD, PLA, one size of screw</dd>
+                <dt>I did</dt><dd>The measuring, drilling, printing and assembly. The design and CAD came out of a long back-and-forth with Claude</dd>
+                <dt>Links</dt><dd><a class="link" href="#files">Printed parts and source</a></dd>
+            </dl>
+        </div>
+        <figure class="model">
+            <div class="viewport" id="sg-stage">
+                <img src="/assets/projects/scope-gantry/model.jpg" alt="A 3D model of a workbench with a shelf above it. A rail runs along the shelf's front edge, a short boom reaches back under the shelf, and a microscope with its screen flipped up hangs from the boom over a cutting mat">
+                <canvas id="sg-view" aria-label="Interactive 3D model of the gantry. Drag to orbit, scroll to zoom."></canvas>
+                <div class="views">
+                    <button type="button" id="sg-iso">3/4 view</button>
+                    <button type="button" id="sg-side">Side</button>
+                    <button type="button" id="sg-front">Front</button>
+                    <button type="button" id="sg-under">From below</button>
+                    <button type="button" id="sg-shelf" aria-pressed="false">Hide shelf</button>
+                </div>
+            </div>
+            <div class="sliders">
+                <div><label for="sg-x">Across <b id="sg-x-val"></b></label><input id="sg-x" type="range" min="-690" max="690" value="-120"></div>
+                <div><label for="sg-y">Front to back <b id="sg-y-val"></b></label><input id="sg-y" type="range" min="87" max="341" value="300"></div>
+                <div><label for="sg-rod">Rod out <b id="sg-rod-val"></b></label><input id="sg-rod" type="range" min="0" max="66" value="40"></div>
+                <div><label for="sg-z">Head down <b id="sg-z-val"></b></label><input id="sg-z" type="range" min="0" max="30" value="0"></div>
+            </div>
+            <div class="readout">
+                <div><b id="sg-lens">—</b><span>lens from the back of the bench</span></div>
+                <div><b id="sg-wd">—</b><span>lens to the board</span></div>
+                <div><b id="sg-zone">—</b><span>where the head is</span></div>
+            </div>
+            <figcaption class="cap">The model the parts were drawn from. Drag to orbit, scroll to zoom. Amber is everything that came off the printer.</figcaption>
+        </figure>
+    </section>
+
+    <section class="row">
+        <div class="label">Why</div>
+        <div class="prose">
+            <p>I inspect boards under a cheap digital microscope on a stand. I wanted it to reach any spot on the bench and to be out of the way the rest of the time.</p>
+            <p>The bottom shelf over the bench has 14.5 inches of air under it. So the scope hangs there, on a gantry that covers the bench left to right and most of it front to back, and the bench stays clear.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">How it works</div>
+        <div class="prose">
+            <p>One precision rail runs along the front lip of the shelf. A second, plain rail runs along the back, between the uprights. A short boom bridges the two and slides left and right. A rail under the boom carries the microscope front to back.</p>
+            <div class="steps"><span>Rail on the shelf lip</span><i>→</i><span>Boom</span><i>→</i><span>Rail under the boom</span><i>→</i><span>Rod clamp</span><i>→</i><span>Microscope</span></div>
+            <p>The front rail does all the guiding. The back one only holds the boom's far end at the right height, on two strips of slippery tape, with a millimeter of play front to back. Two precision rails a meter and a half long would have to be parallel to a fraction of a millimeter. One rail and one slider don't.</p>
+
+            <h3>The numbers it had to fit</h3>
+            <div class="parts">
+                <div><span class="p">Under the shelf</span><span class="d">14.5 in, bench top to the bottom of the shelf's lip</span></div>
+                <div><span class="p">Shelf</span><span class="d">57 in wide, 12 in deep, set back over a bench 25 in deep</span></div>
+                <div><span class="p">Side to side</span><span class="d">About 55 in of travel on a 1450 mm rail</span></div>
+                <div><span class="p">Front to back</span><span class="d">The lens reaches from about 8 to 21 in from the back of the bench</span></div>
+                <div><span class="p">Lens to board</span><span class="d">About 177 mm parked, 147 mm with the head wound down</span></div>
+                <div><span class="p">Tightest clearance</span><span class="d">2.5 mm, between the top of the screen and the bracket it passes under</span></div>
+            </div>
+
+            <h3>Borrowed from the microscope</h3>
+            <p>The scope's stand came with a 20 mm rod with a flat on one side, a block that rides it, and a fine height adjust with 30 mm of travel. All three moved to the gantry. The rod slides through a printed clamp for extra reach, and the height adjust is the whole Z axis.</p>
+            <p>The screen flips up and sits beside the lens, which is the only way the head fits under the shelf with room left to focus.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">The design</div>
+        <div>
+            <div class="stage prose">
+                <h3>Clamps, then bolts</h3>
+                <p>The first plan held the front rail on with seven printed clamps hooked around the shelf's lip, so nothing got drilled. They would have worked. They also hung 7.5 mm below the lip, sat under tension forever, and put plastic between the shelf and the one rail that has to stay straight.</p>
+                <p>Eight small holes through the lip replaced all seven. The extrusion bolts straight to the steel, and the holes are hidden behind it.</p>
+            </div>
+            <div class="stage prose">
+                <h3>The back rail went where the bolts were</h3>
+                <p>Each end of the shelf hangs from its upright on two bolts. The back rail is tapped at both ends and held by the top bolt on each side, so the shelf's own hardware carries it. That decided the rail's height, which decided where the boom had to stop, which changed the slider. A printed collar at each end keeps the rail from turning on its single bolt.</p>
+            </div>
+            <div class="stage prose">
+                <h3>One size of screw</h3>
+                <p>Everything printed is drawn around an M3 × 10 socket head screw: wall thicknesses, counterbores and how far each screw reaches into a T-nut. The two exceptions are the quarter-inch bolts that hold the back rail, because those were the taps I had.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">What it's taught me so far</div>
+        <ol class="lessons">
+            <li><span class="n">1</span><div><h4>Ask where the top ends up</h4><p>How tall the head is matters less than where its top edge lands once it's in focus.</p></div></li>
+            <li><span class="n">2</span><div><h4>Let the existing holes decide</h4><p>The shelf's own bolts turned out to be the best place to hang the back rail.</p></div></li>
+            <li><span class="n">3</span><div><h4>If you can drill it, bolt it</h4><p>Seven clever clamps lost to eight plain holes.</p></div></li>
+            <li><span class="n">4</span><div><h4>Print the gauge before the part</h4><p>A ten-minute ring with three bores picked the fit for the rod clamp.</p></div></li>
+            <li><span class="n">5</span><div><h4>Pick one screw</h4><p>Designing every part around the same fastener is less work than sorting a bin later.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="row" id="files">
+        <div class="label">Printed parts</div>
+        <div>
+            <div class="parts">
+                <div><span class="p">Carriage bracket</span><span class="d">Joins the front carriage to the boom by going under the shelf's lip. <a class="link" href="/assets/projects/scope-gantry/files/carriage_bracket.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/carriage_bracket.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Back slider</span><span class="d">Wraps the back rail and grips the boom's far end. Two pieces. <a class="link" href="/assets/projects/scope-gantry/files/back_slider.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/back_slider.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Rod clamp</span><span class="d">A D-shaped bore and a thumbscrew, bolted under the second carriage. <a class="link" href="/assets/projects/scope-gantry/files/rod_clamp.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/rod_clamp.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Rail collars</span><span class="d">Left and right. They stop the back rail turning on its bolts. <a class="link" href="/assets/projects/scope-gantry/files/rail_collars.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/rail_collar.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Lip spacers</span><span class="d">Eight flat ones, so a 10 mm screw doesn't bottom out in the extrusion. <a class="link" href="/assets/projects/scope-gantry/files/lip_spacers.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/lip_spacer.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Rod fit gauge</span><span class="d">Three bores, three clearances. Print this first. <a class="link" href="/assets/projects/scope-gantry/files/rod_gauge.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/rod_gauge.scad">OpenSCAD</a></span></div>
+            </div>
+            <p class="warn"><b>Heads up:</b> these are working files for a build that isn't finished, and they're sized to my shelf and my microscope. The dimensions are variables at the top of each OpenSCAD file.</p>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="label">Parts</div>
+        <div class="parts">
+            <div><span class="p">Andonstar AD246S-M</span><span class="d">The microscope, with its rod, block and height adjust. Lens L, which focuses from 90 to 300 mm</span></div>
+            <div><span class="p">MGN12H linear rails</span><span class="d">1450 mm along the shelf, 300 mm under the boom, one carriage each</span></div>
+            <div><span class="p">2020 T-slot extrusion</span><span class="d">Three pieces: behind the front rail, the back rail, and a 279 mm boom</span></div>
+            <div><span class="p">M3 × 10 screws, T-nuts, heat-set inserts</span><span class="d">For everything printed, plus eight through the shelf's lip</span></div>
+            <div><span class="p">Two 1/4-20 bolts</span><span class="d">Through the uprights into the tapped ends of the back rail</span></div>
+            <div><span class="p">UHMW tape</span><span class="d">10 mil, cut into strips for the back slider to ride on</span></div>
+        </div>
+    </section>
+
+    <nav class="pager">
+        <a href="/projects/saving-starman.html"><span>← Previous project</span><b>Saving Starman</b></a>
+        <a href="/projects/deskcal.html"><span>Next project →</span><b>deskcal</b></a>
+    </nav>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+<script src="/js/vendor/three-r128.min.js"></script>
+<script src="/js/vendor/three-r128-OrbitControls.js"></script>
+<script src="/js/scope-gantry.js"></script>
+</body>
+</html>
