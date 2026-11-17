@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scope gantry — Noah Dorfman</title>
-<meta name="description" content="A soldering microscope that hangs under the shelf above my bench and slides to wherever the board is. Two linear rails, three lengths of aluminum extrusion and a handful of printed parts. Still being built.">
+<meta name="description" content="A soldering microscope that hangs under the shelf above my bench and slides to wherever the board is. Two linear rails, three lengths of aluminum extrusion, a handful of printed parts, and a Raspberry Pi that puts the view on a web page. Still being built.">
 <link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
 <link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 <meta property="og:title" content="Scope gantry — Noah Dorfman">
-<meta property="og:image" content="https://noahgdorfman.com/assets/projects/scope-gantry/model.jpg">
+<meta property="og:image" content="https://noahgdorfman.com/assets/projects/scope-gantry/model.jpg?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -29,12 +29,12 @@
     <section class="top wide">
         <div>
             <h1>Scope gantry</h1>
-            <p class="dek">A soldering microscope that hangs under the shelf above my bench and slides to wherever the board is. Two linear rails, three lengths of aluminum extrusion and a handful of printed parts. It's still being built, so this page is too.</p>
+            <p class="dek">A soldering microscope that hangs under the shelf above my bench and slides to wherever the board is. Two linear rails, three lengths of aluminum extrusion and a handful of printed parts. The rails are still in the mail, so the electronics got built first: a ring light, and a Raspberry Pi that puts the view on a web page. It's still being built, so this page is too.</p>
             <dl class="facts">
                 <dt>Year</dt><dd>2026, in progress</dd>
-                <dt>Made with</dt><dd>An Andonstar AD246S-M microscope, MGN12 linear rails, 2020 aluminum extrusion, OpenSCAD, PLA, one size of screw</dd>
-                <dt>I did</dt><dd>The measuring, drilling, printing and assembly. The design and CAD came out of a long back-and-forth with Claude</dd>
-                <dt>Links</dt><dd><a class="link" href="#files">Printed parts and source</a></dd>
+                <dt>Made with</dt><dd>An Andonstar AD246S-M microscope, MGN12 linear rails, 2020 aluminum extrusion, OpenSCAD, PLA, one size of screw, a Raspberry Pi 3 B, a 12-LED ring, Python and MediaMTX</dd>
+                <dt>I did</dt><dd>The measuring, drilling, printing, wiring and assembly. The design, CAD and control page came out of a long back-and-forth with Claude</dd>
+                <dt>Links</dt><dd><a class="link" href="#files">Printed parts and source</a> · <a class="link" href="/assets/projects/scope-gantry/files/scope_ui.py">Control page source</a></dd>
             </dl>
         </div>
         <figure class="model">
@@ -46,6 +46,7 @@
                     <button type="button" id="sg-side">Side</button>
                     <button type="button" id="sg-front">Front</button>
                     <button type="button" id="sg-under">From below</button>
+                    <button type="button" id="sg-chain">Cable chain</button>
                     <button type="button" id="sg-shelf" aria-pressed="false">Hide shelf</button>
                 </div>
             </div>
@@ -60,7 +61,7 @@
                 <div><b id="sg-wd">—</b><span>lens to the board</span></div>
                 <div><b id="sg-zone">—</b><span>where the head is</span></div>
             </div>
-            <figcaption class="cap">The model the parts were drawn from. Drag to orbit, scroll to zoom. Amber is everything that came off the printer.</figcaption>
+            <figcaption class="cap">The model the parts were drawn from. Drag to orbit, scroll to zoom. Amber is everything that came off the printer. Cable chain shows it from behind.</figcaption>
         </figure>
     </section>
 
@@ -69,6 +70,7 @@
         <div class="prose">
             <p>I inspect boards under a cheap digital microscope on a stand. I wanted it to reach any spot on the bench and to be out of the way the rest of the time.</p>
             <p>The bottom shelf over the bench has 14.5 inches of air under it. So the scope hangs there, on a gantry that covers the bench left to right and most of it front to back, and the bench stays clear.</p>
+            <figure class="figure photo"><img src="/assets/projects/scope-gantry/parts.jpg" alt="Parts laid out on a green cutting mat: black printed brackets and clamps, the microscope lying on its side with its rod and height adjust, a length of black extrusion, a box of heat-set inserts and screws, a bag of T-nuts, a coiled USB cable, a roll of UHMW tape and a bagged cable chain"><figcaption class="cap">Everything but the rails, which are still in the mail</figcaption></figure>
         </div>
     </section>
 
@@ -96,6 +98,33 @@
     </section>
 
     <section class="row">
+        <div class="label">Lights and a web page</div>
+        <div class="prose">
+            <p>The scope's own lights sit in the head, a long way from the board once it hangs under a shelf. So a ring of twelve LEDs rides on the end of the lens, in a printed sleeve held by the two thumbscrews that already hold the lens on.</p>
+            <p>A Raspberry Pi 3 B lives on the back of the screen. It powers the scope over USB, drives the ring, and serves one page with the live view and every control on it. The page is a single Python file with nothing to install but the LED library. MediaMTX carries the video.</p>
+            <figure class="figure photo"><img src="/assets/projects/scope-gantry/page.jpg" alt="The control page: a live microscope view of surface-mount resistors on a blue circuit board, beside a panel with a microscope on/off button, ring light brightness, how many LEDs are lit, a dial showing six LEDs lit on one side, color buttons, Save a frame, a 180 degree button and a line reading Power OK, 52 degrees, Wi-Fi minus 49 dBm"><figcaption class="cap">The page the Pi serves. The dial shows which LEDs are lit.</figcaption></figure>
+            <div class="parts">
+                <div><span class="p">Ring light</span><span class="d">Brightness, how many LEDs are lit, all round or from one side, which side, and warm, cool or any color</span></div>
+                <div><span class="p">Microscope</span><span class="d">On and off, by switching the Pi's USB power. A Pi 3 B switches all four ports together</span></div>
+                <div><span class="p">Save a frame</span><span class="d">Stops the live view, takes a 1920 × 1080 still straight from the scope, and starts the view again</span></div>
+                <div><span class="p">Turned 180°</span><span class="d">The scope hangs upside down from where its screen expects to be, so the page and the stills turn to match</span></div>
+                <div><span class="p">Health line</span><span class="d">Supply voltage, Pi temperature and Wi-Fi signal, in amber when one is off</span></div>
+            </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/scope-gantry/ring-hand.jpg" alt="A hand holding a black ring-shaped circuit board marked WS2812 Ring x12, with three jumper wires clipped to its power, ground and data pads"><figcaption class="cap">Twelve LEDs and three wires. It did nothing until it was told to.</figcaption></figure>
+                <figure><img src="/assets/projects/scope-gantry/ring.jpg" alt="The LED ring glowing under the microscope's lens on its original stand, wrapped on with blue painter's tape, with a Raspberry Pi in a clear case in the foreground"><figcaption class="cap">First light, held on with painter's tape</figcaption></figure>
+                <figure><img src="/assets/projects/scope-gantry/screen.jpg" alt="The microscope's screen, mounted upside down so its buttons and logo are inverted, showing two surface-mount resistors marked 102 lit by the ring"><figcaption class="cap">The scope's own screen, upside down. Hence the 180° button.</figcaption></figure>
+                <figure><img src="/assets/projects/scope-gantry/pi.jpg" alt="The back of the microscope's screen with a Raspberry Pi mounted on end on a black printed plate with white nylon standoffs, power wires soldered to its header and zip-tied down the lens barrel"><figcaption class="cap">The Pi on the back of the screen. Power goes straight to the header.</figcaption></figure>
+            </div>
+
+            <h3>A small live view and big stills</h3>
+            <p>The scope sends about 6 megabits of video a second at 1080p, and the same at 720p. That was more than the Pi's 2.4 GHz radio could carry here. The picture froze, and every command waited seconds behind it. At 640 × 480 the scope sends about half that, the freezes stop, and a command lands in about 15 milliseconds.</p>
+            <p>So the live view is small. I position by the scope's own screen anyway, and the page is there to show the lighting change. Stills don't go through the stream at all.</p>
+            <figure class="figure photo"><img src="/assets/projects/scope-gantry/first-frame.jpg" alt="A dim, close microscope view of the gull-wing legs of a chip soldered to a dark circuit board, with white silkscreen at the left"><figcaption class="cap">The first frame the page saved: a chip's legs, before the ring was on the lens</figcaption></figure>
+        </div>
+    </section>
+
+    <section class="row">
         <div class="label">The design</div>
         <div>
             <div class="stage prose">
@@ -111,6 +140,23 @@
                 <h3>One size of screw</h3>
                 <p>Everything printed is drawn around an M3 × 10 socket head screw: wall thicknesses, counterbores and how far each screw reaches into a T-nut. The two exceptions are the quarter-inch bolts that hold the back rail, because those were the taps I had.</p>
             </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/scope-gantry/mockup.jpg" alt="The microscope hanging off its own rod, which is held to the underside of a grey shelf with two yellow spring clamps, its screen flipped up beside the lens over a cluttered bench"><figcaption class="cap">The mock-up: the scope's own rod, two spring clamps, full reach.</figcaption></figure>
+                <figure><img src="/assets/projects/scope-gantry/inserts.jpg" alt="A black printed slider on the end of an extrusion, with four brass heat-set inserts in its walls and two grey strips of tape along its floor, a soldering iron tip above it and needle-nose pliers beside it on a cutting mat"><figcaption class="cap">Heat-set inserts going into the back slider. The grey strips are the tape it rides on.</figcaption></figure>
+            </div>
+            <div class="stage prose">
+                <h3>The chain hides behind the shelf</h3>
+                <p>The power lead has to follow the head across 55 inches. A cable chain does that, and the first two layouts put it on top of the shelf. The shelf's back edge turns up 45 mm, and behind that lip is dead space. The chain lies on its side there. One end hangs on a printed clip on the lip and the other bolts to an arm on the back slider.</p>
+                <p>The clips hook over the lip and pinch it with a screw, so nothing new got drilled. The drawing had left and right swapped until the printed parts said otherwise.</p>
+            </div>
+            <div class="stage prose">
+                <h3>Four homes for the Pi</h3>
+                <p>The Pi was drawn clipped across the screen, hung under the rod clamp, standing on edge off the hinge, and bolted to the screen's own case screws. The last one needed 20 mm M2 screws the hardware store didn't have. It ended up on a printed plate with the nylon bolts from its old case, stuck to the back of the screen with Velcro.</p>
+            </div>
+            <div class="grid2">
+                <figure><img src="/assets/projects/scope-gantry/chain.jpg" alt="A black plastic cable chain folded back on itself into a tight U, draped over a knee"><figcaption class="cap">The chain's U-turn, 60 mm across. That number set where everything else went.</figcaption></figure>
+                <figure><img src="/assets/projects/scope-gantry/pi-fin.jpg" alt="A hand holding a bare Raspberry Pi edge-on against the back of the microscope's screen, beside the silver height adjust and its black knob"><figcaption class="cap">Home number three, standing on edge off the hinge. It blocked a thumbscrew.</figcaption></figure>
+            </div>
         </div>
     </section>
 
@@ -122,6 +168,7 @@
             <li><span class="n">3</span><div><h4>If you can drill it, bolt it</h4><p>Seven clever clamps lost to eight plain holes.</p></div></li>
             <li><span class="n">4</span><div><h4>Print the gauge before the part</h4><p>A ten-minute ring with three bores picked the fit for the rod clamp.</p></div></li>
             <li><span class="n">5</span><div><h4>Pick one screw</h4><p>Designing every part around the same fastener is less work than sorting a bin later.</p></div></li>
+            <li><span class="n">6</span><div><h4>Measure the volts at the far end</h4><p>Twice, a laggy page turned out to be thin wires starving the Pi, not the network.</p></div></li>
         </ol>
     </section>
 
@@ -131,12 +178,18 @@
             <div class="parts">
                 <div><span class="p">Carriage bracket</span><span class="d">Joins the front carriage to the boom by going under the shelf's lip. <a class="link" href="/assets/projects/scope-gantry/files/carriage_bracket.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/carriage_bracket.scad">OpenSCAD</a></span></div>
                 <div><span class="p">Back slider</span><span class="d">Wraps the back rail and grips the boom's far end. Two pieces. <a class="link" href="/assets/projects/scope-gantry/files/back_slider.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/back_slider.scad">OpenSCAD</a></span></div>
-                <div><span class="p">Rod clamp</span><span class="d">A D-shaped bore and a thumbscrew, bolted under the second carriage. <a class="link" href="/assets/projects/scope-gantry/files/rod_clamp.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/rod_clamp.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Rod clamp</span><span class="d">A D-shaped bore and a lock screw, bolted under the second carriage, with a ledge for zip ties. <a class="link" href="/assets/projects/scope-gantry/files/rod_clamp.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/rod_clamp.scad">OpenSCAD</a></span></div>
                 <div><span class="p">Rail collars</span><span class="d">Left and right. They stop the back rail turning on its bolts. <a class="link" href="/assets/projects/scope-gantry/files/rail_collars.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/rail_collar.scad">OpenSCAD</a></span></div>
                 <div><span class="p">Lip spacers</span><span class="d">Eight flat ones, so a 10 mm screw doesn't bottom out in the extrusion. <a class="link" href="/assets/projects/scope-gantry/files/lip_spacers.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/lip_spacer.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Chain cap</span><span class="d">Replaces the back slider's cap. Its arm carries the moving end of the cable chain. <a class="link" href="/assets/projects/scope-gantry/files/chain_cap.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/chain_cap.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Lip clips</span><span class="d">One anchor for the chain's fixed end and four rests, all hooked over the shelf's back lip. <a class="link" href="/assets/projects/scope-gantry/files/chain_lip_clips.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/chain_lip_clips.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Tie mounts</span><span class="d">Three zip-tie anchors for a T-slot, one screw each. <a class="link" href="/assets/projects/scope-gantry/files/tie_mounts.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/tie_mount.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Ring light sleeve</span><span class="d">Slides over the lens and holds the LED ring, with an optional diffuser cap. <a class="link" href="/assets/projects/scope-gantry/files/ring_holder_sleeve.stl">Sleeve</a> <a class="link" href="/assets/projects/scope-gantry/files/ring_diffuser_cap.stl">Cap</a> <a class="link" href="/assets/projects/scope-gantry/files/ring_holder.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Pi plate</span><span class="d">A flat back for a Raspberry Pi 3 B, with the bolt heads sunk so Velcro sits flat. <a class="link" href="/assets/projects/scope-gantry/files/pi_velcro_plate.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/pi_velcro_plate.scad">OpenSCAD</a></span></div>
+                <div><span class="p">Control page</span><span class="d">One Python file for the Pi: the page, the ring, the USB switch and the stills. <a class="link" href="/assets/projects/scope-gantry/files/scope_ui.py">scope_ui.py</a></span></div>
                 <div><span class="p">Rod fit gauge</span><span class="d">Three bores, three clearances. Print this first. <a class="link" href="/assets/projects/scope-gantry/files/rod_gauge.stl">STL</a> <a class="link" href="/assets/projects/scope-gantry/files/rod_gauge.scad">OpenSCAD</a></span></div>
             </div>
-            <p class="warn"><b>Heads up:</b> these are working files for a build that isn't finished, and they're sized to my shelf and my microscope. The dimensions are variables at the top of each OpenSCAD file.</p>
+            <p class="warn"><b>Heads up:</b> these are working files for a build that isn't finished, and they're sized to my shelf and my microscope. The dimensions are variables at the top of each OpenSCAD file. The control page expects MediaMTX serving the scope at a path called scope, and it has to run as root to drive the LEDs.</p>
         </div>
     </section>
 
@@ -148,6 +201,10 @@
             <div><span class="p">2020 T-slot extrusion</span><span class="d">Three pieces: behind the front rail, the back rail, and a 279 mm boom</span></div>
             <div><span class="p">M3 × 10 screws, T-nuts, heat-set inserts</span><span class="d">For everything printed, plus eight through the shelf's lip</span></div>
             <div><span class="p">Two 1/4-20 bolts</span><span class="d">Through the uprights into the tapped ends of the back rail</span></div>
+            <div><span class="p">Raspberry Pi 3 B</span><span class="d">On the back of the screen. Powers the scope, drives the ring and serves the page</span></div>
+            <div><span class="p">12-LED RGB ring</span><span class="d">37 mm across, on the end of the lens, driven from one GPIO pin</span></div>
+            <div><span class="p">Cable chain</span><span class="d">10 × 15 mm, one meter, on its side behind the shelf's back lip</span></div>
+            <div><span class="p">5 V, 2.5 A supply</span><span class="d">Spliced onto a heavier lead and soldered to the Pi's header</span></div>
             <div><span class="p">UHMW tape</span><span class="d">10 mil, cut into strips for the back slider to ride on</span></div>
         </div>
     </section>
