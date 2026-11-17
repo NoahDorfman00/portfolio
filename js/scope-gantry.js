@@ -47,6 +47,7 @@
     box(1448, 2, 305, 0, 395, 241.5, mats.frame, shelf);
     box(1448, 28, 2, 0, 382, LIP_Z - 1, mats.frame, shelf);
     box(1448, 2, 20, 0, 369, LIP_Z - 10, mats.frame, shelf);
+    box(1448, 45, 2, 0, 418.5, 91, mats.frame, shelf);      // the shelf's back edge turns up 45 mm
     {
         const sh = new THREE.Shape();
         sh.moveTo(40, 394); sh.lineTo(394, 394); sh.lineTo(394, 368); sh.lineTo(89, 309); sh.lineTo(40, 309); sh.closePath();
@@ -86,6 +87,38 @@
     [-12.7, 12.7].forEach(x => box(5, 19.2, 40, x, 369.4, BACK_Z + 38, mats.print, G));
     box(30.4, 4, 40, 0, 381, BACK_Z + 38, mats.print, G);
 
+    // Cable chain: on its side behind the shelf's back lip. Its fixed end hangs on a printed clip on the lip,
+    // 219 mm right of centre, and its moving end bolts to an arm on the back slider's cap. The U opens to the
+    // left and stops short of the left upright at full travel. Printed rests on the lip sit just under it.
+    const CH = { t: 15, w: 22, R: 22.5, yc: 409, zf: 69.5, xa: 219, tab: 55, k: 710 };
+    const chFixed = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mats.scope);
+    const chMoving = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mats.scope);
+    const chLoop = new THREE.Group();
+    scene.add(chFixed, chMoving, chLoop);
+    for (let i = 0; i < 9; i++) {
+        const a = -Math.PI / 2 + i * Math.PI / 8;
+        const m = new THREE.Mesh(new THREE.BoxGeometry(CH.R * Math.PI / 8 + 3, CH.w, CH.t), mats.scope);
+        m.position.set(-CH.R * Math.cos(a), 0, -CH.R - CH.R * Math.sin(a)); m.rotation.y = -(a + Math.PI / 2);
+        chLoop.add(m);
+    }
+    [[CH.xa, 40], [50, 14], [-150, 14], [-350, 14], [-550, 14]].forEach(([x, w]) => {
+        box(w, 51, 13, x, 418.5, 83.5, mats.print); box(w, 3, 24, x, 442.5, 88, mats.print); box(w, 22, 7, x, 431, 96.5, mats.print);
+    });
+    box(95, 4.5, 39, 22.5, BACK_Y + 12.4, 27.5, mats.print, G);      // the cap's arm, back behind the rail
+    box(95, 37, 9, 22.5, 402.7, 12.5, mats.print, G);                // and the face the chain bolts to
+    const lead = new THREE.Mesh(new THREE.BufferGeometry(), mats.steel); G.add(lead);   // power lead, slider to head
+    function chain(x, cy) {
+        const xt = x + CH.tab, a = (xt - CH.k) / 2, zm = CH.zf - 2 * CH.R;
+        chFixed.scale.set(CH.xa + 14 - a, CH.w, CH.t); chFixed.position.set((a + CH.xa + 14) / 2, CH.yc, CH.zf);
+        chMoving.scale.set(xt + 12 - a, CH.w, CH.t); chMoving.position.set((a + xt + 12) / 2, CH.yc, zm);
+        chLoop.position.set(a, CH.yc, CH.zf);
+        const sag = Math.max(12, (341 - cy) * 0.42);
+        const pts = [[40, 409, 30], [10, 395, 44], [0, 392, 84], [13, 382, 96], [14, 372, 118], [16, 372 - sag, (118 + cy) / 2 + 10], [15, 352, cy + 6], [4, 340, cy + 20]]
+            .map(q => new THREE.Vector3(q[0], q[1], q[2]));
+        lead.geometry.dispose();
+        lead.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, 2, 8, false);
+    }
+
     // Everything that moves along Y: carriage and the rod clamp under it
     const Y = new THREE.Group(); G.add(Y);
     box(27, 10, 45, 0, 351, 0, mats.steel, Y);
@@ -109,7 +142,12 @@
     cyl(28, 110, LX, 273.5, FWD, mats.scope, Z);
     box(180, 125, 22, LX, 286, FWD + 40, mats.scope, Z);
     box(160, 105, 1, LX, 286, FWD + 51.6, mats.glass, Z);
+    // Raspberry Pi 3 B on the back of the screen: printed plate, board on end, USB ports down
+    box(58, 87, 4, LX - 56, 300, FWD + 27, mats.print, Z);
+    box(56, 85, 1.6, LX - 56, 300, FWD + 21, mats.steel, Z);
+    box(50, 21, 16, LX - 56, 268, FWD + 12, mats.alu, Z);
     cyl(20, 42, LX, 197.5, FWD, mats.scope, Z);
+    cyl(24.4, 58, LX, 199, FWD, mats.print, Z);              // printed sleeve that carries the ring light
     { const t = new THREE.Mesh(new THREE.TorusGeometry(23, 3, 12, 40), mats.led); t.rotation.x = Math.PI / 2; t.position.set(LX, WD + 1, FWD); Z.add(t); }
     { const c = new THREE.Mesh(new THREE.ConeGeometry(28, WD, 32, 1, true), mats.cone); c.position.set(LX, WD / 2, FWD); Z.add(c); }
 
@@ -129,6 +167,7 @@
     function update() {
         const x = +sx.value, cy = +sy.value, p = +sp.value, d = +sz.value;
         G.position.x = x; Y.position.z = cy; R.position.z = 22 + p; Z.position.y = -d;
+        chain(x, cy);
         const lens = cy + p + 42 + FWD, across = x + LX;
         $('sg-x-val').textContent = (across < 0 ? inches(-across) + ' left' : inches(across) + ' right');
         $('sg-y-val').textContent = inches(cy);
@@ -146,7 +185,8 @@
         'sg-iso': [[950, 700, 1480], [-60, 220, 330]],
         'sg-side': [[1700, 260, 330], [0, 220, 330]],
         'sg-front': [[0, 260, 1800], [0, 230, 320]],
-        'sg-under': [[330, 150, 900], [0, 345, 330]]
+        'sg-under': [[330, 150, 900], [0, 345, 330]],
+        'sg-chain': [[520, 760, -620], [40, 400, 90]]
     };
     let anim = null;
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;

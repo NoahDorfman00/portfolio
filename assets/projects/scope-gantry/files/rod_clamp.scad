@@ -2,23 +2,31 @@
 // a closed D-shaped bore with one thumbscrew that pushes the rod against the flat.
 // Loosen the thumbscrew, slide the rod for extra reach, tighten again.
 // Bolts to the underside of the Y carriage (MGN12H, 20 x 20 mm M3 pattern).
-// Hardware: 4x M3x10 (to the carriage), 1x M3x10 + heat-set insert + printed knob (thumbscrew).
+// Hardware: 4x M3x10 (to the carriage), 1x M3x10 + heat-set insert as the lock screw (printed knob optional).
 //
 // Frame: Y = rod axis, Z up. Origin = center of the carriage face.
-// The thumbscrew sits opposite the flat, like the metal mount. The block is square on its four
-// carriage screws, so turning it 180 degrees swaps which side the flat and the thumbscrew are on.
+// The lock screw presses on the rod's round side, opposite the flat. The block is square on its four carriage screws, so
+// turning it 180 degrees swaps which side the flat and the thumbscrew are on.
 
 /* [Rod] */
 rod_d         = 20.0;
 flat_to_curve = 18.23;
-bore_clear    = 0.15;   // diametral. Set from the fit gauge: 0.15 / 0.25 / 0.40
-flat_side     = -1;     // which side of the bore the flat is on (-X or +X)
+bore_clear    = 0.25;   // diametral. Fit gauge ring 2 (ring 1 = 0.15, ring 3 = 0.40)
+flat_side     = 1;      // which side of the bore the flat is on (-X or +X)
+screw_on_flat = false;  // true: thumbscrew presses the flat. false: it presses the round side, opposite the flat
 
 /* [Block] */
 len      = 44;          // along the rod
 half_w   = 17;          // half width
 drop     = 25.5;        // carriage face down to the rod axis (sets head height)
 floor_t  = 5;
+
+/* [Zip-tie flange] */
+tie_flange = true;      // a ledge along the top edge, on the side away from the lock screw, with two tie slots
+tie_w      = 8;         // how far it sticks out
+tie_t      = 3.5;
+tie_y      = [-13, 13]; // slot positions along the rod
+tie_slot   = [2, 4.5];  // slot size: across, along
 
 /* [Carriage screws] */
 pat      = 20;          // hole pattern, square
@@ -29,10 +37,18 @@ head_d   = 6.5;         // access/counterbore for the socket head and hex key
 /* [Thumbscrew] */
 insert_d   = 4.2;
 insert_len = 5.7;
+use_knob   = false;     // false: a bare M3x10 socket head screw is the thumbscrew
+knob_d     = 14;
+knob_h     = 9;
+knob_floor = 0.8;       // plastic under the screw head: leaves 9.2 mm of thread below the knob
 
 $fn = 96; eps = 0.01;
 bd     = rod_d + bore_clear;
 height = drop + bd/2 + floor_t;
+flat_r = flat_to_curve - rod_d/2 + bore_clear/2;          // bore center to the flat
+screw_side = screw_on_flat ? flat_side : -flat_side;
+wall_at_screw = half_w - (screw_on_flat ? flat_r : bd/2);
+recess = use_knob ? max(0, wall_at_screw - insert_len) : 0;   // a knob has to sink in for an M3x10 to reach the rod; a bare screw doesn't
 
 module d_profile() {
   flat = flat_to_curve - rod_d/2 + bore_clear/2;     // center to flat
@@ -45,7 +61,11 @@ module d_profile() {
 
 module clamp() {
   difference() {
-    translate([-half_w, -len/2, -height]) cube([2*half_w, len, height]);
+    union() {
+      translate([-half_w, -len/2, -height]) cube([2*half_w, len, height]);
+      if (tie_flange) translate([-screw_side > 0 ? half_w - eps : -half_w - tie_w, -len/2, -tie_t]) cube([tie_w + eps, len, tie_t]);
+    }
+    if (tie_flange) for (y = tie_y) translate([-screw_side*(half_w + 3) - tie_slot[0]/2, y - tie_slot[1]/2, -tie_t - eps]) cube([tie_slot[0], tie_slot[1], tie_t + 2*eps]);
     // D bore along Y
     translate([0, len/2 + eps, -drop]) rotate([90, 0, 0]) linear_extrude(len + 2*eps) d_profile();
     // lead-in chamfers
@@ -56,24 +76,25 @@ module clamp() {
       translate([0, 0, -grip - eps]) cylinder(d = m3_clear, h = grip + 2*eps);
       translate([0, 0, -height - eps]) cylinder(d = head_d, h = height - grip + eps);
     }
-    // thumbscrew: opposite the flat, at the rod axis, mid-length
-    translate([-flat_side*(half_w + eps), 0, -drop]) rotate([0, flat_side*90, 0]) {
-      cylinder(d = insert_d, h = insert_len + eps);
+    // thumbscrew at the rod axis, mid-length: recess for the knob, insert, clearance through to the bore
+    translate([screw_side*(half_w + eps), 0, -drop]) rotate([0, -screw_side*90, 0]) {
+      cylinder(d = knob_d + 3.5, h = recess + eps);
+      cylinder(d = insert_d, h = recess + insert_len + eps);
       cylinder(d = m3_clear, h = half_w);
     }
   }
 }
 
-// Knob for the thumbscrew: press an M3x10 socket head screw in from the top, add a drop of superglue
+// Knob for the thumbscrew: drop an M3x10 socket head screw into the pocket (head at the bottom),
+// add a drop of superglue around the head. The hex key reaches it down the pocket.
 module knob() {
   difference() {
     union() {
-      cylinder(d = 14, h = 5);
-      for (a = [0 : 30 : 359]) rotate(a) translate([7, 0, 0]) cylinder(d = 1.6, h = 5, $fn = 12);
-      translate([0, 0, -1.5]) cylinder(d = 7, h = 1.5);       // short neck
+      cylinder(d = knob_d, h = knob_h);
+      for (a = [0 : 30 : 359]) rotate(a) translate([knob_d/2, 0, 0]) cylinder(d = 1.6, h = knob_h, $fn = 12);
     }
-    translate([0, 0, 5 - 3.2]) cylinder(d = 5.7, h = 3.2 + eps);   // head pocket
-    translate([0, 0, -1.5 - eps]) cylinder(d = 3.3, h = 7);
+    translate([0, 0, knob_floor]) cylinder(d = 5.8, h = knob_h);
+    translate([0, 0, -eps]) cylinder(d = 3.3, h = knob_floor + 2*eps);
   }
 }
 
@@ -82,9 +103,9 @@ if (mode == "assembly") {
   color("royalblue") clamp();
   color("silver") translate([0, 70, -drop]) rotate([90, 0, 0]) linear_extrude(110) offset(-bore_clear/2) d_profile();
   color("dimgray") translate([-13.5, -22.7, 0]) cube([27, 45.4, 10]);                // Y carriage
-  color("cornflowerblue") translate([-flat_side*(half_w + 3), 0, -drop]) rotate([0, -flat_side*90, 0]) knob();
+  if (use_knob) color("cornflowerblue") translate([screw_side*(half_w - recess + knob_h + 1), 0, -drop]) rotate([0, -screw_side*90, 0]) knob();
 } else {
   // stand it on end: the bore prints as a clean vertical hole, no supports
   translate([0, 0, len/2]) rotate([90, 0, 0]) clamp();
-  translate([half_w + 14, -height/2, 1.5]) knob();
+  if (use_knob) translate([half_w + 14, -height/2, 0]) knob();
 }
