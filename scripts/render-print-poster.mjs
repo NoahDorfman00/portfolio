@@ -2,9 +2,11 @@
 // Renders a print's poster from its model, framed exactly as the gallery first shows it:
 // 1600x1200 WebP, transparent background. Needs Chrome, ffmpeg and Node 22 or newer. No npm dependencies.
 //
-// Usage: node scripts/render-print-poster.mjs <slug> [--model model.glb] [--out poster.webp] [--label Placeholder]
+// Usage: node scripts/render-print-poster.mjs <slug> [--scene] [--model model.glb] [--out poster.webp] [--label Placeholder]
 //   --model and --out are relative to assets/prints/<slug>/.
 //   The camera orbit comes from the print's "cameraOrbit" in data/prints.json, if it has one.
+//   --scene renders the print in its setting instead: the entry's "scene" (or scene.glb) to its "scenePoster"
+//   (or scene-poster.webp), from its "sceneCameraOrbit".
 // See docs/prints-gallery.md.
 
 import { createServer } from 'node:http';
@@ -114,13 +116,17 @@ export async function renderPoster({ port, model, out, orbit, label }) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
     const args = process.argv.slice(2);
     const opt = (name, fallback) => { const i = args.indexOf('--' + name); return i < 0 ? fallback : args.splice(i, 2)[1]; };
-    const model = opt('model', 'model.glb'), outName = opt('out', 'poster.webp'), label = opt('label');
-    const slug = args[0];
-    if (!slug) { console.error('Usage: node scripts/render-print-poster.mjs <slug> [--model model.glb] [--out poster.webp] [--label Placeholder]'); process.exit(2); }
+    const flag = name => { const i = args.indexOf('--' + name); return i >= 0 && !!args.splice(i, 1); };
+    const scene = flag('scene');
+    const slug = args.find(a => !a.startsWith('--'));
+    let entry = {};
+    try { entry = JSON.parse(readFileSync(join(ROOT, 'data/prints.json'), 'utf8')).prints.find(p => p.slug === slug) || {}; } catch { }
+    const model = opt('model', scene ? entry.scene || 'scene.glb' : 'model.glb');
+    const outName = opt('out', scene ? entry.scenePoster || 'scene-poster.webp' : 'poster.webp'), label = opt('label');
+    if (!slug) { console.error('Usage: node scripts/render-print-poster.mjs <slug> [--scene] [--model model.glb] [--out poster.webp] [--label Placeholder]'); process.exit(2); }
     if (!existsSync(join(ROOT, 'assets/prints', slug, model))) { console.error(`No assets/prints/${slug}/${model}`); process.exit(1); }
 
-    let orbit;
-    try { orbit = JSON.parse(readFileSync(join(ROOT, 'data/prints.json'), 'utf8')).prints.find(p => p.slug === slug)?.cameraOrbit; } catch { }
+    const orbit = (scene && entry.sceneCameraOrbit) || entry.cameraOrbit;
 
     const server = await serve();
     try {

@@ -3,7 +3,7 @@
         {
             "slug": "ghost-headphones",
             "title": "Ghost headphones",
-            "description": "Charcoal, gray, and ivory PLA headphones sized for a 76 mm oatmeal gauze ghost, with a 71 mm cushion gap. They are shown on a display figure of that ghost (not printed) so you can see how they sit, with the band clearing the tuft.",
+            "description": "The lite design: charcoal, gray, and ivory PLA headphones with a 71 mm cushion gap, sized for a 76 mm oatmeal gauze ghost. They were printed on 17 Oct 2026 (about 30 min and 13 g) and are shown on a display figure of that ghost (not printed), with the band clearing the tuft.",
             "date": "2026-10-17",
             "material": "PLA Matte, charcoal, gray, and ivory",
             "printer": "Bambu Lab X2D",
@@ -18,31 +18,173 @@
             "units": "mm",
             "poster": "poster.webp",
             "cameraOrbit": "25deg 72deg 125%",
+            "sizeMm": [
+                92.0,
+                26.0,
+                56.4
+            ],
             "alt": "Small charcoal headphones with gray pads and ivory rings, shown on a display figure (not printed) of a beige gauze ghost holding an orange pumpkin",
             "photos": [],
             "iterations": [
                 {
                     "label": "v1",
-                    "note": "First Python design, fitted to a 76 × 63.5 × 76 mm head with a 71 mm cushion gap. A sliced print file was not kept.",
+                    "note": "The original full design, also sized for a 76 × 63.5 × 76 mm head with a 71 mm cushion gap. The top band pad is a separate gray part. It was not printed. The lite design — same fit, with the band and pad in charcoal — is the one that was printed on 17 Oct 2026 and is shown on the ghost.",
                     "photo": {
                         "src": "iterations/v1.webp",
-                        "alt": "Render of the first, full-size headphone design"
+                        "alt": "Render of the original full headphone design, with a gray pad on the band"
                     }
                 },
                 {
                     "label": "v2",
-                    "note": "A smaller revision for a 63 × 53 × 63 mm head with a 58 mm cushion gap. It does not fit the 76 mm gauze ghost, so it is not the model on the figure. A print of this revision was not confirmed.",
+                    "note": "A smaller revision for a 63 × 53 × 63 mm head with a 58 mm cushion gap. It does not fit the 76 mm gauze ghost, and it is not the design on the figure.",
                     "photo": {
                         "src": "iterations/v2.webp",
-                        "alt": "Render of the smaller v2 headphone revision"
+                        "alt": "Render of the smaller v2 headphones, sized for a 63 mm head"
+                    }
+                }
+            ]
+        },
+        {
+            "slug": "sink-caddy",
+            "title": "Sink caddy",
+            "description": "A two-part organizer custom-fit to the sink: a draining tray and a removable holder for brushes, a sponge, and a soap ring. The tray was printed on 23 Oct 2026 and the organizer on 27 Oct, both in charcoal matte PLA.",
+            "date": "2026-10-27",
+            "material": "PLA Matte, charcoal",
+            "printer": "Bambu Lab X2D",
+            "printTimeMinutes": 477,
+            "layerHeightMm": 0.2,
+            "tags": [
+                "kitchen",
+                "organizer",
+                "functional"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-30deg 70deg 125%",
+            "sizeMm": [
+                246.4,
+                160.0,
+                110.0
+            ],
+            "alt": "A charcoal two-part sink caddy, with a low draining tray and a removable deck of cups, a sponge well, and a perforated ring dish",
+            "photos": [],
+            "iterations": [
+                {
+                    "label": "orig",
+                    "note": "Noah's Tinkercad original, saved as three STLs: an 83 mm-tall organizer-like body whose footprint (~168 × 198 mm) is in the same coordinates later versions use, a ~20 mm-tall part, and a thin ~3 mm part.",
+                    "photo": {
+                        "src": "iterations/orig.webp",
+                        "alt": "Render of the original Tinkercad sink caddy body"
+                    }
+                },
+                {
+                    "label": "v2",
+                    "note": "First Python redesign as a two-part tray plus organizer. The deck has 9 drain slots and six posts; the sponge well is 125 × 32 mm. Sliced, but not recorded as printed.",
+                    "photo": {
+                        "src": "iterations/v2.webp",
+                        "alt": "Render of sink caddy v2, tray and organizer"
+                    }
+                },
+                {
+                    "label": "v3",
+                    "note": "Same overall footprint. Drain slots reduced from 9 to 5, and the cup, ring, and sponge layout was rearranged (the ring-to-sponge wall gap in the stats went to 0 mm). A sponge-section render appears from this version on.",
+                    "photo": {
+                        "src": "iterations/v3.webp",
+                        "alt": "Render of sink caddy v3"
+                    }
+                },
+                {
+                    "label": "v4",
+                    "note": "The outline was extended toward the faucet (footprint +Y 20 mm to 71.5 mm). The small cup moved behind, and the sponge well was rotated to sit parallel to the sink edge (inner 125 × 30 mm). Ten drain slots.",
+                    "photo": {
+                        "src": "iterations/v4.webp",
+                        "alt": "Render of sink caddy v4, extended toward the faucet"
+                    }
+                },
+                {
+                    "label": "v4.1",
+                    "note": "Fit was checked against a photo of the existing caddy on the actual sink. The faucet-end outline was pulled back (+Y 71.5 mm to 61.8 mm) for 31.5 mm of faucet clearance, and the sponge well was shortened to 115 × 30 mm.",
+                    "photo": {
+                        "src": "iterations/v4.1.webp",
+                        "alt": "Render of sink caddy v4.1"
+                    }
+                },
+                {
+                    "label": "v4.2",
+                    "note": "Holder positions match v4.1. Deck drain slots were dropped (0 in the stats). A print-orientation study (printB) was added; still not recorded as printed.",
+                    "photo": {
+                        "src": "iterations/v4.2.webp",
+                        "alt": "Render of sink caddy v4.2"
+                    }
+                },
+                {
+                    "label": "v4.3",
+                    "note": "From v4.2B: no posts, a 4 mm deck, a sink-side drain wall (arcade) up to the deck, and a straight faucet end. A skirt was added (2.4 mm thick, 8 mm below the counter, 0.5 mm edge gap). Volumes increased (tray 226.6 cm³, organizer 186.2 cm³).",
+                    "photo": {
+                        "src": "iterations/v4.3.webp",
+                        "alt": "Render of sink caddy v4.3, with skirt and arcade drain wall"
+                    }
+                },
+                {
+                    "label": "v4.4",
+                    "note": "A 3 mm lip (1.6 mm thick, 0.4 mm clearance, 447 mm long) was added, with a 40 mm skirt taper. The tray mesh became watertight; tray volume went from 226.6 cm³ to 212.6 cm³.",
+                    "photo": {
+                        "src": "iterations/v4.4.webp",
+                        "alt": "Render of sink caddy v4.4, with a lip along the tray"
+                    }
+                },
+                {
+                    "label": "v4.5",
+                    "note": "The locating lip was extended from 447 mm to 493 mm, running continuously around the tray except at the open sink curve. The faucet-end deck was trimmed 2 mm (plus 0.17 mm for a chamfer gap), and the sponge well was shifted 2.2 mm along its axis to keep its fillet margin. Tray volume went from 212.6 cm³ to 215.7 cm³; the organizer went from 185.4 cm³ to 184.8 cm³.",
+                    "photo": {
+                        "src": "iterations/v4.5.webp",
+                        "alt": "Render of sink caddy v4.5, the printed tray and organizer"
                     }
                 }
             ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-48.4deg 59.7deg 130%"
+        },
+        {
+            "slug": "glasses-rack",
+            "title": "Glasses rack",
+            "description": "A one-piece holder that hooks over a nightstand drawer wall so three pairs of glasses stand upright like pencils in a cup, while the drawer still shuts. Printed in charcoal matte PLA, standing on end, with no supports.",
+            "date": "2026-10-29",
+            "material": "PLA Matte, charcoal",
+            "printer": "Bambu Lab X2D",
+            "printTimeMinutes": 300,
+            "layerHeightMm": 0.2,
+            "tags": [
+                "organizer",
+                "functional",
+                "bedroom"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "145deg 65deg 130%",
             "sizeMm": [
-                92,
-                26,
-                56.4
-            ]
+                176.0,
+                126.6,
+                133.4
+            ],
+            "alt": "A charcoal one-piece rack with three backward-leaning sleeves and a hook that fits over a drawer wall",
+            "photos": [],
+            "iterations": [
+                {
+                    "label": "v1",
+                    "note": "A modular three-piece concept. It was superseded because a shallower lean did not keep the tallest pair under the 155 mm drawer opening.",
+                    "photo": {
+                        "src": "iterations/v1.webp",
+                        "alt": "Render of the earlier modular glasses rack"
+                    }
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "159.2deg 54deg 130%"
         }
     ]
 }

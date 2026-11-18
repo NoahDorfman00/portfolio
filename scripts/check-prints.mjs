@@ -63,6 +63,9 @@ const PRINT = {
     poster: file(IMAGE_EXT),
     sizeMm: optional(v => (Array.isArray(v) && v.length === 3 && v.every(n => typeof n === 'number' && n > 0)) || 'must be [wide, deep, tall] in millimetres'),
     cameraOrbit: optional(v => (typeof v === 'string' && ORBIT.test(v)) || 'must look like "-30deg 70deg 120%"'),
+    scene: optional(file(['.glb'])),
+    scenePoster: optional(file(IMAGE_EXT)),
+    sceneCameraOrbit: optional(v => (typeof v === 'string' && ORBIT.test(v)) || 'must look like "-30deg 70deg 120%"'),
     alt: str,
     photos: v => Array.isArray(v) || 'must be a list (an empty list is fine)',
     iterations: optional(v => (Array.isArray(v) && v.length > 0) || 'must be a non-empty list, or left out'),
@@ -199,6 +202,12 @@ data.prints.forEach((p, i) => {
 
     if (ok(PRINT.model, p.model)) checkModel(`${dir}/${p.model}`, where);
     if (ok(PRINT.poster, p.poster)) checkImage(`${dir}/${p.poster}`, where, { maxBytes: LIMITS.posterBytes, exact: LIMITS.posterSize });
+    // The print in its setting: a second model and its own poster, which only make sense as a pair
+    if (('scene' in p) !== ('scenePoster' in p)) errors.push(`${where}: "scene" and "scenePoster" go together, and only "${'scene' in p ? 'scene' : 'scenePoster'}" is set`);
+    if ('sceneCameraOrbit' in p && !('scene' in p)) errors.push(`${where}: "sceneCameraOrbit" needs a "scene"`);
+    if (p.scene !== undefined && p.scene === p.model) errors.push(`${where}: "scene" is the same file as "model". Leave "scene" out if there's no separate one`);
+    if (p.scene !== undefined && ok(PRINT.scene, p.scene)) checkModel(`${dir}/${p.scene}`, where);
+    if (p.scenePoster !== undefined && ok(PRINT.scenePoster, p.scenePoster)) checkImage(`${dir}/${p.scenePoster}`, where, { maxBytes: LIMITS.posterBytes, exact: LIMITS.posterSize });
     const photo = (ph, at) => { if (validate(ph, at.endsWith('photo') ? image : PHOTO, at) && ok(image.src, ph.src)) checkImage(`${dir}/${ph.src}`, where, { maxBytes: LIMITS.photoBytes, maxPx: LIMITS.photoPx }); };
     if (Array.isArray(p.photos)) p.photos.forEach((ph, j) => photo(ph, `${where} photos[${j}]`));
     if (Array.isArray(p.iterations)) p.iterations.forEach((it, j) => {

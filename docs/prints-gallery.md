@@ -14,6 +14,8 @@ The 3D view is Google's [`<model-viewer>`](https://modelviewer.dev/), vendored i
    assets/prints/cable-clip/
        model.glb            the print, final version
        poster.webp          a 1600×1200 render of it, shown until the model loads
+       scene.glb            optional: the print in its setting, with display props
+       scene-poster.webp    a 1600×1200 render of the scene (needed if there is a scene.glb)
        photos/01.webp       real photos, as many as you like (or none)
        photos/02.webp
        iterations/v1.glb    optional: models and photos of earlier versions
@@ -28,6 +30,7 @@ The 3D view is Google's [`<model-viewer>`](https://modelviewer.dev/), vendored i
 
    ```bash
    node scripts/render-print-poster.mjs cable-clip
+   node scripts/render-print-poster.mjs cable-clip --scene      # if it has a scene: add the entry first, so the script knows the scene's camera
    ```
 
 5. **Add the entry** to the `prints` list in `data/prints.json`. Order doesn't matter; the page sorts by `date`, newest first.
@@ -65,7 +68,10 @@ To remove a print, delete its entry and its folder.
 | `sizeMm` | number[3] | no | `[wide, deep, tall]` in millimetres, shown as the print's size instead of measuring the model. Use it when the GLB also holds things that weren't printed, like a display figure. |
 | `poster` | path | yes | The poster image. Usually `"poster.webp"`. |
 | `cameraOrbit` | string | no | Starting camera angle, as model-viewer's [`camera-orbit`](https://modelviewer.dev/docs/index.html#entrydocs-stagingandcameras-attributes-cameraOrbit): `"<around> <down from the top> <distance>"`. Default `"-30deg 70deg 120%"`. Distance can go up to `150%`. Re-render the poster after changing it. |
-| `alt` | string | yes | What the object looks like, for screen readers. Used for both the poster and the model. |
+| `scene` | path | no | A second GLB: the print in its setting, with display props around it. Usually `"scene.glb"`. Adds a "Show in setting" button; the file is only fetched when that is first pressed. See [Showing a print in its setting](#showing-a-print-in-its-setting). |
+| `scenePoster` | path | with `scene` | The scene's poster. Usually `"scene-poster.webp"`. `scene` and `scenePoster` go together: one without the other is an error. |
+| `sceneCameraOrbit` | string | no | Starting camera angle for the scene, same form as `cameraOrbit`. Only allowed with `scene`. Without it the scene starts from `cameraOrbit`. |
+| `alt` | string | yes | What the print looks like, for screen readers. Used for both the poster and the model. Describe the clean model only: in the scene view the page adds ", shown in its setting with display props that weren't printed" itself. |
 | `photos` | object[] | yes | Photos for the detail view, in order. `[]` is fine. |
 | `photos[].src` | path | yes | `"photos/01.webp"` |
 | `photos[].alt` | string | yes | What's in the photo. |
@@ -148,7 +154,11 @@ Don't pass gltfpack `-tc`. That makes KTX2 textures, which the page can't decode
 
 From an STL, go through Blender (File → Import → STL, then File → Export → glTF 2.0, format "glTF Binary", "+Y Up" ticked) and give it a material in the filament's colour before exporting. An STL has no colour, and an uncoloured model renders plain white, which the page's multiply blend turns into paper.
 
+A `scene` GLB has the same limits as `model`, all of them checked ✓. It counts its props' triangles too, so keep the props simple.
+
 ### Poster
+
+A `scenePoster` has the same limits as `poster` ✓.
 
 | | |
 |---|---|
@@ -163,9 +173,10 @@ The easy way is to let the page's own viewer draw it:
 node scripts/render-print-poster.mjs <slug>                              # writes assets/prints/<slug>/poster.webp
 node scripts/render-print-poster.mjs <slug> --out poster.jpg             # JPEG, on white
 node scripts/render-print-poster.mjs <slug> --model iterations/v1.glb --out iterations/v1.webp
+node scripts/render-print-poster.mjs <slug> --scene                      # the entry's scene, from sceneCameraOrbit, to its scenePoster
 ```
 
-It loads [`design/print-poster.html`](../design/print-poster.html) in headless Chrome with the same camera, lighting and framing the gallery uses (and the entry's `cameraOrbit`, if it has one), waits for the model, and saves a transparent 1600×1200 WebP. Because it is the same view, the poster turns into the live model without a jump. It needs Chrome, ffmpeg and Node 22 or newer; set `CHROME=/path/to/chrome` if it can't find Chrome.
+It loads [`design/print-poster.html`](../design/print-poster.html) in headless Chrome with the same camera, lighting and framing the gallery uses (and the entry's `cameraOrbit`, or `sceneCameraOrbit` with `--scene`), waits for the model, and saves a transparent 1600×1200 WebP. Because it is the same view, the poster turns into the live model without a jump. It needs Chrome, ffmpeg and Node 22 or newer; set `CHROME=/path/to/chrome` if it can't find Chrome.
 
 A poster rendered somewhere else (Blender, a slicer screenshot) is fine too. Match the 4:3 shape, keep the part centred with some margin, and use a transparent or white background.
 
@@ -186,12 +197,28 @@ Real photos of the real part beat renders. They get the same printed treatment a
 
 ## How the page behaves
 
-- **Lazy.** A tile shows its poster first. model-viewer itself (about 1 MB, 300 KB gzipped) is only fetched if the browser has WebGL, and each model only when its tile nears the screen (`loading="lazy"`, `reveal="auto"`). model-viewer 4 dropped `reveal="interaction"`, so `auto` is the one in use.
-- **Fallbacks.** No WebGL, the viewer script failing, or one model failing to load all leave the poster image in place. If `data/prints.json` doesn't load, the page says so. With JavaScript off, a `<noscript>` note points at the JSON, because the page can't draw a data-driven list without it.
+- **Lazy.** A tile shows its poster first. model-viewer itself (about 1 MB, 300 KB gzipped) is only fetched if the browser has WebGL, and each model only when its tile nears the screen. The page watches for that itself (an `IntersectionObserver`) and only then gives the viewer its `src`, rather than leaving it to `loading="lazy"`, so that it knows which loads have started. model-viewer 4 dropped `reveal="interaction"`, so `reveal="auto"` is the one in use.
+- **Show in setting.** A print with a `scene` gets a "Show in setting" button on its model, both on its tile and in the detail view. It is a toggle button (`aria-pressed`, amber while on). Pressing it shows `scenePoster`, fetches `scene` (the first press is the only time it is fetched; nothing loads it before that), and swaps the model once it has arrived, with the camera put at `sceneCameraOrbit`. Pressing it again goes back to `model`, `poster` and `cameraOrbit`. Either way the camera starts over from the view's own angle, wherever it had been dragged to. The alt text follows the view. The tile and the detail view each keep their own state, and the detail view always opens on the clean model.
+- **Size.** The Size row shows `sizeMm` if the entry has it, in both views. Without it the size is measured from the clean model. The scene is never measured.
+- **Versions and the scene.** The version buttons in the detail view belong to the clean view. Picking a version while the scene is showing switches the scene off and shows that version; switching the scene off again returns to the version that was picked.
+- **One load at a time.** Two viewers fetching the same file at the same moment (a tile and the detail view opened from `/prints/#slug`, or both of them switched to the scene) can trip model-viewer's shared cache. So loads of one URL take turns: the second viewer keeps its poster up until the first has finished, then loads from the cache. If a load fails anyway it is retried once under a `?retry=` URL.
+- **Fallbacks.** No WebGL, the viewer script failing, or one model failing to load all leave the poster image in place. Without WebGL the "Show in setting" button still works: it swaps the poster picture for `scenePoster`. If only the scene fails to load, its poster stays up and the button still goes back to the clean model. If `data/prints.json` doesn't load, the page says so. With JavaScript off, a `<noscript>` note points at the JSON, because the page can't draw a data-driven list without it.
 - **Motion.** Models turn slowly on their own. With `prefers-reduced-motion` they hold still until dragged.
 - **Scrolling.** On a tile, scroll-to-zoom only switches on once the model has been clicked or focused, so scrolling down the page doesn't get caught by a model. In the detail view it is always on.
-- **Keyboard.** Tab reaches each model (arrow keys turn it), each "Photos and details" button, and everything in the dialog. Esc closes the dialog and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
+- **Keyboard.** Tab reaches each model (arrow keys turn it), its "Show in setting" button (Space or Enter), each "Photos and details" button, and everything in the dialog. Esc closes the dialog and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
+
+## Showing a print in its setting
+
+A print can have a second model, the scene: the same print with the things around it (the counter, sink and faucet around `sink-caddy`; a drawer stand-in, outlines of the glasses and the drawer-height limit around `glasses-rack`). The clean model is always what loads first. The scene is behind the "Show in setting" button.
+
+1. **Build the scene from the clean model.** Same `units`, same origin and same orientation as `model.glb`, so the print sits in exactly the same place in both and only the surroundings change. Don't move the print to fit the props; move the props.
+2. **Name every prop node with the suffix `(display prop, not printed)`**: `faucet (display prop, not printed)`. Leave the printed parts' names alone. Anyone opening the file can then tell what came off the printer.
+3. **Export it as `scene.glb`** to the same [specs](#model) as the model. The triangle and size limits cover the whole scene, props included.
+4. **Add the fields**: `"scene": "scene.glb"`, `"scenePoster": "scene-poster.webp"`, and a `"sceneCameraOrbit"` if the scene wants a different angle or more distance than the clean model (it is usually bigger).
+5. **Give `sizeMm`.** The page never measures the scene, and with `sizeMm` set the Size row says the same thing in both views without depending on the model at all.
+6. **Render the scene poster**: `node scripts/render-print-poster.mjs <slug> --scene`. Re-render it after changing `scene.glb` or `sceneCameraOrbit`, or the picture and the live scene won't line up.
+7. **Keep `description` and `alt` about the print.** The page says the props weren't printed in the scene's alt text; don't claim anything else about them.
 
 ## Display-only parts
 
-A model can include things that weren't printed, to show the print in use (the ghost and pumpkin under `ghost-headphones`). Name those nodes with a `(not printed)` suffix, say so in `description` and `alt`, and give `sizeMm` for the printed part, since the size measured from the model would include the display parts.
+The clean model itself can also include things that weren't printed, when the print makes no sense without them (the ghost and pumpkin under `ghost-headphones`). For anything more than that, use a [scene](#showing-a-print-in-its-setting). Name those nodes with a `(not printed)` suffix, say so in `description` and `alt`, and give `sizeMm` for the printed part, since the size measured from the model would include the display parts.
