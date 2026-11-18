@@ -21,6 +21,8 @@ The 3D view is Google's [`<model-viewer>`](https://modelviewer.dev/), vendored i
        iterations/v1.glb    optional: models and photos of earlier versions
        iterations/v1.webp
        stl/cable-clip.stl   optional: the file to download, or one per part
+       stl/LICENSE.txt      goes with the STLs
+       stl/cable-clip-stl.zip   built by a script when there are two or more STLs; see STL below
    ```
 
    Only the `assets/prints/<slug>/` part is fixed. The names inside are whatever the entry says they are; these are the convention.
@@ -36,15 +38,21 @@ The 3D view is Google's [`<model-viewer>`](https://modelviewer.dev/), vendored i
 
 5. **Add the entry** to the `prints` list in `data/prints.json`. Order doesn't matter; the page sorts by `date`, newest first.
 
-6. **Check it.**
+6. **Build the zip**, if the print has two or more STL files:
+
+   ```bash
+   node scripts/build-stl-zips.mjs
+   ```
+
+7. **Check it.**
 
    ```bash
    node scripts/check-prints.mjs
    ```
 
-   It validates every entry against the schema, checks that every file an entry names exists, and enforces the size limits. It exits 1 on any problem. Warnings (a model over 2 MB, an STL over 10 MB, a file in the folder that nothing uses) don't fail it.
+   It validates every entry against the schema, checks that every file an entry names exists, enforces the size limits, and checks that each STL zip holds the current files. It exits 1 on any problem. Warnings (a model over 2 MB, an STL over 10 MB, a file in the folder that nothing uses) don't fail it.
 
-7. **Look at it.** `python3 -m http.server 8737`, then `http://localhost:8737/prints/`. The page fetches `/data/prints.json` and `/assets/prints/...` by absolute path, which works because the site is served from the root of the domain. Opening the HTML file straight from disk won't work.
+8. **Look at it.** `python3 -m http.server 8737`, then `http://localhost:8737/prints/`. The page fetches `/data/prints.json` and `/assets/prints/...` by absolute path, which works because the site is served from the root of the domain. Opening the HTML file straight from disk won't work.
 
 To remove a print, delete its entry and its folder.
 
@@ -82,9 +90,9 @@ To remove a print, delete its entry and its folder.
 | `iterations[].note` | string | yes | What changed and why. |
 | `iterations[].model` | path | no | That version's GLB. Each one adds a button to the detail view that swaps the model. The last button is always "Final" (the print's own `model`), so don't give the final version a second copy here. Same `units` as the print. |
 | `iterations[].photo` | object | no | `{ "src": "iterations/v1.webp", "alt": "..." }` |
-| `stl` | path, or object[] | no | The STL to download: one path, `"stl/cable-clip.stl"`, or for a print with more than one part a non-empty list of `{ "src", "label" }`. Adds the "Download STL" links. See [STL](#stl). |
+| `stl` | path, or object[] | no | The STL to download: one path, `"stl/cable-clip.stl"`, or for a print with more than one part a non-empty list of `{ "src", "label" }`. Adds the "Download STL" button. See [STL](#stl). |
 | `stl[].src` | path | yes | `"stl/sink-caddy-tray.stl"`. The file name is the name it downloads under, so make it say what it is. |
-| `stl[].label` | string | yes | Which part it is: `"Tray"`, `"Charcoal part"`. Shown in the link. |
+| `stl[].label` | string | yes | Which part it is: `"Tray"`, `"Charcoal part"`. Shown in the download dialog. |
 | `credit` | string | no | A credit line under the print, for models that aren't mine. |
 | `creditUrl` | URL | no | Makes the credit a link. |
 
@@ -201,7 +209,7 @@ Real photos of the real part beat renders. They get the same printed treatment a
 
 ### STL
 
-The files behind the "Download STL" links. They are served as they are, straight from `assets/prints/<slug>/stl/`.
+The files behind the "Download STL" button. They are served as they are, straight from `assets/prints/<slug>/stl/`.
 
 | | |
 |---|---|
@@ -215,7 +223,21 @@ The files behind the "Download STL" links. They are served as they are, straight
 
 Files that `stl` names count as used, so the check doesn't warn about them.
 
-**Licence.** The STL files are © Noah Dorfman and licensed [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/): anyone may print, share and remix them with credit, but not commercially. The page shows a line saying so under the download links, on the tile and in the dialog, and each `stl/` folder has a `LICENSE.txt` with the same terms. The licence covers the STL files only, not the site's code or the other assets. When adding a print's STLs, copy `LICENSE.txt` into its `stl/` folder too (the check doesn't count it as an unused file).
+**The zip.** A print with two or more STL files also gets `stl/<slug>-stl.zip`, the file behind "Download all" in the download dialog. It isn't in the data: the path is always `assets/prints/<slug>/stl/<slug>-stl.zip`. It holds the STLs in the order `stl` lists them and then `LICENSE.txt`, with no folders inside. A print with one STL gets no zip.
+
+[`scripts/build-stl-zips.mjs`](../scripts/build-stl-zips.mjs) writes them, with Node's own zlib and nothing else (Node 24):
+
+```bash
+node scripts/build-stl-zips.mjs
+```
+
+**Rerun it after changing an STL, a `LICENSE.txt` or an `stl` field**, and commit the zip with the change. The zip has a fixed timestamp (2026-01-01 00:00), fixed attributes and no extra fields, so the same files always give the same bytes and an unchanged zip doesn't show up in `git status`. The check ✓ compares what is in the zip, not its bytes: it reads the committed zip's central directory and fails if the zip is missing, or doesn't list exactly the expected file names in order, each with the size and CRC-32 of the source file as it is now ("is stale: run node scripts/build-stl-zips.mjs"). The zip counts as a used file. A zip left behind next to a single STL gets the usual unused-file warning.
+
+The compressed bytes come from the zlib inside Node, so another Node version or machine may deflate the same files to different bytes. The check doesn't mind, since it only looks at names, sizes and CRCs. Rebuilding on such a machine can still show the zip as changed in `git status` with nothing actually different; there's no need to commit that.
+
+The zips are committed, so each one adds its size to the repo again every time its STLs change: the sink caddy's is 8.5 MB (from 36.5 MB of STLs), the ghost headphones' 0.5 MB (from 2.0 MB). Another reason to keep STLs under the 10 MB target.
+
+**Licence.** The STL files are © Noah Dorfman and licensed [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/): anyone may print, share and remix them with credit, but not commercially. The download dialog has a line saying so under the links, each `stl/` folder has a `LICENSE.txt` with the same terms, and the zip carries a copy of it. The licence covers the STL files only, not the site's code or the other assets. When adding a print's STLs, copy `LICENSE.txt` into its `stl/` folder too (the check doesn't count it as an unused file, and the zip can't be built without it).
 
 ## How the page behaves
 
@@ -224,11 +246,11 @@ Files that `stl` names count as used, so the check doesn't warn about them.
 - **Size.** The Size row shows `sizeMm` if the entry has it, in both views. Without it the size is measured from the clean model. The scene is never measured.
 - **Versions and the scene.** The version buttons in the detail view belong to the clean view. Picking a version while the scene is showing switches the scene off and shows that version; switching the scene off again returns to the version that was picked.
 - **One load at a time.** Two viewers fetching the same file at the same moment (a tile and the detail view opened from `/prints/#slug`, or both of them switched to the scene) can trip model-viewer's shared cache. So loads of one URL take turns: the second viewer keeps its poster up until the first has finished, then loads from the cache. If a load fails anyway it is retried once under a `?retry=` URL.
-- **Download STL.** A print with `stl` gets download links on its tile and in the detail view; a print without it gets none. Each is a plain `<a href download>` to the file, saved under its own file name. With one file the link reads "Download STL (175 KB)". With parts, the tile has one mono row, "Download STL" followed by a link per part ("Tray (14.2 MB)"), and the detail view lists them one to a line ("Download STL: Tray (14.2 MB)"). Each link's `aria-label` spells out the whole thing, print included: "Download STL: Tray (14.2 MB), Sink caddy". Sizes aren't in the data: the page asks for each file's `Content-Length` with a `HEAD` request, once per file, and adds it to the link when it arrives. If that fails, or the response is compressed (so the length isn't the file's), the link stays without a size.
+- **Download STL.** A print with `stl` gets one "Download STL" button on its tile and one in the detail view; a print without it gets none. Either opens the same small dialog, a second native `<dialog>` (`.print-dl`) headed "Download Sink caddy". Opened from the detail view it sits on top of it, and Close, Esc or a click on the backdrop closes only the download dialog. Focus starts on the first file and goes back to the button that opened it. Inside: one row per part, each a plain `<a href download>` to the file, saved under its own file name ("Tray · 14.2 MB"); then, for a print with two or more parts, a "Download all (.zip, 8.5 MB)" button, which is a link to [the zip](#stl); then the licence line. A print with one STL gets the same dialog with one row, named after the print ("Glasses rack · 175 KB"), and no zip button. Sizes aren't in the data: the page asks for each file's `Content-Length` with a `HEAD` request, once per file, when the dialog first shows it, and adds it to the link when it arrives. If that fails, or the response is compressed (so the length isn't the file's), the link stays without a size.
 - **Fallbacks.** No WebGL, the viewer script failing, or one model failing to load all leave the poster image in place. Without WebGL the "Show in setting" button still works: it swaps the poster picture for `scenePoster`. If only the scene fails to load, its poster stays up and the button still goes back to the clean model. If `data/prints.json` doesn't load, the page says so. With JavaScript off, a `<noscript>` note points at the JSON, because the page can't draw a data-driven list without it.
 - **Motion.** Models turn slowly on their own. With `prefers-reduced-motion` they hold still until dragged.
 - **Scrolling.** On a tile, scroll-to-zoom only switches on once the model has been clicked or focused, so scrolling down the page doesn't get caught by a model. In the detail view it is always on.
-- **Keyboard.** Tab reaches each model (arrow keys turn it), its "Show in setting" button (Space or Enter), each "Photos and details" button, each "Download STL" link, and everything in the dialog. Esc closes the dialog and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
+- **Keyboard.** Tab reaches each model (arrow keys turn it), its "Show in setting" button (Space or Enter), each "Photos and details" button, each "Download STL" button, and everything in the dialog. Esc closes the dialog on top (the download dialog first, if it is open) and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
 
 ## Showing a print in its setting
 

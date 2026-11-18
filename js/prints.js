@@ -2,12 +2,12 @@
 // Each print starts as its poster image. If WebGL and the vendored <model-viewer> are both there, the poster
 // is swapped for a live model; if either is missing, or a model fails to load, the poster stays.
 // A print with a "scene" also gets a "Show in setting" button that swaps the model for the one with its surroundings.
-// A print with "stl" gets a download link for each of its files.
+// A print with "stl" gets a "Download STL" button, which opens a small dialog with a link for each of its files.
 
 (function () {
     const list = document.getElementById('prints-list');
-    const dialog = document.getElementById('print-dialog');
-    if (!list || !dialog) return;
+    const dialog = document.getElementById('print-dialog'), dl = document.getElementById('print-dl');
+    if (!list || !dialog || !dl) return;
 
     const VIEWER = '/js/vendor/model-viewer-4.4.0.min.js';
     const ORBIT = '-30deg 70deg 120%';      // the same default design/print-poster.html renders posters with
@@ -65,30 +65,46 @@
         }));
         return sizes.get(url);
     }
-    // A real link, saved under the file's own name. The size is added when it arrives; without it the link stands as it is.
-    // The label always says the whole thing: "Download STL: Tray (14.2 MB), Sink caddy".
-    function stlLink(p, s, text) {
-        const url = asset(p, s.src);
-        const a = h('a', { class: 'link', href: url, download: s.src.split('/').pop() });
-        const set = size => {
-            const tail = size ? ` (${size})` : '';
-            a.textContent = text + tail;
-            a.setAttribute('aria-label', `Download STL${s.label ? `: ${s.label}` : ''}${tail}, ${p.title}`);
-        };
-        set();
-        sizeOf(url).then(n => set(bytes(n)), () => { });
+    // A real link, saved under the file's own name. text(size) is what it says; the size is added when it arrives,
+    // and without it the link stands as it is.
+    function fileLink(cls, url, text, attrs) {
+        const a = h('a', { class: cls, href: url, download: url.split('/').pop(), ...attrs }, text());
+        sizeOf(url).then(n => a.textContent = text(bytes(n)), () => { });
         return a;
     }
-    // On a tile: one mono row, "Download STL" and then a link per part. In the dialog: a list, one part to a line.
-    // The licence covers the STL files only (also in a LICENSE.txt next to them), not the site's code.
-    const stlLicence = () => h('p', { class: 'print-stl-licence' }, 'STL files © Noah Dorfman, licensed ',
-        h('a', { class: 'link', href: 'https://creativecommons.org/licenses/by-nc/4.0/', rel: 'license' }, 'CC BY-NC 4.0'));
-    function downloads(p, full) {
+
+    // One button on a tile and one in the detail view, both opening the same small dialog: a link per part
+    // ("Tray · 14.2 MB"), then "Download all" for the zip that scripts/build-stl-zips.mjs made, if the print has more
+    // than one part, then the licence. The licence covers the STL files only (also in a LICENSE.txt next to them,
+    // and in the zip), not the site's code.
+    function download(p, opener) {
         const files = stls(p);
-        if (!files.length) return null;
-        if (full) return [h('ul', { class: 'print-stl', 'aria-label': 'STL files' }, files.map(s => h('li', null, stlLink(p, s, s.label ? `Download STL: ${s.label}` : 'Download STL')))), stlLicence()];
-        if (!files[0].label) return [h('p', { class: 'print-stl' }, stlLink(p, files[0], 'Download STL')), stlLicence()];
-        return [h('p', { class: 'print-stl', role: 'group', 'aria-label': `Download STL: ${p.title}` }, h('span', null, 'Download STL'), files.map(s => stlLink(p, s, s.label))), stlLicence()];
+        const close = h('button', { type: 'button', class: 'pbtn' }, 'Close');
+        close.addEventListener('click', () => dl.close());
+        dl.replaceChildren(h('div', { class: 'pdl' },
+            h('div', { class: 'pd-head' }, h('h2', { id: 'pdl-title' }, `Download ${p.title}`), close),
+            h('ul', { class: 'pdl-files', 'aria-label': 'STL files' }, files.map((s, i) => h('li', null,
+                fileLink('link', asset(p, s.src), size => (s.label || p.title) + (size ? ` · ${size}` : ''), { autofocus: i === 0 })))),
+            files.length > 1 && h('p', { class: 'pdl-all' },
+                fileLink('pbtn', asset(p, `stl/${p.slug}-stl.zip`), size => `Download all (.zip${size ? `, ${size}` : ''})`)),
+            h('p', { class: 'pdl-licence' }, 'STL files © Noah Dorfman, licensed ',
+                h('a', { class: 'link', href: 'https://creativecommons.org/licenses/by-nc/4.0/', rel: 'license' }, 'CC BY-NC 4.0'))));
+        dlOpener = opener;
+        if (!dl.open) dl.showModal();       // on top of the detail view, if that is where it was opened from
+    }
+    let dlOpener = null;
+    // Esc and Close only ever close this one: the detail view underneath stays open
+    dl.addEventListener('click', e => { if (e.target === dl) dl.close(); });      // a click on the backdrop
+    dl.addEventListener('close', () => {
+        dl.replaceChildren();
+        if (dlOpener && dlOpener.isConnected) dlOpener.focus();
+        dlOpener = null;
+    });
+    function downloads(p) {
+        if (!stls(p).length) return null;
+        const b = h('button', { type: 'button', class: 'pbtn', 'aria-haspopup': 'dialog', 'aria-label': `Download STL: ${p.title}` }, 'Download STL');
+        b.addEventListener('click', () => download(p, b));
+        return b;
     }
 
     // ---------- The live model ----------
@@ -240,8 +256,7 @@
             h('p', { class: 'd' }, p.description),
             facts(p, false),
             p.tags.length ? h('p', { class: 'meta tags' }, p.tags.join(' · ')) : null,
-            h('div', { class: 'actions' }, open),
-            downloads(p, false),
+            h('div', { class: 'actions' }, open, downloads(p)),
             credit(p));
         const v = viewer(view, p, { zoom: false });
         loadViewer().then(v.mount, () => { });
@@ -276,6 +291,7 @@
 
     let shown = null;       // the dialog's viewer
     function show(p) {
+        if (dl.open) dl.close();
         const view = h('div', { class: 'print-view' }, poster(p));
         const close = h('button', { type: 'button', class: 'pbtn' }, 'Close');
         close.addEventListener('click', () => dialog.close());
@@ -287,7 +303,7 @@
             h('div', { class: 'pd-head' }, h('h2', { id: 'pd-title' }, p.title, badge(p)), close),
             h('div', { class: 'pd-top' },
                 h('figure', null, view, cap),
-                h('div', null, h('p', null, p.description), info, downloads(p, true))),
+                h('div', null, h('p', null, p.description), info, p.stl && h('div', { class: 'actions' }, downloads(p)))),
             p.photos.length ? h('section', { class: 'pd-sec' }, h('h3', null, 'Photos'), carousel(p)) : null,
             versions.length ? h('section', { class: 'pd-sec' }, h('h3', null, 'Versions'),
                 h('div', { class: 'versions' }, versions.map(v => h('div', null,
@@ -334,6 +350,7 @@
 
     dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });      // a click on the backdrop
     dialog.addEventListener('close', () => {
+        if (dl.open) dl.close();        // the back button, with the download dialog open on top
         if (shown) shown.drop();
         shown = null;
         dialog.replaceChildren();       // drops the model so it stops drawing
