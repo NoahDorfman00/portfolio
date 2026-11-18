@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-17T21:00:06.237Z",
+  "generatedAt": "2026-11-18T07:37:45.649Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Add the scope gantry project page with an interactive 3D model (#1)",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/097069a91b7d5a5295c943509b5d32de606d5c24",
-    "date": "2026-11-12T01:59:52Z"
+    "message": "Scope gantry: put the chain and Pi photos under their own headings (#3)",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/048bdcb8d6c751496f0ae6cb5e9d688fbb737d10",
+    "date": "2026-11-17T23:18:42Z"
   },
   "active": [
     "portfolio",
@@ -23,7 +23,7 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-11-12T01:59:52Z",
+      "pushedAt": "2026-11-17T23:18:42Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
@@ -69,23 +69,23 @@
     },
     {
       "name": "TypeScript",
-      "pct": 16.9
+      "pct": 16.7
     },
     {
       "name": "C++",
-      "pct": 15.1
+      "pct": 14.9
     },
     {
       "name": "C",
-      "pct": 14.3
+      "pct": 14.1
     },
     {
-      "name": "JavaScript",
-      "pct": 12.9
+      "name": "Python",
+      "pct": 13.2
     },
     {
       "name": "Other",
-      "pct": 22.2
+      "pct": 22.5
     }
   ]
 }
