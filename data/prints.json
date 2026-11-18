@@ -45,7 +45,21 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "25deg 72deg 120%"
+            "sceneCameraOrbit": "25deg 72deg 120%",
+            "stl": [
+                {
+                    "src": "stl/ghost-headphones-charcoal.stl",
+                    "label": "Charcoal part"
+                },
+                {
+                    "src": "stl/ghost-headphones-gray.stl",
+                    "label": "Gray part"
+                },
+                {
+                    "src": "stl/ghost-headphones-ivory.stl",
+                    "label": "Ivory part"
+                }
+            ]
         },
         {
             "slug": "sink-caddy",
@@ -148,7 +162,17 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-48.4deg 59.7deg 95%"
+            "sceneCameraOrbit": "-48.4deg 59.7deg 95%",
+            "stl": [
+                {
+                    "src": "stl/sink-caddy-tray.stl",
+                    "label": "Tray"
+                },
+                {
+                    "src": "stl/sink-caddy-organizer.stl",
+                    "label": "Organizer"
+                }
+            ]
         },
         {
             "slug": "glasses-rack",
@@ -187,7 +211,8 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "159.2deg 54deg 85%"
+            "sceneCameraOrbit": "159.2deg 54deg 85%",
+            "stl": "stl/glasses-rack.stl"
         }
     ]
 }

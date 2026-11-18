@@ -327,6 +327,13 @@ button.link { font: inherit; color: inherit; border: 0; border-radius: 0; paddin
 /* "Show in setting": sits on the model like the dialog's version buttons, bottom left so the two never meet */
 .print-toggle { position: absolute; left: 12px; bottom: 12px; z-index: 1; }
 .print .print-toggle { left: 0; top: 12px; bottom: auto; }      /* top left on tiles, clear of the base of a tall scene */
+/* STL downloads: a mono row under "Photos and details" on a tile, one part to a line in the dialog */
+.print-stl { display: flex; flex-wrap: wrap; gap: 2px 18px; margin-top: 10px; padding: 0; list-style: none; font-family: var(--mono); font-size: 13px; line-height: 1.8; }
+.print-stl span { color: var(--muted); }
+.print-stl a { white-space: nowrap; }
+.print-dialog .print-stl { flex-direction: column; margin-top: 16px; }
+.print-stl-licence { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
+.print-stl-licence a { color: inherit; }
 .prints :focus-visible, .print-dialog :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* Detail view: a native dialog, squared off, with the same rules as a page */

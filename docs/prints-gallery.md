@@ -20,6 +20,7 @@ The 3D view is Google's [`<model-viewer>`](https://modelviewer.dev/), vendored i
        photos/02.webp
        iterations/v1.glb    optional: models and photos of earlier versions
        iterations/v1.webp
+       stl/cable-clip.stl   optional: the file to download, or one per part
    ```
 
    Only the `assets/prints/<slug>/` part is fixed. The names inside are whatever the entry says they are; these are the convention.
@@ -41,7 +42,7 @@ The 3D view is Google's [`<model-viewer>`](https://modelviewer.dev/), vendored i
    node scripts/check-prints.mjs
    ```
 
-   It validates every entry against the schema, checks that every file an entry names exists, and enforces the size limits. It exits 1 on any problem. Warnings (a model over 2 MB, a file in the folder that nothing uses) don't fail it.
+   It validates every entry against the schema, checks that every file an entry names exists, and enforces the size limits. It exits 1 on any problem. Warnings (a model over 2 MB, an STL over 10 MB, a file in the folder that nothing uses) don't fail it.
 
 7. **Look at it.** `python3 -m http.server 8737`, then `http://localhost:8737/prints/`. The page fetches `/data/prints.json` and `/assets/prints/...` by absolute path, which works because the site is served from the root of the domain. Opening the HTML file straight from disk won't work.
 
@@ -81,10 +82,13 @@ To remove a print, delete its entry and its folder.
 | `iterations[].note` | string | yes | What changed and why. |
 | `iterations[].model` | path | no | That version's GLB. Each one adds a button to the detail view that swaps the model. The last button is always "Final" (the print's own `model`), so don't give the final version a second copy here. Same `units` as the print. |
 | `iterations[].photo` | object | no | `{ "src": "iterations/v1.webp", "alt": "..." }` |
+| `stl` | path, or object[] | no | The STL to download: one path, `"stl/cable-clip.stl"`, or for a print with more than one part a non-empty list of `{ "src", "label" }`. Adds the "Download STL" links. See [STL](#stl). |
+| `stl[].src` | path | yes | `"stl/sink-caddy-tray.stl"`. The file name is the name it downloads under, so make it say what it is. |
+| `stl[].label` | string | yes | Which part it is: `"Tray"`, `"Charcoal part"`. Shown in the link. |
 | `credit` | string | no | A credit line under the print, for models that aren't mine. |
 | `creditUrl` | URL | no | Makes the credit a link. |
 
-Every **path** is relative to the print's own folder, `assets/prints/<slug>/`. No leading slash, no `..`. Models must end in `.glb`; images in `.webp`, `.jpg` or `.jpeg`.
+Every **path** is relative to the print's own folder, `assets/prints/<slug>/`. No leading slash, no `..`. Models must end in `.glb`; images in `.webp`, `.jpg` or `.jpeg`; downloads in `.stl`.
 
 ### Example entry
 
@@ -195,6 +199,24 @@ ffmpeg -i IMG_1234.jpg -vf "scale='min(2000,iw)':'min(2000,ih)':force_original_a
 
 Real photos of the real part beat renders. They get the same printed treatment as every other photo on the site.
 
+### STL
+
+The files behind the "Download STL" links. They are served as they are, straight from `assets/prints/<slug>/stl/`.
+
+| | |
+|---|---|
+| Format | Binary STL preferred; ASCII is accepted ✓. The check is that the file's size matches its triangle count (84 + 50 × the count at bytes 80 to 83), or failing that, that it starts with `solid`. |
+| Size | 25 MB at most each ✓, 10 MB or less is the target (warning above it) |
+| Units | Millimetres, which is what slicers assume. |
+| Orientation | Laid out the way it was printed, so it can go straight onto the bed. |
+| Which files | The exact ones that were sliced, not a re-export. |
+| Parts | One file per part. For a multi-colour print, one file per colour. Give each a `label`. |
+| Names | `<slug>.stl`, or `<slug>-<part>.stl`: the download keeps the file's name. |
+
+Files that `stl` names count as used, so the check doesn't warn about them.
+
+**Licence.** The STL files are © Noah Dorfman and licensed [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/): anyone may print, share and remix them with credit, but not commercially. The page shows a line saying so under the download links, on the tile and in the dialog, and each `stl/` folder has a `LICENSE.txt` with the same terms. The licence covers the STL files only, not the site's code or the other assets. When adding a print's STLs, copy `LICENSE.txt` into its `stl/` folder too (the check doesn't count it as an unused file).
+
 ## How the page behaves
 
 - **Lazy.** A tile shows its poster first. model-viewer itself (about 1 MB, 300 KB gzipped) is only fetched if the browser has WebGL, and each model only when its tile nears the screen. The page watches for that itself (an `IntersectionObserver`) and only then gives the viewer its `src`, rather than leaving it to `loading="lazy"`, so that it knows which loads have started. model-viewer 4 dropped `reveal="interaction"`, so `reveal="auto"` is the one in use.
@@ -202,10 +224,11 @@ Real photos of the real part beat renders. They get the same printed treatment a
 - **Size.** The Size row shows `sizeMm` if the entry has it, in both views. Without it the size is measured from the clean model. The scene is never measured.
 - **Versions and the scene.** The version buttons in the detail view belong to the clean view. Picking a version while the scene is showing switches the scene off and shows that version; switching the scene off again returns to the version that was picked.
 - **One load at a time.** Two viewers fetching the same file at the same moment (a tile and the detail view opened from `/prints/#slug`, or both of them switched to the scene) can trip model-viewer's shared cache. So loads of one URL take turns: the second viewer keeps its poster up until the first has finished, then loads from the cache. If a load fails anyway it is retried once under a `?retry=` URL.
+- **Download STL.** A print with `stl` gets download links on its tile and in the detail view; a print without it gets none. Each is a plain `<a href download>` to the file, saved under its own file name. With one file the link reads "Download STL (175 KB)". With parts, the tile has one mono row, "Download STL" followed by a link per part ("Tray (14.2 MB)"), and the detail view lists them one to a line ("Download STL: Tray (14.2 MB)"). Each link's `aria-label` spells out the whole thing, print included: "Download STL: Tray (14.2 MB), Sink caddy". Sizes aren't in the data: the page asks for each file's `Content-Length` with a `HEAD` request, once per file, and adds it to the link when it arrives. If that fails, or the response is compressed (so the length isn't the file's), the link stays without a size.
 - **Fallbacks.** No WebGL, the viewer script failing, or one model failing to load all leave the poster image in place. Without WebGL the "Show in setting" button still works: it swaps the poster picture for `scenePoster`. If only the scene fails to load, its poster stays up and the button still goes back to the clean model. If `data/prints.json` doesn't load, the page says so. With JavaScript off, a `<noscript>` note points at the JSON, because the page can't draw a data-driven list without it.
 - **Motion.** Models turn slowly on their own. With `prefers-reduced-motion` they hold still until dragged.
 - **Scrolling.** On a tile, scroll-to-zoom only switches on once the model has been clicked or focused, so scrolling down the page doesn't get caught by a model. In the detail view it is always on.
-- **Keyboard.** Tab reaches each model (arrow keys turn it), its "Show in setting" button (Space or Enter), each "Photos and details" button, and everything in the dialog. Esc closes the dialog and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
+- **Keyboard.** Tab reaches each model (arrow keys turn it), its "Show in setting" button (Space or Enter), each "Photos and details" button, each "Download STL" link, and everything in the dialog. Esc closes the dialog and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
 
 ## Showing a print in its setting
 
