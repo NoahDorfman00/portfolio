@@ -80,12 +80,15 @@
         return a;
     }
     // On a tile: one mono row, "Download STL" and then a link per part. In the dialog: a list, one part to a line.
+    // The licence covers the STL files only (also in a LICENSE.txt next to them), not the site's code.
+    const stlLicence = () => h('p', { class: 'print-stl-licence' }, 'STL files © Noah Dorfman, licensed ',
+        h('a', { class: 'link', href: 'https://creativecommons.org/licenses/by-nc/4.0/', rel: 'license' }, 'CC BY-NC 4.0'));
     function downloads(p, full) {
         const files = stls(p);
         if (!files.length) return null;
-        if (full) return h('ul', { class: 'print-stl', 'aria-label': 'STL files' }, files.map(s => h('li', null, stlLink(p, s, s.label ? `Download STL: ${s.label}` : 'Download STL'))));
-        if (!files[0].label) return h('p', { class: 'print-stl' }, stlLink(p, files[0], 'Download STL'));
-        return h('p', { class: 'print-stl', role: 'group', 'aria-label': `Download STL: ${p.title}` }, h('span', null, 'Download STL'), files.map(s => stlLink(p, s, s.label)));
+        if (full) return [h('ul', { class: 'print-stl', 'aria-label': 'STL files' }, files.map(s => h('li', null, stlLink(p, s, s.label ? `Download STL: ${s.label}` : 'Download STL')))), stlLicence()];
+        if (!files[0].label) return [h('p', { class: 'print-stl' }, stlLink(p, files[0], 'Download STL')), stlLicence()];
+        return [h('p', { class: 'print-stl', role: 'group', 'aria-label': `Download STL: ${p.title}` }, h('span', null, 'Download STL'), files.map(s => stlLink(p, s, s.label))), stlLicence()];
     }
 
     // ---------- The live model ----------

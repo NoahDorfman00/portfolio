@@ -215,7 +215,7 @@ The files behind the "Download STL" links. They are served as they are, straight
 
 Files that `stl` names count as used, so the check doesn't warn about them.
 
-The downloads carry no licence line yet. Anyone can fetch the files, but nothing on the page says what they may do with them. Noah may want to add one (a line by the links, or a `LICENSE` file in the folder, which the check already allows).
+**Licence.** The STL files are © Noah Dorfman and licensed [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/): anyone may print, share and remix them with credit, but not commercially. The page shows a line saying so under the download links, on the tile and in the dialog, and each `stl/` folder has a `LICENSE.txt` with the same terms. The licence covers the STL files only, not the site's code or the other assets. When adding a print's STLs, copy `LICENSE.txt` into its `stl/` folder too (the check doesn't count it as an unused file).
 
 ## How the page behaves
 
