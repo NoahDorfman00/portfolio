@@ -64,6 +64,8 @@ Sentence case everywhere — no all-caps labels. Mono is for small factual detai
 - **Callout** — amber wash block, reserved for warnings.
 - **Pager** — previous / next project at the bottom of detail pages.
 - **Model** — an interactive three.js view in place of hero media (`.model`): a 16:9 viewport with mono view buttons on it, sliders and a readout row beneath. Paper, ink tints and amber only, with amber marking the parts the project made. A still image sits underneath for browsers without WebGL and doubles as the `og:image`. three.js is vendored in `js/vendor/`; each model gets its own script (see `js/scope-gantry.js`).
+- **Print** — one block per 3D print on [`/prints/`](../prints/index.html) (`.print`), two across on desktop: a 2px rule, the model in a 4:3 frame straight on the paper (no box around it), then title, one line of description, a small facts list and a "Photos and details" link. Not a card: no fill, no border, no shadow. The model is Google's `<model-viewer>` (vendored), given the printed treatment like a photo; its poster image shows until it loads and stays if it can't. A print that has a scene gets one mono button on the model (top left on a tile, bottom left in the dialog), "Show in setting", amber while it's on, which swaps the clean model for the print among the things it lives with. Details open in a native `<dialog>` with a 2px ink border and square corners: a bigger model with mono version buttons on it (and the same "Show in setting" button), the full facts list, photos one at a time, and a versions table. Entries come from `data/prints.json`; see [`docs/prints-gallery.md`](../docs/prints-gallery.md).
+- **Badge** — a mono label on solid amber with ink text (`.badge`). Only for marking placeholder content.
 
 ## Imagery
 
@@ -79,7 +81,7 @@ Real photos of real builds (cutting mats, guts, the thing on the wall) beat rend
 
 ## Motion
 
-Minimal: link fill (.2s), row hover wash (.15s), arrow nudge, the status-dot pulse. A 3D model moves only when the reader moves it. No hover previews or popovers. No scroll-triggered animations, no particles.
+Minimal: link fill (.2s), row hover wash (.15s), arrow nudge, the status-dot pulse. A project's 3D model moves only when the reader moves it. Prints are the exception: they turn slowly on their own, like on a turntable, and hold still under `prefers-reduced-motion`. No hover previews or popovers. No scroll-triggered animations, no particles.
 
 ## Data
 
