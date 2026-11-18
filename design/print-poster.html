@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Print poster</title>
+<meta name="robots" content="noindex">
+<!--
+    Renders one print's poster: the model exactly as the gallery first shows it, on a transparent page.
+    scripts/render-print-poster.mjs screenshots this with headless Chrome. See docs/prints-gallery.md.
+
+    ?src=/assets/prints/<slug>/model.glb    the model
+    &orbit=-30deg 70deg 120%                camera orbit (optional, the gallery's default)
+    &label=Placeholder                      stamps a word across it (optional)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: transparent; }
+    model-viewer { display: block; width: 100vw; height: 100vh; background: transparent; --poster-color: transparent; --progress-bar-color: transparent; }
+    #label { position: fixed; left: 0; right: 0; bottom: 5vh; text-align: center; font: 500 5.5vh 'IBM Plex Mono', ui-monospace, monospace; color: #141414; }
+    #label span { background: #FFB341; padding: .2em .6em; }
+</style>
+</head>
+<body>
+<div id="label" hidden><span></span></div>
+<script>
+    // The vendored decoders, as in js/prints.js
+    self.ModelViewerElement = { dracoDecoderLocation: '/js/vendor/draco/', meshoptDecoderLocation: '/js/vendor/meshopt_decoder-1.3.0.js' };
+</script>
+<script type="module">
+    import '/js/vendor/model-viewer-4.4.0.min.js';
+    const q = new URLSearchParams(location.search);
+    const mv = document.createElement('model-viewer');
+    mv.setAttribute('src', q.get('src'));
+    mv.setAttribute('camera-orbit', q.get('orbit') || '-30deg 70deg 120%');
+    mv.setAttribute('max-camera-orbit', 'auto auto 150%');     // the default cap is 105%, which crowds the frame
+    mv.setAttribute('shadow-intensity', '0');
+    mv.setAttribute('interaction-prompt', 'none');
+    mv.setAttribute('loading', 'eager');
+    mv.addEventListener('load', () => document.title = 'ready');
+    mv.addEventListener('error', () => document.title = 'error');
+    document.body.prepend(mv);
+    if (q.get('label')) {
+        document.querySelector('#label span').textContent = q.get('label');
+        document.getElementById('label').hidden = false;
+    }
+</script>
+</body>
+</html>
