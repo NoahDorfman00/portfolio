@@ -326,7 +326,7 @@ button.link { font: inherit; color: inherit; border: 0; border-radius: 0; paddin
 .pbtn:hover, .pbtn[aria-pressed="true"] { background: var(--signal); }
 /* "Show in setting": sits on the model like the dialog's version buttons, bottom left so the two never meet */
 .print-toggle { position: absolute; left: 12px; bottom: 12px; z-index: 1; }
-.print .print-toggle { left: 0; }
+.print .print-toggle { left: 0; top: 12px; bottom: auto; }      /* top left on tiles, clear of the base of a tall scene */
 .prints :focus-visible, .print-dialog :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* Detail view: a native dialog, squared off, with the same rules as a page */

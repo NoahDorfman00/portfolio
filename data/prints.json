@@ -45,7 +45,7 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "25deg 72deg 80%"
+            "sceneCameraOrbit": "25deg 72deg 120%"
         },
         {
             "slug": "sink-caddy",
@@ -148,7 +148,7 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-48.4deg 59.7deg 75%"
+            "sceneCameraOrbit": "-48.4deg 59.7deg 95%"
         },
         {
             "slug": "glasses-rack",
