@@ -2,6 +2,7 @@
 // Each print starts as its poster image. If WebGL and the vendored <model-viewer> are both there, the poster
 // is swapped for a live model; if either is missing, or a model fails to load, the poster stays.
 // A print with a "scene" also gets a "Show in setting" button that swaps the model for the one with its surroundings.
+// A print with "stl" gets a download link for each of its files.
 
 (function () {
     const list = document.getElementById('prints-list');
@@ -47,6 +48,45 @@
     const badge = p => p.placeholder && h('span', { class: 'badge' }, 'Placeholder');
     const credit = p => p.credit && h('p', { class: 'cap' }, p.creditUrl ? h('a', { href: p.creditUrl }, p.credit) : p.credit);
     const poster = p => h('img', { src: asset(p, p.poster), alt: p.alt, loading: 'lazy', decoding: 'async' });
+
+    // ---------- STL downloads ----------
+
+    // "stl" is one path, or a list of { src, label } for a print with more than one part
+    const stls = p => !p.stl ? [] : typeof p.stl === 'string' ? [{ src: p.stl }] : p.stl;
+    const bytes = n => n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`;
+    // File sizes are asked for once per file with a HEAD request, and shared by the tile and the dialog.
+    // A compressed response's Content-Length isn't the file's size, so that counts as not knowing.
+    const sizes = new Map();
+    function sizeOf(url) {
+        if (!sizes.has(url)) sizes.set(url, fetch(url, { method: 'HEAD' }).then(r => {
+            const n = Number(r.headers.get('Content-Length'));
+            if (!r.ok || r.headers.get('Content-Encoding') || !(n > 0)) throw new Error('No size');
+            return n;
+        }));
+        return sizes.get(url);
+    }
+    // A real link, saved under the file's own name. The size is added when it arrives; without it the link stands as it is.
+    // The label always says the whole thing: "Download STL: Tray (14.2 MB), Sink caddy".
+    function stlLink(p, s, text) {
+        const url = asset(p, s.src);
+        const a = h('a', { class: 'link', href: url, download: s.src.split('/').pop() });
+        const set = size => {
+            const tail = size ? ` (${size})` : '';
+            a.textContent = text + tail;
+            a.setAttribute('aria-label', `Download STL${s.label ? `: ${s.label}` : ''}${tail}, ${p.title}`);
+        };
+        set();
+        sizeOf(url).then(n => set(bytes(n)), () => { });
+        return a;
+    }
+    // On a tile: one mono row, "Download STL" and then a link per part. In the dialog: a list, one part to a line.
+    function downloads(p, full) {
+        const files = stls(p);
+        if (!files.length) return null;
+        if (full) return h('ul', { class: 'print-stl', 'aria-label': 'STL files' }, files.map(s => h('li', null, stlLink(p, s, s.label ? `Download STL: ${s.label}` : 'Download STL'))));
+        if (!files[0].label) return h('p', { class: 'print-stl' }, stlLink(p, files[0], 'Download STL'));
+        return h('p', { class: 'print-stl', role: 'group', 'aria-label': `Download STL: ${p.title}` }, h('span', null, 'Download STL'), files.map(s => stlLink(p, s, s.label)));
+    }
 
     // ---------- The live model ----------
 
@@ -198,6 +238,7 @@
             facts(p, false),
             p.tags.length ? h('p', { class: 'meta tags' }, p.tags.join(' · ')) : null,
             h('div', { class: 'actions' }, open),
+            downloads(p, false),
             credit(p));
         const v = viewer(view, p, { zoom: false });
         loadViewer().then(v.mount, () => { });
@@ -243,7 +284,7 @@
             h('div', { class: 'pd-head' }, h('h2', { id: 'pd-title' }, p.title, badge(p)), close),
             h('div', { class: 'pd-top' },
                 h('figure', null, view, cap),
-                h('div', null, h('p', null, p.description), info)),
+                h('div', null, h('p', null, p.description), info, downloads(p, true))),
             p.photos.length ? h('section', { class: 'pd-sec' }, h('h3', null, 'Photos'), carousel(p)) : null,
             versions.length ? h('section', { class: 'pd-sec' }, h('h3', null, 'Versions'),
                 h('div', { class: 'versions' }, versions.map(v => h('div', null,

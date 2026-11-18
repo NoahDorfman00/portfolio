@@ -16,7 +16,8 @@ const KB = 1024, MB = 1024 * KB;
 const LIMITS = {
     modelBytes: 5 * MB, modelBytesIdeal: 2 * MB, triangles: 150_000, texturePx: 2048,
     posterBytes: 300 * KB, posterSize: [1600, 1200],
-    photoBytes: 500 * KB, photoPx: 2000
+    photoBytes: 500 * KB, photoPx: 2000,
+    stlBytes: 25 * MB, stlBytesIdeal: 10 * MB
 };
 const IMAGE_EXT = ['.webp', '.jpg', '.jpeg'];
 
@@ -46,6 +47,7 @@ const file = exts => v => {
     return true;
 };
 const image = { src: file(IMAGE_EXT), alt: str };
+const STL = { src: file(['.stl']), label: str };
 
 const PRINT = {
     slug: v => (isStr(v) && SLUG.test(v)) || 'must be lowercase letters, digits and single hyphens, like "cable-clip"',
@@ -66,6 +68,7 @@ const PRINT = {
     scene: optional(file(['.glb'])),
     scenePoster: optional(file(IMAGE_EXT)),
     sceneCameraOrbit: optional(v => (typeof v === 'string' && ORBIT.test(v)) || 'must look like "-30deg 70deg 120%"'),
+    stl: optional(v => typeof v === 'string' ? file(['.stl'])(v) : (Array.isArray(v) && v.length > 0) || 'must be a path ending in .stl, or a non-empty list of { "src", "label" }'),
     alt: str,
     photos: v => Array.isArray(v) || 'must be a list (an empty list is fine)',
     iterations: optional(v => (Array.isArray(v) && v.length > 0) || 'must be a non-empty list, or left out'),
@@ -165,6 +168,17 @@ function checkModel(path, where) {
     }
 }
 
+// A download: binary STL is an 80-byte header, a triangle count and 50 bytes a triangle. ASCII STL starts with "solid".
+// Binary is checked first, since a binary file's header may start with "solid" too.
+function checkStl(path, where) {
+    const b = read(path, where);
+    if (!b) return;
+    if (b.length > LIMITS.stlBytes) errors.push(`${where}: ${path} is ${size(b.length)}, over the ${size(LIMITS.stlBytes)} limit`);
+    else if (b.length > LIMITS.stlBytesIdeal) warnings.push(`${where}: ${path} is ${size(b.length)}. Under ${size(LIMITS.stlBytesIdeal)} is the target`);
+    const binary = b.length >= 84 && b.length === 84 + 50 * b.readUInt32LE(80);
+    if (!binary && !/^\s*solid/.test(b.toString('latin1', 0, 256))) errors.push(`${where}: ${path} is not an STL file (neither binary nor ASCII)`);
+}
+
 function read(path, where) {
     const full = join(ROOT, path);
     if (!existsSync(full) || !statSync(full).isFile()) { errors.push(`${where}: ${path} does not exist`); return null; }
@@ -215,6 +229,14 @@ data.prints.forEach((p, i) => {
         if (!validate(it, ITERATION, at)) return;
         if (it.model !== undefined && ok(ITERATION.model, it.model)) checkModel(`${dir}/${it.model}`, where);
         if (it.photo !== undefined && ITERATION.photo(it.photo) === true) photo(it.photo, `${at} photo`);
+    });
+
+    // Downloads: one STL, or one per part
+    if (typeof p.stl === 'string') { if (ok(STL.src, p.stl)) checkStl(`${dir}/${p.stl}`, where); }
+    else if (Array.isArray(p.stl)) p.stl.forEach((s, j) => {
+        if (!validate(s, STL, `${where} stl[${j}]`)) return;
+        if (p.stl.findIndex(o => o?.src === s.src) !== j) errors.push(`${where} stl[${j}]: ${s.src} is listed twice`);
+        else if (ok(STL.src, s.src)) checkStl(`${dir}/${s.src}`, where);
     });
 
     // Files sitting in the folder that no field points at (licence and readme files are expected)
