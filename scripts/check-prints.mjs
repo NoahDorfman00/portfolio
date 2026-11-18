@@ -61,6 +61,7 @@ const PRINT = {
     model: file(['.glb']),
     units: v => v === 'mm' || v === 'm' || 'must be "mm" or "m": what one unit in the GLB stands for',
     poster: file(IMAGE_EXT),
+    sizeMm: optional(v => (Array.isArray(v) && v.length === 3 && v.every(n => typeof n === 'number' && n > 0)) || 'must be [wide, deep, tall] in millimetres'),
     cameraOrbit: optional(v => (typeof v === 'string' && ORBIT.test(v)) || 'must look like "-30deg 70deg 120%"'),
     alt: str,
     photos: v => Array.isArray(v) || 'must be a list (an empty list is fine)',

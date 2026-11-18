@@ -37,7 +37,7 @@
             ['Printer', p.printer],
             ['Print time', duration(p.printTimeMinutes)],
             full && p.layerHeightMm && ['Layer height', `${p.layerHeightMm} mm`],
-            full && ['Size', h('span', { 'data-size': true }, '—')],
+            full && ['Size', h('span', { 'data-size': true }, p.sizeMm ? `${p.sizeMm.map(mm).join(' × ')} mm` : '—')],
             ['Printed', date(p.date)],
             full && p.tags.length && ['Tags', p.tags.join(', ')]
         ].filter(Boolean);
@@ -73,7 +73,14 @@
             loading: eager ? 'eager' : 'lazy', reveal: 'auto',
             'auto-rotate': !still, 'disable-zoom': !zoom
         });
-        mv.addEventListener('error', () => mv.replaceWith(img));     // a bad file or a lost context: back to the poster
+        // A bad file or a lost context: back to the poster. One retry first, under a separate URL, because two viewers
+        // loading the same file at once (a tile and a dialog opened from /prints/#slug) can trip model-viewer's shared cache.
+        mv.addEventListener('error', () => {
+            if (mv.dataset.retried) return mv.replaceWith(img);
+            mv.dataset.retried = '1';
+            const src = mv.getAttribute('src');
+            setTimeout(() => mv.setAttribute('src', src + (src.includes('?') ? '&' : '?') + 'retry=1'), 250);
+        });
         if (!zoom) {
             mv.addEventListener('pointerdown', () => mv.removeAttribute('disable-zoom'));
             mv.addEventListener('focusin', () => mv.removeAttribute('disable-zoom'));
@@ -158,7 +165,8 @@
         loadViewer().then(() => {
             const mv = mount(view, p, { zoom: true, eager: true });
             // Size comes from the model itself, so a wrong "units" shows up as a silly number here
-            mv.addEventListener('load', () => {
+            // unless the entry gives sizeMm, for a model that also holds things that weren't printed
+            if (!p.sizeMm) mv.addEventListener('load', () => {
                 const d = mv.getDimensions(), k = p.units === 'mm' ? 1 : 1000;
                 info.querySelector('[data-size]').textContent = `${mm(d.x * k)} × ${mm(d.z * k)} × ${mm(d.y * k)} mm`;
             });
@@ -176,6 +184,7 @@
             view.append(h('div', { class: 'pd-views', role: 'group', 'aria-label': 'Version shown' }, buttons));
         }, () => {
             cap.textContent = 'A still picture: this browser can’t draw the 3D model.';
+            if (p.sizeMm) return;
             info.querySelector('[data-size]').closest('dd').previousSibling.remove();
             info.querySelector('[data-size]').closest('dd').remove();
         });
@@ -201,10 +210,6 @@
         const prints = [...data.prints].sort((a, b) => b.date.localeCompare(a.date));
         list.replaceChildren(...prints.map(tile));
         if (!prints.length) list.append(h('p', { class: 'prints-status' }, 'Nothing here yet. The printer is warming up.'));
-        if (prints.some(p => p.placeholder)) {
-            list.before(h('p', { class: 'warn prints-note' }, h('b', null, 'Heads up: '),
-                'everything marked Placeholder is a stand-in until the real prints are photographed and exported. The models are samples and the settings are made up.'));
-        }
         // /prints/#slug opens that print
         const linked = () => { const p = prints.find(p => '#' + p.slug === location.hash); if (p) show(p); else if (dialog.open) dialog.close(); };
         addEventListener('hashchange', linked);

@@ -306,7 +306,6 @@ code { font-family: var(--mono); font-size: .88em; background: var(--paper-2); p
 /* Gallery: one block per print under a 2px rule. The model sits straight on the paper, printed like the photos. */
 .prints { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px var(--gutter); }
 .prints-status { grid-column: 1 / -1; color: var(--ink-2); }
-.prints-note { margin: 0 0 40px; }
 .print { border-top: 2px solid var(--ink); min-width: 0; }
 .print-view { position: relative; aspect-ratio: 4 / 3; }
 .print-view > img, .print-view > model-viewer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
