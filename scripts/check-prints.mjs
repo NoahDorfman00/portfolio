@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 // Checks data/prints.json against the schema in docs/prints-gallery.md, and checks that every file an entry
-// names exists under assets/prints/<slug>/ and is within the size limits. No dependencies.
+// names exists under assets/prints/<slug>/ and is within the size limits. Also checks that each committed
+// "Download all" zip holds the files it should, as they are now. No dependencies.
 //
 // Usage: node scripts/check-prints.mjs        (exits 1 if anything is wrong; warnings don't fail it)
 
 import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { join, resolve, dirname, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { crc32 } from 'node:zlib';
+import { stlZip } from './build-stl-zips.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = 'data/prints.json';
@@ -179,6 +182,23 @@ function checkStl(path, where) {
     if (!binary && !/^\s*solid/.test(b.toString('latin1', 0, 256))) errors.push(`${where}: ${path} is not an STL file (neither binary nor ASCII)`);
 }
 
+// What a zip's central directory lists, in order: [{ name, method, crc, size }], size being the uncompressed one.
+// null if it isn't a readable zip.
+function zipEntries(b) {
+    let end = b.length - 22;
+    while (end >= 0 && b.readUInt32LE(end) !== 0x06054B50) end--;       // the end record, behind any comment
+    if (end < 0) return null;
+    const count = b.readUInt16LE(end + 10), entries = [];
+    for (let at = b.readUInt32LE(end + 16); entries.length < count;) {
+        if (at + 46 > end || b.readUInt32LE(at) !== 0x02014B50) return null;
+        const nameLen = b.readUInt16LE(at + 28);
+        if (at + 46 + nameLen > end) return null;
+        entries.push({ name: b.toString('utf8', at + 46, at + 46 + nameLen), method: b.readUInt16LE(at + 10), crc: b.readUInt32LE(at + 16), size: b.readUInt32LE(at + 24) });
+        at += 46 + nameLen + b.readUInt16LE(at + 30) + b.readUInt16LE(at + 32);
+    }
+    return entries;
+}
+
 function read(path, where) {
     const full = join(ROOT, path);
     if (!existsSync(full) || !statSync(full).isFile()) { errors.push(`${where}: ${path} does not exist`); return null; }
@@ -238,6 +258,27 @@ data.prints.forEach((p, i) => {
         if (p.stl.findIndex(o => o?.src === s.src) !== j) errors.push(`${where} stl[${j}]: ${s.src} is listed twice`);
         else if (ok(STL.src, s.src)) checkStl(`${dir}/${s.src}`, where);
     });
+
+    // The "Download all" zip of a print with two or more STLs, built from the STLs and the licence file by
+    // scripts/build-stl-zips.mjs. The committed one has to list exactly those files, in order, each with its source's
+    // size and CRC-32. Contents are compared, not bytes: another zlib may deflate the same file to different bytes.
+    const z = stlZip(p);
+    if (z && z.files.slice(0, -1).every(f => named.has(f))) {
+        named.add(z.path);
+        const names = z.files.map(f => f.split('/').pop());
+        const twice = names.find((n, j) => names.indexOf(n) !== j);
+        const files = z.files.map(f => existsSync(join(ROOT, dir, f)) && readFileSync(join(ROOT, dir, f)));
+        if (twice) errors.push(`${where}: two files are named ${twice}, and the zip has no folders`);
+        else if (!files.at(-1)) errors.push(`${where}: ${dir}/${z.files.at(-1)} does not exist. The zip needs it`);
+        else if (files.every(Boolean)) {       // a missing STL has been reported already
+            const full = join(ROOT, dir, z.path);
+            const listed = existsSync(full) && statSync(full).isFile() ? zipEntries(readFileSync(full)) : undefined;
+            const fresh = listed && listed.length === files.length && listed.every((e, j) =>
+                e.name === names[j] && e.size === files[j].length && e.crc === crc32(files[j]) && (e.method === 8 || e.method === 0));
+            if (listed === undefined) errors.push(`${where}: ${dir}/${z.path} does not exist: run node scripts/build-stl-zips.mjs`);
+            else if (!fresh) errors.push(`${where}: ${dir}/${z.path} is stale: run node scripts/build-stl-zips.mjs`);
+        }
+    }
 
     // Files sitting in the folder that no field points at (licence and readme files are expected)
     if (existsSync(join(ROOT, dir))) {
