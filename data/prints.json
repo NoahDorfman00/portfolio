@@ -3,7 +3,7 @@
         {
             "slug": "ghost-headphones",
             "title": "Ghost headphones",
-            "description": "The lite design: charcoal, gray, and ivory PLA headphones with a 71 mm cushion gap, sized for a 76 mm oatmeal gauze ghost. They were printed on 17 Oct 2026 (about 30 min and 13 g) and are shown on a display figure of that ghost (not printed), with the band clearing the tuft.",
+            "description": "The lite design: charcoal, gray, and ivory PLA headphones with a 71 mm cushion gap, sized for a 76 mm oatmeal gauze ghost. They were printed on 17 Oct 2026 (26 min and 13 g). Show in setting puts them on a display figure of that ghost, holding a pumpkin (the figure wasn't printed).",
             "date": "2026-10-17",
             "material": "PLA Matte, charcoal, gray, and ivory",
             "printer": "Bambu Lab X2D",
@@ -17,13 +17,13 @@
             "model": "model.glb",
             "units": "mm",
             "poster": "poster.webp",
-            "cameraOrbit": "25deg 72deg 125%",
+            "cameraOrbit": "30deg 68deg 110%",
             "sizeMm": [
                 92.0,
                 26.0,
                 56.4
             ],
-            "alt": "Small charcoal headphones with gray pads and ivory rings, shown on a display figure (not printed) of a beige gauze ghost holding an orange pumpkin",
+            "alt": "Small charcoal headphones with gray cushions and ivory rings",
             "photos": [],
             "iterations": [
                 {
@@ -42,7 +42,10 @@
                         "alt": "Render of the smaller v2 headphones, sized for a 63 mm head"
                     }
                 }
-            ]
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "25deg 72deg 80%"
         },
         {
             "slug": "sink-caddy",
@@ -61,7 +64,7 @@
             "model": "model.glb",
             "units": "mm",
             "poster": "poster.webp",
-            "cameraOrbit": "-30deg 70deg 125%",
+            "cameraOrbit": "-30deg 70deg 90%",
             "sizeMm": [
                 246.4,
                 160.0,
@@ -145,7 +148,7 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-48.4deg 59.7deg 130%"
+            "sceneCameraOrbit": "-48.4deg 59.7deg 75%"
         },
         {
             "slug": "glasses-rack",
@@ -164,7 +167,7 @@
             "model": "model.glb",
             "units": "mm",
             "poster": "poster.webp",
-            "cameraOrbit": "145deg 65deg 130%",
+            "cameraOrbit": "145deg 65deg 105%",
             "sizeMm": [
                 176.0,
                 126.6,
@@ -184,7 +187,7 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "159.2deg 54deg 130%"
+            "sceneCameraOrbit": "159.2deg 54deg 85%"
         }
     ]
 }
