@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-18T07:37:45.649Z",
+  "generatedAt": "2026-11-18T20:38:12.315Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Scope gantry: put the chain and Pi photos under their own headings (#3)",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/048bdcb8d6c751496f0ae6cb5e9d688fbb737d10",
-    "date": "2026-11-17T23:18:42Z"
+    "message": "Merge pull request #6 from NoahDorfman00/prints-download-modal",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/cf37c83ca8729d6e424d4197427e5ab65363a856",
+    "date": "2026-11-18T19:44:57Z"
   },
   "active": [
     "portfolio",
@@ -23,7 +23,7 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-11-17T23:18:42Z",
+      "pushedAt": "2026-11-18T19:44:57Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
@@ -65,27 +65,27 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.6
+      "pct": 18.5
     },
     {
       "name": "TypeScript",
-      "pct": 16.7
+      "pct": 16.3
     },
     {
       "name": "C++",
-      "pct": 14.9
+      "pct": 14.6
     },
     {
-      "name": "C",
+      "name": "JavaScript",
       "pct": 14.1
     },
     {
-      "name": "Python",
-      "pct": 13.2
+      "name": "C",
+      "pct": 13.8
     },
     {
       "name": "Other",
-      "pct": 22.5
+      "pct": 22.7
     }
   ]
 }
