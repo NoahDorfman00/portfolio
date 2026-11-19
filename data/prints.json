@@ -241,12 +241,62 @@
             "photos": [],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-22deg 68deg 105%"
+            "sceneCameraOrbit": "-22deg 68deg 110%",
+            "stl": [
+                {
+                    "src": "stl/minecraft-figures-creeper-lime.stl",
+                    "label": "Creeper: lime"
+                },
+                {
+                    "src": "stl/minecraft-figures-creeper-forest.stl",
+                    "label": "Creeper: forest"
+                },
+                {
+                    "src": "stl/minecraft-figures-creeper-ivory.stl",
+                    "label": "Creeper: ivory"
+                },
+                {
+                    "src": "stl/minecraft-figures-creeper-charcoal.stl",
+                    "label": "Creeper: charcoal"
+                },
+                {
+                    "src": "stl/minecraft-figures-jack-o-lantern-orange.stl",
+                    "label": "Jack-o'-lantern: orange"
+                },
+                {
+                    "src": "stl/minecraft-figures-jack-o-lantern-brown.stl",
+                    "label": "Jack-o'-lantern: brown"
+                },
+                {
+                    "src": "stl/minecraft-figures-jack-o-lantern-tan.stl",
+                    "label": "Jack-o'-lantern: tan"
+                },
+                {
+                    "src": "stl/minecraft-figures-jack-o-lantern-ivory.stl",
+                    "label": "Jack-o'-lantern: ivory"
+                },
+                {
+                    "src": "stl/minecraft-figures-skeleton-bone.stl",
+                    "label": "Skeleton: bone"
+                },
+                {
+                    "src": "stl/minecraft-figures-skeleton-ivory.stl",
+                    "label": "Skeleton: ivory"
+                },
+                {
+                    "src": "stl/minecraft-figures-skeleton-gray.stl",
+                    "label": "Skeleton: gray"
+                },
+                {
+                    "src": "stl/minecraft-figures-skeleton-charcoal.stl",
+                    "label": "Skeleton: charcoal"
+                }
+            ]
         },
         {
             "slug": "jungle-boyz",
             "title": "Jungle Boyz",
-            "description": "A four-color desk nameplate for Collin's Minecraft YouTube channel: JUNGLE BOYZ lettering, jungle trees and vines, and an ocelot, standing in a row of grass blocks. The plaque's tab drops into the stand and leans back 6°.",
+            "description": "A four-color desk nameplate for a neighbor's Minecraft YouTube channel: JUNGLE BOYZ lettering, jungle trees and vines, and an ocelot, standing in a row of grass blocks. The plaque's tab drops into the stand and leans back 6°.",
             "date": "2026-10-15",
             "dateKind": "designed",
             "material": "PLA, black, brown, green, and tan",
@@ -270,7 +320,33 @@
             "photos": [],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-22deg 64deg 95%"
+            "sceneCameraOrbit": "-22deg 64deg 100%",
+            "stl": [
+                {
+                    "src": "stl/jungle-boyz-plaque-black.stl",
+                    "label": "Plaque: black"
+                },
+                {
+                    "src": "stl/jungle-boyz-plaque-brown.stl",
+                    "label": "Plaque: brown"
+                },
+                {
+                    "src": "stl/jungle-boyz-plaque-green.stl",
+                    "label": "Plaque: green"
+                },
+                {
+                    "src": "stl/jungle-boyz-plaque-tan.stl",
+                    "label": "Plaque: tan"
+                },
+                {
+                    "src": "stl/jungle-boyz-base-brown.stl",
+                    "label": "Base: brown"
+                },
+                {
+                    "src": "stl/jungle-boyz-base-green.stl",
+                    "label": "Base: green"
+                }
+            ]
         },
         {
             "slug": "watching-movies",
@@ -299,7 +375,29 @@
             "photos": [],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-32deg 58deg 105%"
+            "sceneCameraOrbit": "-32deg 58deg 110%",
+            "stl": [
+                {
+                    "src": "stl/watching-movies-tray-body.stl",
+                    "label": "Tray body"
+                },
+                {
+                    "src": "stl/watching-movies-art-red.stl",
+                    "label": "Art: red"
+                },
+                {
+                    "src": "stl/watching-movies-art-gold.stl",
+                    "label": "Art: gold"
+                },
+                {
+                    "src": "stl/watching-movies-art-black.stl",
+                    "label": "Art: black"
+                },
+                {
+                    "src": "stl/watching-movies-art-cream.stl",
+                    "label": "Art: cream"
+                }
+            ]
         },
         {
             "slug": "fluke-mount",
@@ -332,7 +430,8 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-32deg 70deg 95%"
+            "sceneCameraOrbit": "-32deg 70deg 95%",
+            "stl": "stl/fluke-mount.stl"
         },
         {
             "slug": "shower-caddy-stopper",
@@ -365,16 +464,18 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-55deg 72deg 95%"
+            "sceneCameraOrbit": "-55deg 72deg 95%",
+            "stl": "stl/shower-caddy-stopper.stl"
         },
         {
             "slug": "lifting-claude",
             "title": "Lifting Claude",
-            "description": "A blocky Claude mascot holding a dumbbell in each hand, in orange, black, and dark gray PLA, rebuilt in OpenSCAD from an auto-traced original. This is the open-eye version; the squint-eyed variant and the original mesh are under Versions. The dumbbells slice at 1 h 42 min; the figure's time wasn't recorded.",
+            "description": "A blocky Claude mascot holding a dumbbell in each hand, in Mandarin Orange and Charcoal matte PLA, rebuilt in OpenSCAD from an auto-traced original. This is the squint-eyed version, with raised chevron eyes on a flat face; the open-eye version and the original mesh are under Versions.",
             "date": "2026-07-26",
             "dateKind": "designed",
-            "material": "PLA, orange, black, and dark gray",
+            "material": "PLA Matte, Mandarin Orange and Charcoal",
             "printer": "Bambu Lab X2D",
+            "printTimeMinutes": 102,
             "layerHeightMm": 0.2,
             "tags": [
                 "mascot",
@@ -386,10 +487,10 @@
             "cameraOrbit": "-30deg 70deg 110%",
             "sizeMm": [
                 84.5,
-                25.0,
+                26.5,
                 49.2
             ],
-            "alt": "A small blocky orange figure standing with a dark gray dumbbell in each hand and recessed black eyes",
+            "alt": "A small blocky orange figure standing with a dark gray dumbbell in each hand and raised black chevron eyes on a flat face",
             "photos": [],
             "iterations": [
                 {
@@ -401,17 +502,31 @@
                     }
                 },
                 {
-                    "label": "squint eyes",
-                    "note": "A variant with raised inward-pointing chevron eyes on a flat face, sharing the same body and dumbbells as the open-eye version. The open-eye design is the one shown as the main model.",
+                    "label": "open eyes",
+                    "note": "An open-eye variant from the same parametric rebuild, with recessed eye pockets and black inserts set 1.2 mm below the face. It shares the dumbbells with the squint-eyed version. It is not the version that was printed.",
                     "photo": {
-                        "src": "iterations/squint.webp",
-                        "alt": "Render of the squint-eyed Lifting Claude variant, with chevron eyes and dumbbells"
+                        "src": "iterations/open-eyes.webp",
+                        "alt": "Render of the open-eye Lifting Claude variant, with recessed black eyes and dumbbells"
                     }
                 }
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-26deg 68deg 95%"
+            "sceneCameraOrbit": "-26deg 68deg 100%",
+            "stl": [
+                {
+                    "src": "stl/lifting-claude-body.stl",
+                    "label": "Body"
+                },
+                {
+                    "src": "stl/lifting-claude-eyes.stl",
+                    "label": "Eyes"
+                },
+                {
+                    "src": "stl/lifting-claude-dumbbells.stl",
+                    "label": "Dumbbells"
+                }
+            ]
         },
         {
             "slug": "robot-vacuum",
@@ -456,7 +571,21 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-18deg 66deg 82%"
+            "sceneCameraOrbit": "-18deg 66deg 82%",
+            "stl": [
+                {
+                    "src": "stl/robot-vacuum-filter-holder.stl",
+                    "label": "Filter holder"
+                },
+                {
+                    "src": "stl/robot-vacuum-desk-foot-bumper.stl",
+                    "label": "Desk-foot bumper"
+                },
+                {
+                    "src": "stl/robot-vacuum-coffee-table-bumper.stl",
+                    "label": "Coffee-table bumper"
+                }
+            ]
         },
         {
             "slug": "chicken-coop",
@@ -491,7 +620,17 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-18deg 58deg 100%"
+            "sceneCameraOrbit": "-18deg 58deg 100%",
+            "stl": [
+                {
+                    "src": "stl/chicken-coop-coop.stl",
+                    "label": "Coop"
+                },
+                {
+                    "src": "stl/chicken-coop-sign.stl",
+                    "label": "Sign"
+                }
+            ]
         },
         {
             "slug": "lid-hanger",
@@ -524,7 +663,8 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-15deg 82deg 105%"
+            "sceneCameraOrbit": "-15deg 82deg 105%",
+            "stl": "stl/lid-hanger.stl"
         },
         {
             "slug": "wedding-rings",
@@ -556,37 +696,103 @@
                 {
                     "label": "3.0 mm",
                     "model": "bands/band-3.0mm.glb",
-                    "note": "A 3.0 mm wide band, inner diameter about 18.1 mm (about US size 8)."
+                    "note": "A 3.0 mm wide band, inner diameter about 18.1 mm (about US size 8).",
+                    "stl": [
+                        {
+                            "src": "stl/wedding-rings-band-3.0mm.stl",
+                            "label": "Band, 3.0 mm"
+                        }
+                    ]
                 },
                 {
                     "label": "3.5 mm",
                     "model": "bands/band-3.5mm.glb",
-                    "note": "A 3.5 mm wide band, inner diameter about 18.1 mm (about US size 8)."
+                    "note": "A 3.5 mm wide band, inner diameter about 18.1 mm (about US size 8).",
+                    "stl": [
+                        {
+                            "src": "stl/wedding-rings-band-3.5mm.stl",
+                            "label": "Band, 3.5 mm"
+                        }
+                    ]
                 },
                 {
                     "label": "4.0 mm",
                     "model": "bands/band-4.0mm.glb",
-                    "note": "A 4.0 mm wide band, inner diameter about 18.2 mm (about US size 8)."
+                    "note": "A 4.0 mm wide band, inner diameter about 18.2 mm (about US size 8).",
+                    "stl": [
+                        {
+                            "src": "stl/wedding-rings-band-4.0mm.stl",
+                            "label": "Band, 4.0 mm"
+                        }
+                    ]
                 },
                 {
                     "label": "4.5 mm",
                     "model": "bands/band-4.5mm.glb",
-                    "note": "A 4.5 mm wide band, inner diameter about 18.2 mm (about US size 8)."
+                    "note": "A 4.5 mm wide band, inner diameter about 18.2 mm (about US size 8).",
+                    "stl": [
+                        {
+                            "src": "stl/wedding-rings-band-4.5mm.stl",
+                            "label": "Band, 4.5 mm"
+                        }
+                    ]
                 },
                 {
                     "label": "5.0 mm",
                     "model": "bands/band-5.0mm.glb",
-                    "note": "A 5.0 mm wide band, inner diameter about 18.2 mm (about US size 8)."
+                    "note": "A 5.0 mm wide band, inner diameter about 18.2 mm (about US size 8).",
+                    "stl": [
+                        {
+                            "src": "stl/wedding-rings-band-5.0mm.stl",
+                            "label": "Band, 5.0 mm"
+                        }
+                    ]
                 },
                 {
                     "label": "All bands",
                     "model": "bands/all-bands.glb",
-                    "note": "All five widths together, 3.0 through 5.0 mm in 0.5 mm steps."
+                    "note": "All five widths together, 3.0 through 5.0 mm in 0.5 mm steps.",
+                    "stl": [
+                        {
+                            "src": "stl/wedding-rings-band-3.0mm.stl",
+                            "label": "Band, 3.0 mm"
+                        },
+                        {
+                            "src": "stl/wedding-rings-band-3.5mm.stl",
+                            "label": "Band, 3.5 mm"
+                        },
+                        {
+                            "src": "stl/wedding-rings-band-4.0mm.stl",
+                            "label": "Band, 4.0 mm"
+                        },
+                        {
+                            "src": "stl/wedding-rings-band-4.5mm.stl",
+                            "label": "Band, 4.5 mm"
+                        },
+                        {
+                            "src": "stl/wedding-rings-band-5.0mm.stl",
+                            "label": "Band, 5.0 mm"
+                        }
+                    ]
                 }
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-25deg 55deg 90%"
+            "sceneCameraOrbit": "-25deg 55deg 90%",
+            "stl": [
+                {
+                    "src": "stl/wedding-rings-holder.stl",
+                    "label": "Holder"
+                },
+                {
+                    "src": "stl/wedding-rings-engagement-ring.stl",
+                    "label": "Engagement ring"
+                },
+                {
+                    "src": "stl/wedding-rings-band-4.0mm.stl",
+                    "label": "Band, 4.0 mm"
+                }
+            ]
         },
         {
             "slug": "wild-things",
@@ -613,7 +819,17 @@
             "photos": [],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-22deg 64deg 100%"
+            "sceneCameraOrbit": "-22deg 64deg 100%",
+            "stl": [
+                {
+                    "src": "stl/wild-things-crown.stl",
+                    "label": "Crown"
+                },
+                {
+                    "src": "stl/wild-things-scepter.stl",
+                    "label": "Scepter"
+                }
+            ]
         },
         {
             "slug": "under-desk",
@@ -647,7 +863,29 @@
             ],
             "scene": "scene.glb",
             "scenePoster": "scene-poster.webp",
-            "sceneCameraOrbit": "-10deg 42deg 85%"
+            "sceneCameraOrbit": "-10deg 42deg 85%",
+            "stl": [
+                {
+                    "src": "stl/under-desk-wire-mount-200mm.stl",
+                    "label": "Wire mount, 200 mm"
+                },
+                {
+                    "src": "stl/under-desk-wire-mount-180mm.stl",
+                    "label": "Wire mount, 180 mm"
+                },
+                {
+                    "src": "stl/under-desk-large-kvm-mount.stl",
+                    "label": "Large KVM mount"
+                },
+                {
+                    "src": "stl/under-desk-small-kvm-mount.stl",
+                    "label": "Small KVM mount"
+                },
+                {
+                    "src": "stl/under-desk-remote-holder.stl",
+                    "label": "Remote holder"
+                }
+            ]
         }
     ]
 }

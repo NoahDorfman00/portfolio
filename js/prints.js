@@ -59,6 +59,9 @@
         const stl = (v && v.stl) || p.stl;
         return !stl ? [] : typeof stl === 'string' ? [{ src: stl }] : stl;
     };
+    // The "Download all" zip that scripts/build-stl-zips.mjs made: the print's, or the one of a variant's own files,
+    // which is named after the variant's label ("All bands" is all-bands), slugged the way that script does it.
+    const zipOf = (p, v) => `stl/${p.slug}${v ? `-${v.label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}` : ''}-stl.zip`;
     const bytes = n => n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`;
     // File sizes are asked for once per file with a HEAD request, and shared by the tile and the dialog.
     // A compressed response's Content-Length isn't the file's size, so that counts as not knowing.
@@ -82,7 +85,7 @@
     // One button on a tile and one in the detail view, both opening the same small dialog: a link per part
     // ("Tray · 14.2 MB"), then "Download all" for the zip that scripts/build-stl-zips.mjs made, if the print has more
     // than one part, then the licence. The licence covers the STL files only (also in a LICENSE.txt next to them,
-    // and in the zip), not the site's code. A variant's own files are headed with its label too, and have no zip.
+    // and in the zip), not the site's code. A variant's own files are headed with its label too, and get its own zip.
     function download(p, opener, v) {
         const files = stls(p, v), own = v && v.stl, name = own ? `${p.title}, ${v.label}` : p.title;
         const close = h('button', { type: 'button', class: 'pbtn' }, 'Close');
@@ -91,8 +94,8 @@
             h('div', { class: 'pd-head' }, h('h2', { id: 'pdl-title' }, `Download ${name}`), close),
             h('ul', { class: 'pdl-files', 'aria-label': 'STL files' }, files.map((s, i) => h('li', null,
                 fileLink('link', asset(p, s.src), size => (s.label || name) + (size ? ` · ${size}` : ''), { autofocus: i === 0 })))),
-            !own && files.length > 1 && h('p', { class: 'pdl-all' },
-                fileLink('pbtn', asset(p, `stl/${p.slug}-stl.zip`), size => `Download all (.zip${size ? `, ${size}` : ''})`)),
+            files.length > 1 && h('p', { class: 'pdl-all' },
+                fileLink('pbtn', asset(p, zipOf(p, own && v)), size => `Download all (.zip${size ? `, ${size}` : ''})`)),
             h('p', { class: 'pdl-licence' }, 'STL files © Noah Dorfman, licensed ',
                 h('a', { class: 'link', href: 'https://creativecommons.org/licenses/by-nc/4.0/', rel: 'license' }, 'CC BY-NC 4.0'))));
         dlOpener = opener;
