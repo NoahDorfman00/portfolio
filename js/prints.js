@@ -3,6 +3,7 @@
 // is swapped for a live model; if either is missing, or a model fails to load, the poster stays.
 // A print with a "scene" also gets a "Show in setting" button that swaps the model for the one with its surroundings.
 // A print with "stl" gets a "Download STL" button, which opens a small dialog with a link for each of its files.
+// A print with "variants" gets a row of radio buttons in its detail view, which swap the model for another one.
 
 (function () {
     const list = document.getElementById('prints-list');
@@ -32,14 +33,15 @@
         return [hrs && `${hrs} h`, (m || !hrs) && `${m} min`].filter(Boolean).join(' ');
     }
     const mm = n => n >= 10 ? Math.round(n) : Math.round(n * 10) / 10;
+    const dims = s => `${s.map(mm).join(' × ')} mm`;      // [wide, deep, tall]
 
     function facts(p, full) {
         const rows = [
             ['Material', p.material],
             ['Printer', p.printer],
-            ['Print time', duration(p.printTimeMinutes)],
+            p.printTimeMinutes && ['Print time', duration(p.printTimeMinutes)],
             full && p.layerHeightMm && ['Layer height', `${p.layerHeightMm} mm`],
-            full && ['Size', h('span', { 'data-size': true }, p.sizeMm ? `${p.sizeMm.map(mm).join(' × ')} mm` : '—')],
+            full && ['Size', h('span', { 'data-size': true }, p.sizeMm ? dims(p.sizeMm) : '—')],
             ['Printed', date(p.date)],
             full && p.tags.length && ['Tags', p.tags.join(', ')]
         ].filter(Boolean);
@@ -51,8 +53,12 @@
 
     // ---------- STL downloads ----------
 
-    // "stl" is one path, or a list of { src, label } for a print with more than one part
-    const stls = p => !p.stl ? [] : typeof p.stl === 'string' ? [{ src: p.stl }] : p.stl;
+    // "stl" is one path, or a list of { src, label } for a print with more than one part. A variant that has its own
+    // "stl" downloads that; one that doesn't downloads the print's.
+    const stls = (p, v) => {
+        const stl = (v && v.stl) || p.stl;
+        return !stl ? [] : typeof stl === 'string' ? [{ src: stl }] : stl;
+    };
     const bytes = n => n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`;
     // File sizes are asked for once per file with a HEAD request, and shared by the tile and the dialog.
     // A compressed response's Content-Length isn't the file's size, so that counts as not knowing.
@@ -76,16 +82,16 @@
     // One button on a tile and one in the detail view, both opening the same small dialog: a link per part
     // ("Tray · 14.2 MB"), then "Download all" for the zip that scripts/build-stl-zips.mjs made, if the print has more
     // than one part, then the licence. The licence covers the STL files only (also in a LICENSE.txt next to them,
-    // and in the zip), not the site's code.
-    function download(p, opener) {
-        const files = stls(p);
+    // and in the zip), not the site's code. A variant's own files are headed with its label too, and have no zip.
+    function download(p, opener, v) {
+        const files = stls(p, v), own = v && v.stl, name = own ? `${p.title}, ${v.label}` : p.title;
         const close = h('button', { type: 'button', class: 'pbtn' }, 'Close');
         close.addEventListener('click', () => dl.close());
         dl.replaceChildren(h('div', { class: 'pdl' },
-            h('div', { class: 'pd-head' }, h('h2', { id: 'pdl-title' }, `Download ${p.title}`), close),
+            h('div', { class: 'pd-head' }, h('h2', { id: 'pdl-title' }, `Download ${name}`), close),
             h('ul', { class: 'pdl-files', 'aria-label': 'STL files' }, files.map((s, i) => h('li', null,
-                fileLink('link', asset(p, s.src), size => (s.label || p.title) + (size ? ` · ${size}` : ''), { autofocus: i === 0 })))),
-            files.length > 1 && h('p', { class: 'pdl-all' },
+                fileLink('link', asset(p, s.src), size => (s.label || name) + (size ? ` · ${size}` : ''), { autofocus: i === 0 })))),
+            !own && files.length > 1 && h('p', { class: 'pdl-all' },
                 fileLink('pbtn', asset(p, `stl/${p.slug}-stl.zip`), size => `Download all (.zip${size ? `, ${size}` : ''})`)),
             h('p', { class: 'pdl-licence' }, 'STL files © Noah Dorfman, licensed ',
                 h('a', { class: 'link', href: 'https://creativecommons.org/licenses/by-nc/4.0/', rel: 'license' }, 'CC BY-NC 4.0'))));
@@ -100,10 +106,10 @@
         if (dlOpener && dlOpener.isConnected) dlOpener.focus();
         dlOpener = null;
     });
-    function downloads(p) {
-        if (!stls(p).length) return null;
-        const b = h('button', { type: 'button', class: 'pbtn', 'aria-haspopup': 'dialog', 'aria-label': `Download STL: ${p.title}` }, 'Download STL');
-        b.addEventListener('click', () => download(p, b));
+    function downloads(p, v) {
+        if (!stls(p, v).length) return null;
+        const b = h('button', { type: 'button', class: 'pbtn', 'aria-haspopup': 'dialog', 'aria-label': `Download STL: ${v && v.stl ? `${p.title}, ${v.label}` : p.title}` }, 'Download STL');
+        b.addEventListener('click', () => download(p, b, v));
         return b;
     }
 
@@ -147,10 +153,10 @@
     // sceneCameraOrbit); the scene file is only fetched the first time it is asked for. Without WebGL the button
     // swaps the poster picture instead.
     // zoom: scroll-to-zoom from the start (the dialog), or only once the model has been clicked or focused
-    // (the gallery, so the page still scrolls past it). onload(mv, scene) runs each time a model has loaded.
+    // (the gallery, so the page still scrolls past it). onload(mv, scene, file) runs each time a model has loaded.
     function viewer(view, p, { zoom, onload }) {
         const img = view.querySelector('img');
-        let mv = null, scene = false, file = p.model, wanted = null, settle = null;
+        let mv = null, scene = false, file = p.model, alt = p.alt, wanted = null, settle = null;
         const src = () => asset(p, scene ? p.scene : file);
 
         const toggle = p.scene && h('button', { type: 'button', class: 'pbtn print-toggle', 'aria-pressed': 'false', 'aria-label': `Show in setting: ${p.title}` }, 'Show in setting');
@@ -182,11 +188,11 @@
         function setScene(on) {
             scene = on;
             toggle.setAttribute('aria-pressed', String(on));
-            const picture = asset(p, on ? p.scenePoster : p.poster), alt = p.alt + (on ? IN_SETTING : '');
-            img.src = picture; img.alt = alt;
+            const picture = asset(p, on ? p.scenePoster : p.poster), text = p.alt + (on ? IN_SETTING : '');
+            img.src = picture; img.alt = text;
             if (!mv) return;
             // The poster covers the swap: it shows until the other file has loaded, and stays if it can't
-            mv.setAttribute('poster', picture); mv.setAttribute('alt', alt);
+            mv.setAttribute('poster', picture); mv.setAttribute('alt', on ? text : alt);
             mv.showPoster();
             aim();
             load(src());
@@ -194,7 +200,7 @@
 
         function mount() {
             mv = h('model-viewer', {
-                poster: img.src, alt: img.alt,
+                poster: img.src, alt: scene ? img.alt : alt,
                 'camera-controls': true, 'touch-action': 'pan-y', 'interaction-prompt': 'none',
                 'camera-orbit': (scene && p.sceneCameraOrbit) || p.cameraOrbit || ORBIT, 'max-camera-orbit': 'auto auto 150%', 'shadow-intensity': '0',
                 loading: 'eager', reveal: 'auto',
@@ -203,7 +209,7 @@
             mv.addEventListener('load', () => {
                 if (settle) settle();
                 mv.dismissPoster();
-                if (onload) onload(mv, scene);
+                if (onload && mv.getAttribute('src') === wanted) onload(mv, scene, file);      // not a load that has been replaced since
             });
             // A bad file or a lost context. One retry first, under a separate URL (model-viewer remembers a failed one), in
             // case two viewers did end up loading the same file at once. After that a scene keeps its poster up (and the
@@ -234,8 +240,16 @@
 
         return {
             mount,
-            // An earlier version's model. Versions belong to the clean view, so picking one leaves the scene.
-            version(f) { file = f; if (scene) setScene(false); else if (mv) load(src()); },
+            // An earlier version's model, or a variant's. Both belong to the clean view, so picking one leaves the scene.
+            // as: a variant's alt text. The setting is the print's own, so the button goes while a variant is showing.
+            version(f, as) {
+                file = f; alt = as || p.alt;
+                if (toggle) toggle.hidden = !!as;
+                if (scene) return setScene(false);
+                if (!mv) return;
+                mv.setAttribute('alt', alt);
+                load(src());
+            },
             // The dialog closed: let go of the queue
             drop() { mv = null; if (settle) settle(); }
         };
@@ -289,6 +303,18 @@
         return el;
     }
 
+    // A print's variants as a row of radio buttons: the print's own model first, then each variant. Real radios, so
+    // the arrow keys move between them. pick(variant) is called with the one chosen, or null for the print's own model.
+    function selector(p, pick) {
+        return h('fieldset', { class: 'pvar' },
+            h('legend', null, p.variantsLabel || 'Variant'),
+            h('div', { class: 'pvar-opts' }, [null, ...p.variants].map(o => {
+                const input = h('input', { type: 'radio', name: 'pvar', checked: !o });
+                input.addEventListener('change', () => pick(o));
+                return h('label', null, input, h('span', { class: 'pbtn' }, o ? o.label : p.modelLabel || 'Main'));
+            })));
+    }
+
     let shown = null;       // the dialog's viewer
     function show(p) {
         if (dl.open) dl.close();
@@ -296,14 +322,35 @@
         const close = h('button', { type: 'button', class: 'pbtn' }, 'Close');
         close.addEventListener('click', () => dialog.close());
         const versions = p.iterations || [];
-        const info = facts(p, true);
+        const info = facts(p, true), sizeRow = info.querySelector('[data-size]');
         const cap = h('figcaption', { class: 'cap' }, 'Drag to turn it, scroll or pinch to zoom.');
+        const figure = h('figure', null, view, cap);
+
+        // What the model is showing: the version picked, or the variant picked in its place. The Size row and the
+        // download button follow it.
+        let version = p.model, variant = null, views = null;
+        const measured = new Map();     // file → [wide, deep, tall] in mm, as each model loads
+        const note = h('p', { class: 'pvar-note', 'aria-live': 'polite' }), actions = h('div', { class: 'actions' });
+        function follow() {
+            const size = (variant || p).sizeMm || measured.get(variant ? variant.model : version);
+            sizeRow.textContent = size ? dims(size) : '—';
+            const b = downloads(p, variant);
+            actions.replaceChildren(...(b ? [b] : []));
+            actions.hidden = !b;
+        }
+        function pick(o) {
+            variant = o;
+            note.textContent = (o && o.note) || '';
+            if (views) views.hidden = !!o;       // versions are of the print's own model
+            v.version(o ? o.model : version, o && `${p.title}: ${o.label}`);
+            follow();
+        }
 
         dialog.replaceChildren(h('div', { class: 'pd' },
             h('div', { class: 'pd-head' }, h('h2', { id: 'pd-title' }, p.title, badge(p)), close),
             h('div', { class: 'pd-top' },
-                h('figure', null, view, cap),
-                h('div', null, h('p', null, p.description), info, p.stl && h('div', { class: 'actions' }, downloads(p)))),
+                p.variants ? h('div', null, figure, selector(p, pick), note) : figure,
+                h('div', null, h('p', null, p.description), info, actions)),
             p.photos.length ? h('section', { class: 'pd-sec' }, h('h3', null, 'Photos'), carousel(p)) : null,
             versions.length ? h('section', { class: 'pd-sec' }, h('h3', null, 'Versions'),
                 h('div', { class: 'versions' }, versions.map(v => h('div', null,
@@ -313,15 +360,17 @@
             credit(p)));
 
         if (shown) shown.drop();
-        // Size comes from the model itself, so a wrong "units" shows up as a silly number here, unless the entry gives
-        // sizeMm, for a model that also holds things that weren't printed. The scene is never measured.
+        // Size comes from the model itself, so a wrong "units" shows up as a silly number here, unless the entry (or the
+        // variant showing) gives sizeMm, for a model that also holds things that weren't printed. The scene is never measured.
         const v = shown = viewer(view, p, {
-            zoom: true, onload: (mv, scene) => {
-                if (p.sizeMm || scene) return;
+            zoom: true, onload: (mv, scene, file) => {
+                if (scene) return;
                 const d = mv.getDimensions(), k = p.units === 'mm' ? 1 : 1000;
-                info.querySelector('[data-size]').textContent = `${mm(d.x * k)} × ${mm(d.z * k)} × ${mm(d.y * k)} mm`;
+                measured.set(file, [d.x * k, d.z * k, d.y * k]);
+                follow();
             }
         });
+        follow();
         loadViewer().then(() => {
             v.mount();
             // Earlier versions that kept their model get a button each, like the view buttons on a project model
@@ -330,17 +379,18 @@
             const buttons = models.map(m => {
                 const b = h('button', { type: 'button', class: 'pbtn', 'aria-pressed': String(m.file === p.model) }, m.label);
                 b.addEventListener('click', () => {
-                    v.version(m.file);
+                    v.version(version = m.file);
                     buttons.forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+                    follow();
                 });
                 return b;
             });
-            view.append(h('div', { class: 'pd-views', role: 'group', 'aria-label': 'Version shown' }, buttons));
+            view.append(views = h('div', { class: 'pd-views', role: 'group', 'aria-label': 'Version shown', hidden: !!variant }, buttons));
         }, () => {
             cap.textContent = 'A still picture: this browser can’t draw the 3D model.';
-            if (p.sizeMm) return;
-            info.querySelector('[data-size]').closest('dd').previousSibling.remove();
-            info.querySelector('[data-size]').closest('dd').remove();
+            if (p.sizeMm || (p.variants || []).some(o => o.sizeMm)) return;     // nothing to measure with, and nothing given
+            sizeRow.closest('dd').previousSibling.remove();
+            sizeRow.closest('dd').remove();
         });
 
         if (!dialog.open) dialog.showModal();

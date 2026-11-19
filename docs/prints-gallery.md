@@ -20,6 +20,7 @@ The 3D view is Google's [`<model-viewer>`](https://modelviewer.dev/), vendored i
        photos/02.webp
        iterations/v1.glb    optional: models and photos of earlier versions
        iterations/v1.webp
+       variants/long.glb    optional: other sizes or parts to pick between; see Variants below
        stl/cable-clip.stl   optional: the file to download, or one per part
        stl/LICENSE.txt      goes with the STLs
        stl/cable-clip-stl.zip   built by a script when there are two or more STLs; see STL below
@@ -69,12 +70,20 @@ To remove a print, delete its entry and its folder.
 | `date` | string | yes | When it was printed: `"YYYY-MM-DD"`, `"YYYY-MM"` or `"YYYY"`. Also the sort key. |
 | `material` | string | yes | `"PLA"`, `"PETG, matte black"`. |
 | `printer` | string | yes | The machine it came off. |
-| `printTimeMinutes` | integer | yes | Print time in minutes. `95` is shown as "1 h 35 min". |
+| `printTimeMinutes` | integer | no | Print time in minutes, a whole number above 0. `95` is shown as "1 h 35 min". Leave the key out when the time isn't known (don't write `null` or `0`): the Print time row is then left off the tile and the detail view. For a set of parts with only some times recorded, leave it out and give the times in `description` rather than a total that was never sliced. |
 | `layerHeightMm` | number | no | Layer height in millimetres, `0.2`. |
 | `tags` | string[] | yes | Short labels. `[]` is fine. |
 | `model` | path | yes | The GLB. Usually `"model.glb"`. |
 | `units` | `"mm"` or `"m"` | yes | What one unit in the GLB stands for. glTF says metres, but a model exported straight from CAD or a slicer is usually in millimetres. The detail view works out the print's size (wide × deep × tall) from this, so a wrong value shows up as a bracket 60 metres wide. |
 | `sizeMm` | number[3] | no | `[wide, deep, tall]` in millimetres, shown as the print's size instead of measuring the model. Use it when the GLB also holds things that weren't printed, like a display figure. |
+| `modelLabel` | string | no | What the print's own `model` is called in the variant selector: `"With holder"`. Default `"Main"`. Only allowed with `variants`. |
+| `variantsLabel` | string | no | The selector's heading: `"Band width"`. Default `"Variant"`. Only allowed with `variants`. |
+| `variants` | object[] | no | Other models of the same print, to pick between in the detail view: sizes, or one part on its own. Two or more, or leave the field out. See [Variants](#variants). |
+| `variants[].label` | string | yes | `"3.0 mm"`. Shown on its button. Unique within the print, and not the same as `modelLabel`. |
+| `variants[].model` | path | yes | That variant's GLB. Same `units` and [specs](#model) as the print's `model`, and not the same file as it. |
+| `variants[].note` | string | no | A sentence shown under the selector while the variant is picked. |
+| `variants[].sizeMm` | number[3] | no | The variant's size, same form as `sizeMm`. Without it the Size row is measured from the variant's model. |
+| `variants[].stl` | path, or object[] | no | The variant's own download, same forms as `stl`. Without it the variant offers the print's `stl`, if there is one. |
 | `poster` | path | yes | The poster image. Usually `"poster.webp"`. |
 | `cameraOrbit` | string | no | Starting camera angle, as model-viewer's [`camera-orbit`](https://modelviewer.dev/docs/index.html#entrydocs-stagingandcameras-attributes-cameraOrbit): `"<around> <down from the top> <distance>"`. Default `"-30deg 70deg 120%"`. Distance can go up to `150%`. Re-render the poster after changing it. |
 | `scene` | path | no | A second GLB: the print in its setting, with display props around it. Usually `"scene.glb"`. Adds a "Show in setting" button; the file is only fetched when that is first pressed. See [Showing a print in its setting](#showing-a-print-in-its-setting). |
@@ -88,7 +97,7 @@ To remove a print, delete its entry and its folder.
 | `iterations` | object[] | no | The design story, oldest first. Leave the field out if there isn't one. |
 | `iterations[].label` | string | yes | `"v1"`, `"v4.5"`. |
 | `iterations[].note` | string | yes | What changed and why. |
-| `iterations[].model` | path | no | That version's GLB. Each one adds a button to the detail view that swaps the model. The last button is always "Final" (the print's own `model`), so don't give the final version a second copy here. Same `units` as the print. |
+| `iterations[].model` | path | no | That version's GLB. Each one adds a button to the detail view that swaps the model. The last button is always "Final" (the print's own `model`), so don't give the final version a second copy here. Same `units` as the print. Versions are for earlier attempts; sizes or parts of the finished print go in `variants`. |
 | `iterations[].photo` | object | no | `{ "src": "iterations/v1.webp", "alt": "..." }` |
 | `stl` | path, or object[] | no | The STL to download: one path, `"stl/cable-clip.stl"`, or for a print with more than one part a non-empty list of `{ "src", "label" }`. Adds the "Download STL" button. See [STL](#stl). |
 | `stl[].src` | path | yes | `"stl/sink-caddy-tray.stl"`. The file name is the name it downloads under, so make it say what it is. |
@@ -125,6 +134,27 @@ Every **path** is relative to the print's own folder, `assets/prints/<slug>/`. N
     ]
 }
 ```
+
+## Variants
+
+A print that comes in several sizes, or that is worth seeing one part at a time, lists the others as `variants`. The wedding rings do: the print's own model is the holder with two rings in it, and the variants are the band on its own in each of five widths, plus all five together. (The second variant below also shows the optional `sizeMm` and `stl`, which the wedding rings don't have.)
+
+```json
+"modelLabel": "With holder",
+"variantsLabel": "Band width",
+"variants": [
+    { "label": "3.0 mm", "model": "bands/band-3.0mm.glb", "note": "A 3.0 mm wide band, inner diameter about 18.1 mm (about US size 8)." },
+    { "label": "3.5 mm", "model": "bands/band-3.5mm.glb", "sizeMm": [20.2, 3.5, 20.2], "stl": "stl/band-3.5mm.stl" }
+]
+```
+
+- **The print's own `model` is always the first choice** and the one the detail view opens on, labelled with `modelLabel`. Don't list it again as a variant. The tile only ever shows the print's own model, and has no selector.
+- **Posters.** A variant has no poster of its own. The model that was showing stays up until the variant's has loaded.
+- **Size.** A variant's `sizeMm` if it has one; otherwise measured from its model, even when the print itself gives `sizeMm` (that number is the print's, not the variant's). So a variant's GLB should hold only what was printed, or give its own `sizeMm`.
+- **STL.** A variant's `stl` is checked like the print's (it can name the same files), and its files count as used. There is no "Download all" zip for a variant's files, only for the print's own `stl`: `build-stl-zips.mjs` doesn't look at variants.
+- **Versions.** `iterations` and `variants` are different things and can sit side by side: a model in `iterations` gets a version button, a model in `variants` gets a choice in the selector, and neither shows up in the other.
+
+The check ✓ wants two or more variants, labels that are non-empty and unique (and not the `modelLabel`), and each `model` to exist, be a different file from the print's `model`, and pass the same limits as any model.
 
 ## Asset specs
 
@@ -243,14 +273,16 @@ The zips are committed, so each one adds its size to the repo again every time i
 
 - **Lazy.** A tile shows its poster first. model-viewer itself (about 1 MB, 300 KB gzipped) is only fetched if the browser has WebGL, and each model only when its tile nears the screen. The page watches for that itself (an `IntersectionObserver`) and only then gives the viewer its `src`, rather than leaving it to `loading="lazy"`, so that it knows which loads have started. model-viewer 4 dropped `reveal="interaction"`, so `reveal="auto"` is the one in use.
 - **Show in setting.** A print with a `scene` gets a "Show in setting" button on its model, both on its tile and in the detail view. It is a toggle button (`aria-pressed`, amber while on). Pressing it shows `scenePoster`, fetches `scene` (the first press is the only time it is fetched; nothing loads it before that), and swaps the model once it has arrived, with the camera put at `sceneCameraOrbit`. Pressing it again goes back to `model`, `poster` and `cameraOrbit`. Either way the camera starts over from the view's own angle, wherever it had been dragged to. The alt text follows the view. The tile and the detail view each keep their own state, and the detail view always opens on the clean model.
-- **Size.** The Size row shows `sizeMm` if the entry has it, in both views. Without it the size is measured from the clean model. The scene is never measured.
+- **Print time.** The Print time row is only there for a print that has `printTimeMinutes`. Nothing else reads it: the page sorts by `date` alone.
+- **Size.** The Size row shows `sizeMm` if the entry has it, in both views. Without it the size is measured from the clean model. The scene is never measured. While a variant is picked, the row shows that variant's size instead (its `sizeMm`, or measured from its model), and "—" until there is one.
 - **Versions and the scene.** The version buttons in the detail view belong to the clean view. Picking a version while the scene is showing switches the scene off and shows that version; switching the scene off again returns to the version that was picked.
+- **Variants.** A print with `variants` gets a row of radio buttons under the model in the detail view, headed with `variantsLabel`: the print's own model first (`modelLabel`), then each variant. They are real `<input type="radio">`s in a `<fieldset>`, so Tab reaches the group and the arrow keys move through it. Picking one swaps the model, through the same queue and retry as every other load, and shows its `note` under the row (an `aria-live="polite"` line, so it is read out). The Size row and the "Download STL" button follow the choice: the button offers the variant's `stl` if it has one (the download dialog is then headed "Download Wedding rings, 3.0 mm" and has no zip button), otherwise the print's `stl`, and is hidden if there is neither. The model's alt text becomes "Wedding rings: 3.0 mm". **"Show in setting" and the version buttons belong to the print's own model, so both are hidden while a variant is picked** and come back with the first choice, which returns to whichever version was last showing. Picking a variant while the scene is on switches the scene off. The detail view always opens on the print's own model; the choice isn't kept in the link. Without WebGL the selector is still there for the note and the downloads, but the picture stays the print's poster.
 - **One load at a time.** Two viewers fetching the same file at the same moment (a tile and the detail view opened from `/prints/#slug`, or both of them switched to the scene) can trip model-viewer's shared cache. So loads of one URL take turns: the second viewer keeps its poster up until the first has finished, then loads from the cache. If a load fails anyway it is retried once under a `?retry=` URL.
-- **Download STL.** A print with `stl` gets one "Download STL" button on its tile and one in the detail view; a print without it gets none. Either opens the same small dialog, a second native `<dialog>` (`.print-dl`) headed "Download Sink caddy". Opened from the detail view it sits on top of it, and Close, Esc or a click on the backdrop closes only the download dialog. Focus starts on the first file and goes back to the button that opened it. Inside: one row per part, each a plain `<a href download>` to the file, saved under its own file name ("Tray · 14.2 MB"); then, for a print with two or more parts, a "Download all (.zip, 8.5 MB)" button, which is a link to [the zip](#stl); then the licence line. A print with one STL gets the same dialog with one row, named after the print ("Glasses rack · 175 KB"), and no zip button. Sizes aren't in the data: the page asks for each file's `Content-Length` with a `HEAD` request, once per file, when the dialog first shows it, and adds it to the link when it arrives. If that fails, or the response is compressed (so the length isn't the file's), the link stays without a size.
+- **Download STL.** A print with `stl` gets one "Download STL" button on its tile and one in the detail view; a print without it gets none (the twelve prints added in November 2026, from `jungle-boyz` to `under-desk`, have no STLs yet). Either opens the same small dialog, a second native `<dialog>` (`.print-dl`) headed "Download Sink caddy". Opened from the detail view it sits on top of it, and Close, Esc or a click on the backdrop closes only the download dialog. Focus starts on the first file and goes back to the button that opened it. Inside: one row per part, each a plain `<a href download>` to the file, saved under its own file name ("Tray · 14.2 MB"); then, for a print with two or more parts, a "Download all (.zip, 8.5 MB)" button, which is a link to [the zip](#stl); then the licence line. A print with one STL gets the same dialog with one row, named after the print ("Glasses rack · 175 KB"), and no zip button. Sizes aren't in the data: the page asks for each file's `Content-Length` with a `HEAD` request, once per file, when the dialog first shows it, and adds it to the link when it arrives. If that fails, or the response is compressed (so the length isn't the file's), the link stays without a size.
 - **Fallbacks.** No WebGL, the viewer script failing, or one model failing to load all leave the poster image in place. Without WebGL the "Show in setting" button still works: it swaps the poster picture for `scenePoster`. If only the scene fails to load, its poster stays up and the button still goes back to the clean model. If `data/prints.json` doesn't load, the page says so. With JavaScript off, a `<noscript>` note points at the JSON, because the page can't draw a data-driven list without it.
 - **Motion.** Models turn slowly on their own. With `prefers-reduced-motion` they hold still until dragged.
 - **Scrolling.** On a tile, scroll-to-zoom only switches on once the model has been clicked or focused, so scrolling down the page doesn't get caught by a model. In the detail view it is always on.
-- **Keyboard.** Tab reaches each model (arrow keys turn it), its "Show in setting" button (Space or Enter), each "Photos and details" button, each "Download STL" button, and everything in the dialog. Esc closes the dialog on top (the download dialog first, if it is open) and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
+- **Keyboard.** Tab reaches each model (arrow keys turn it), its "Show in setting" button (Space or Enter), each "Photos and details" button, each "Download STL" button, and everything in the dialog. In a variant selector, the arrow keys pick the next or previous choice. Esc closes the dialog on top (the download dialog first, if it is open) and focus goes back to the button that opened it. In the photo viewer, the left and right arrow keys change the photo.
 
 ## Showing a print in its setting
 

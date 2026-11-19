@@ -340,6 +340,18 @@ html:has(.print-dialog[open], .print-dl[open]) { overflow: hidden; }
 .pd-top { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--gutter); margin-top: 24px; }
 .pd-top > div > p { color: var(--ink-2); }
 .pd-views { position: absolute; top: 12px; left: 12px; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; }
+.pd-views[hidden], .print-dialog .actions[hidden] { display: none; }
+/* Variants: real radio buttons drawn as one row of joined mono buttons under the model, amber on the one that's showing */
+.pvar { border: 0; padding: 0; margin: 14px 0 0; min-width: 0; }
+.pvar legend { padding: 0; margin-bottom: 8px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.pvar-opts { display: flex; flex-wrap: wrap; padding: 0 0.5px 0.5px 0; }
+.pvar label { position: relative; margin: 0 -0.5px -0.5px 0; }
+.pvar input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.pvar .pbtn { display: block; }
+.pvar input:checked + .pbtn { background: var(--signal); }
+.pvar input:focus-visible + .pbtn { position: relative; z-index: 1; outline: 2px solid var(--ink); outline-offset: 2px; }
+.pvar-note { margin-top: 10px; font-size: 15px; color: var(--ink-2); }
+.pvar-note:empty { margin-top: 0; }
 .pd-sec { margin-top: 40px; }
 .pd-sec h3 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 14px; }
 .pd > .cap { margin-top: 28px; }

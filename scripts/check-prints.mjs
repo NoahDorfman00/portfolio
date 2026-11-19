@@ -32,6 +32,7 @@ const size = n => n >= MB ? (n / MB).toFixed(1) + ' MB' : Math.ceil(n / KB) + ' 
 const isStr = v => typeof v === 'string' && v.trim() !== '';
 const str = v => isStr(v) || 'must be a non-empty string';
 const optional = check => Object.assign(v => check(v), { optional: true });
+const MODEL_LABEL = 'Main';       // what js/prints.js calls the print's own model among its variants, without a "modelLabel"
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const ORBIT = /^(auto|-?[\d.]+(deg|rad)) (auto|-?[\d.]+(deg|rad)) (auto|[\d.]+(%|m))$/;
 
@@ -52,6 +53,9 @@ const file = exts => v => {
 const image = { src: file(IMAGE_EXT), alt: str };
 const STL = { src: file(['.stl']), label: str };
 
+const sizeMm = optional(v => (Array.isArray(v) && v.length === 3 && v.every(n => typeof n === 'number' && n > 0)) || 'must be [wide, deep, tall] in millimetres');
+const stl = optional(v => typeof v === 'string' ? file(['.stl'])(v) : (Array.isArray(v) && v.length > 0) || 'must be a path ending in .stl, or a non-empty list of { "src", "label" }');
+
 const PRINT = {
     slug: v => (isStr(v) && SLUG.test(v)) || 'must be lowercase letters, digits and single hyphens, like "cable-clip"',
     title: str,
@@ -60,25 +64,29 @@ const PRINT = {
     date,
     material: str,
     printer: str,
-    printTimeMinutes: v => (Number.isInteger(v) && v > 0) || 'must be a whole number of minutes above 0',
+    printTimeMinutes: optional(v => (Number.isInteger(v) && v > 0) || 'must be a whole number of minutes above 0. Leave the field out if the time isn\'t known'),
     layerHeightMm: optional(v => (typeof v === 'number' && v > 0 && v <= 1) || 'must be a number of millimetres between 0 and 1'),
     tags: v => (Array.isArray(v) && v.every(isStr)) || 'must be a list of non-empty strings (an empty list is fine)',
     model: file(['.glb']),
     units: v => v === 'mm' || v === 'm' || 'must be "mm" or "m": what one unit in the GLB stands for',
     poster: file(IMAGE_EXT),
-    sizeMm: optional(v => (Array.isArray(v) && v.length === 3 && v.every(n => typeof n === 'number' && n > 0)) || 'must be [wide, deep, tall] in millimetres'),
+    sizeMm,
     cameraOrbit: optional(v => (typeof v === 'string' && ORBIT.test(v)) || 'must look like "-30deg 70deg 120%"'),
     scene: optional(file(['.glb'])),
     scenePoster: optional(file(IMAGE_EXT)),
     sceneCameraOrbit: optional(v => (typeof v === 'string' && ORBIT.test(v)) || 'must look like "-30deg 70deg 120%"'),
-    stl: optional(v => typeof v === 'string' ? file(['.stl'])(v) : (Array.isArray(v) && v.length > 0) || 'must be a path ending in .stl, or a non-empty list of { "src", "label" }'),
+    stl,
     alt: str,
     photos: v => Array.isArray(v) || 'must be a list (an empty list is fine)',
     iterations: optional(v => (Array.isArray(v) && v.length > 0) || 'must be a non-empty list, or left out'),
+    modelLabel: optional(str),
+    variantsLabel: optional(str),
+    variants: optional(v => (Array.isArray(v) && v.length > 1) || 'must be a list of two or more, or left out'),
     credit: optional(str),
     creditUrl: optional(v => (typeof v === 'string' && /^https?:\/\/\S+$/.test(v)) || 'must be an http(s) URL')
 };
 const PHOTO = { ...image, caption: optional(str) };
+const VARIANT = { label: str, model: file(['.glb']), note: optional(str), sizeMm, stl };
 const ITERATION = { label: str, note: str, model: optional(file(['.glb'])), photo: optional(v => (v && typeof v === 'object' && !Array.isArray(v)) || 'must be an object with "src" and "alt"') };
 
 // Checks one object against a table of field checks. Returns false if it isn't usable at all.
@@ -252,11 +260,30 @@ data.prints.forEach((p, i) => {
     });
 
     // Downloads: one STL, or one per part
-    if (typeof p.stl === 'string') { if (ok(STL.src, p.stl)) checkStl(`${dir}/${p.stl}`, where); }
-    else if (Array.isArray(p.stl)) p.stl.forEach((s, j) => {
-        if (!validate(s, STL, `${where} stl[${j}]`)) return;
-        if (p.stl.findIndex(o => o?.src === s.src) !== j) errors.push(`${where} stl[${j}]: ${s.src} is listed twice`);
-        else if (ok(STL.src, s.src)) checkStl(`${dir}/${s.src}`, where);
+    const downloads = (v, at) => {
+        if (typeof v === 'string') { if (ok(STL.src, v)) checkStl(`${dir}/${v}`, where); }
+        else if (Array.isArray(v)) v.forEach((s, j) => {
+            if (!validate(s, STL, `${at} stl[${j}]`)) return;
+            if (v.findIndex(o => o?.src === s.src) !== j) errors.push(`${at} stl[${j}]: ${s.src} is listed twice`);
+            else if (ok(STL.src, s.src)) checkStl(`${dir}/${s.src}`, where);
+        });
+    };
+    downloads(p.stl, where);
+
+    // Variants: other models of the same print, picked in the detail view. The print's own model is the first
+    // choice there, under "modelLabel", so a variant can't repeat it or take its label.
+    for (const key of ['modelLabel', 'variantsLabel']) if (key in p && !('variants' in p)) errors.push(`${where}: "${key}" needs "variants"`);
+    if (Array.isArray(p.variants)) p.variants.forEach((v, j) => {
+        const at = `${where} variants[${j}]`;
+        if (!validate(v, VARIANT, at)) return;
+        if (isStr(v.label)) {
+            const same = l => isStr(l) && l.trim() === v.label.trim();
+            if (p.variants.findIndex(o => same(o?.label)) !== j) errors.push(`${at}: the label "${v.label}" is used twice`);
+            else if (same('modelLabel' in p ? p.modelLabel : MODEL_LABEL)) errors.push(`${at}: the label "${v.label}" is the print's own "modelLabel"`);
+        }
+        if (v.model === p.model) errors.push(`${at}: "model" is the print's own model, which is the first choice already`);
+        else if (ok(VARIANT.model, v.model)) checkModel(`${dir}/${v.model}`, where);
+        downloads(v.stl, at);
     });
 
     // The "Download all" zip of a print with two or more STLs, built from the STLs and the licence file by

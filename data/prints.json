@@ -213,6 +213,421 @@
             "scenePoster": "scene-poster.webp",
             "sceneCameraOrbit": "159.2deg 54deg 85%",
             "stl": "stl/glasses-rack.stl"
+        },
+        {
+            "slug": "minecraft-figures",
+            "title": "Minecraft figures",
+            "description": "Three matching 38.4 mm desk cubes — a creeper, a jack-o'-lantern, and a skeleton — with the game textures built as relief and four colours each. They sit in a lineup with a 15 mm gap, the same spacing as the project render. Slice times: creeper 7 h 20 min, skeleton 8 h 2 min; the jack-o'-lantern wasn't recorded.",
+            "date": "2026-10-16",
+            "material": "PLA, Bambu Green, Mistletoe Green, Ivory White, Charcoal, Mandarin Orange, Cocoa Brown, Desert Tan, Bone White, and Nardo Gray",
+            "printer": "Bambu Lab X2D",
+            "layerHeightMm": 0.2,
+            "tags": [
+                "minecraft",
+                "multi-color",
+                "desk"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-25deg 70deg 110%",
+            "sizeMm": [
+                145.2,
+                38.4,
+                38.4
+            ],
+            "alt": "Three small textured cubes in a row: a green creeper face, an orange jack-o'-lantern, and a bone-white skeleton face",
+            "photos": [],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-22deg 68deg 105%"
+        },
+        {
+            "slug": "jungle-boyz",
+            "title": "Jungle Boyz",
+            "description": "A four-colour desk nameplate for Collin's Minecraft YouTube channel: JUNGLE BOYZ lettering, jungle trees and vines, and an ocelot, standing in a row of grass blocks. The plaque tab drops into the stand and leans back 6°.",
+            "date": "2026-10-15",
+            "material": "PLA, black, brown, green, and tan",
+            "printer": "Bambu Lab X2D",
+            "layerHeightMm": 0.2,
+            "tags": [
+                "nameplate",
+                "multi-color",
+                "minecraft"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-25deg 68deg 110%",
+            "sizeMm": [
+                192.0,
+                28.8,
+                105.5
+            ],
+            "alt": "A four-color pixel-art nameplate reading JUNGLE BOYZ, with trees, vines, and an ocelot, standing on a grass-block base",
+            "photos": [],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-22deg 64deg 95%"
+        },
+        {
+            "slug": "watching-movies",
+            "title": "Watching movies",
+            "description": "A 248 × 158 × 20 mm tray with a four-colour inlaid illustration in red, gold, black, and cream, built from a photograph. Designed for the X2D AMS; 0.16 mm layers are recommended on the inlay.",
+            "date": "2026-09-08",
+            "material": "PLA, black, red, gold, and cream",
+            "printer": "Bambu Lab X2D",
+            "layerHeightMm": 0.16,
+            "tags": [
+                "tray",
+                "multi-color",
+                "inlay"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-35deg 55deg 110%",
+            "sizeMm": [
+                248.0,
+                158.0,
+                20.0
+            ],
+            "alt": "A black rectangular tray with a four-color inlaid picture in red, gold, black, and cream",
+            "photos": [],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-32deg 58deg 105%"
+        },
+        {
+            "slug": "fluke-mount",
+            "title": "Fluke mount",
+            "description": "A holster that clips onto the folded front lip of a lab-bench shelf and holds a Fluke 115 multimeter below and in front of the shelf, tipped slightly forward. About 2 months old in Tinkercad; the date is 2026-09 at month precision.",
+            "date": "2026-09",
+            "material": "PLA Matte, charcoal",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "holster",
+                "tool"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-30deg 68deg 110%",
+            "sizeMm": [
+                91.0,
+                113.5,
+                90.9
+            ],
+            "alt": "A charcoal holster with an open-fronted pocket and a wedge-shaped clip behind it",
+            "photos": [
+                {
+                    "src": "photos/fluke-mount-1.webp",
+                    "alt": "A green 3D-printed mount clipped to the front lip of a lab bench shelf, holding a yellow Fluke 115 multimeter"
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-32deg 70deg 95%"
+        },
+        {
+            "slug": "shower-caddy-stopper",
+            "title": "Shower caddy stopper",
+            "description": "A snap-on sleeve that covers the shower arm from its bend down to the shower head. The wire caddy's hanger hooks over the arm next to the wall flange, and the stopper keeps it from sliding down toward the head. About 3 months old in Tinkercad; the date is 2026-08 at month precision.",
+            "date": "2026-08",
+            "material": "PLA Matte, charcoal",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "hook",
+                "bathroom"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-35deg 68deg 110%",
+            "sizeMm": [
+                60.0,
+                84.5,
+                70.4
+            ],
+            "alt": "A charcoal half-pipe sleeve angled downward, with a flared end bent level at the top",
+            "photos": [
+                {
+                    "src": "photos/shower-caddy-stopper-1.webp",
+                    "alt": "A white 3D-printed stopper on a shower arm between the wall flange and the shower head, holding a wire caddy's hanger in place"
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-55deg 72deg 95%"
+        },
+        {
+            "slug": "lifting-claude",
+            "title": "Lifting Claude",
+            "description": "A blocky Claude mascot holding a dumbbell in each hand, rebuilt in OpenSCAD from an auto-traced original, in orange, black, and dark grey PLA. The open-eye version is shown; the squint-eyed variant and the original mesh are in the iteration history. The dumbbells slice at 1 h 42 min; the figure's time wasn't recorded.",
+            "date": "2026-07-26",
+            "material": "PLA, orange, black, and dark grey",
+            "printer": "Bambu Lab X2D",
+            "layerHeightMm": 0.2,
+            "tags": [
+                "mascot",
+                "multi-color"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-30deg 70deg 110%",
+            "sizeMm": [
+                84.5,
+                25.0,
+                49.2
+            ],
+            "alt": "A small blocky orange figure standing with a dark grey dumbbell in each hand and recessed black eyes",
+            "photos": [],
+            "iterations": [
+                {
+                    "label": "original mesh",
+                    "note": "The auto-traced original from 18 Feb 2026, with roughly 0.5 mm slants and asymmetries. Only the body is shown; a separate eye-insert file in the project does not share this origin. Overall size is within about 0.2 mm of the later parametric rebuild.",
+                    "photo": {
+                        "src": "iterations/original.webp",
+                        "alt": "Render of the auto-traced original Claude body, before the parametric rebuild"
+                    }
+                },
+                {
+                    "label": "squint eyes",
+                    "note": "A variant with raised inward-pointing chevron eyes on a flat face, sharing the same body and dumbbells as the open-eye version. The open-eye design is the one shown as the main model.",
+                    "photo": {
+                        "src": "iterations/squint.webp",
+                        "alt": "Render of the squint-eyed Lifting Claude variant, with chevron eyes and dumbbells"
+                    }
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-26deg 68deg 95%"
+        },
+        {
+            "slug": "robot-vacuum",
+            "title": "Robot vacuum",
+            "description": "Three prints used around a robot vacuum: a filter holder that sits in the dust bin under its hinged top door, a desk-foot bumper that caps the end of a standing-desk T-foot so the vac can't climb it, and a coffee-table bumper that fills the gap under a coffee table's base board, between its bun feet, so the vac can't wedge underneath. Tinkercad ages: desk foot about 4 months, filter holder about 3, coffee-table bumper about 1. Date 2026-07 at month precision.",
+            "date": "2026-07",
+            "material": "PLA Matte, charcoal",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "bumper",
+                "vacuum"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-30deg 62deg 105%",
+            "sizeMm": [
+                611.0,
+                230.0,
+                50.0
+            ],
+            "alt": "A shallow two-bay filter tray, a long U-shaped desk-foot bumper, and a short bar bumper with two screw holes, all in charcoal",
+            "photos": [
+                {
+                    "src": "photos/robot-vacuum-1.webp",
+                    "alt": "A black bumper capping the end of a T-shaped standing-desk foot, on beige carpet"
+                },
+                {
+                    "src": "photos/robot-vacuum-2.webp",
+                    "alt": "Beige bumpers under the plinth of a dark wood coffee table, closing the gap above the rug"
+                },
+                {
+                    "src": "photos/robot-vacuum-3.webp",
+                    "alt": "An open robovac dust bin held in a hand, with its hinged top door raised"
+                },
+                {
+                    "src": "photos/robot-vacuum-4.webp",
+                    "alt": "The underside of a circular robot vacuum, showing the main brush, wheels, and a side brush"
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-18deg 66deg 82%"
+        },
+        {
+            "slug": "chicken-coop",
+            "title": "Chicken coop",
+            "description": "A small model of a fenced chicken-coop yard with a green floor and a white picket fence, and a brown sign with black engraved lettering that reads \"Chick Toys $3 ea.\" The chickens in the photo and in the scene were not printed by Noah; they are only shown for scale. The coop design is about 7 months old in Tinkercad; the date is 2026-04 at month precision.",
+            "date": "2026-04",
+            "material": "PLA, green floor, white fence, brown sign with black lettering",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "model",
+                "sign",
+                "multi-color"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-20deg 68deg 110%",
+            "sizeMm": [
+                180.0,
+                217.5,
+                23.5
+            ],
+            "alt": "A miniature square picket-fence yard with a green floor, a white fence, and a small brown sign with black lettering in front",
+            "photos": [
+                {
+                    "src": "photos/chicken-coop-1.webp",
+                    "alt": "The printed coop on a workbench: a green floor and a white picket fence, filled with small white toy chickens",
+                    "caption": "The chickens in the photo were not printed by Noah."
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-18deg 58deg 100%"
+        },
+        {
+            "slug": "lid-hanger",
+            "title": "Lid hanger",
+            "description": "A Tupperware lid hanger that mounts to the underside of a cabinet's top, with slots hanging down so lids hang from it vertically. About 8 months old in Tinkercad; the date is 2026-03 at month precision.",
+            "date": "2026-03",
+            "material": "PLA Matte, charcoal",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "organizer",
+                "kitchen"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-25deg 65deg 110%",
+            "sizeMm": [
+                183.0,
+                100.0,
+                23.0
+            ],
+            "alt": "A charcoal slotted lid hanger, a shallow rack with a row of downward slots",
+            "photos": [
+                {
+                    "src": "photos/lid-hanger-1.webp",
+                    "alt": "A tan lid hanger mounted to the underside of a white cabinet's top, with three clear lids hanging vertically from the slots"
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-15deg 82deg 105%"
+        },
+        {
+            "slug": "wedding-rings",
+            "title": "Wedding rings",
+            "description": "A belt holster for a ring box (preciousHolder): it clips onto a belt and carries the box on its side. Shown with a 4 mm wedding band and the engagement ring (theOneToRuleThemAll), both in gold, the ring's three stones in pale blue, seated the way they sit in the slits of the box's cushion. The bands come in five widths, 3.0 to 5.0 mm in 0.5 mm steps; each size and a print-all view are in the selector. Dates are from Tinkercad's relative ages, at month precision: the engagement ring is about 10 months old, the holder about 8, and the bands about 1.",
+            "date": "2026-01",
+            "material": "PLA Matte, charcoal holder; rings shown in gold",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "rings",
+                "multi-color"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-25deg 55deg 110%",
+            "sizeMm": [
+                68.0,
+                52.5,
+                55.0
+            ],
+            "alt": "A boxy open-top belt holster with a gold wedding band and a gold engagement ring with pale blue stones floating inside it, lying flat one above the other where the ring box would hold them",
+            "photos": [],
+            "modelLabel": "With holder",
+            "variantsLabel": "Band width",
+            "variants": [
+                {
+                    "label": "3.0 mm",
+                    "model": "bands/band-3.0mm.glb",
+                    "note": "A 3.0 mm wide band, inner diameter about 18.1 mm (about US size 8)."
+                },
+                {
+                    "label": "3.5 mm",
+                    "model": "bands/band-3.5mm.glb",
+                    "note": "A 3.5 mm wide band, inner diameter about 18.1 mm (about US size 8)."
+                },
+                {
+                    "label": "4.0 mm",
+                    "model": "bands/band-4.0mm.glb",
+                    "note": "A 4.0 mm wide band, inner diameter about 18.2 mm (about US size 8)."
+                },
+                {
+                    "label": "4.5 mm",
+                    "model": "bands/band-4.5mm.glb",
+                    "note": "A 4.5 mm wide band, inner diameter about 18.2 mm (about US size 8)."
+                },
+                {
+                    "label": "5.0 mm",
+                    "model": "bands/band-5.0mm.glb",
+                    "note": "A 5.0 mm wide band, inner diameter about 18.2 mm (about US size 8)."
+                },
+                {
+                    "label": "All bands",
+                    "model": "bands/all-bands.glb",
+                    "note": "All five widths together, 3.0 through 5.0 mm in 0.5 mm steps."
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-25deg 55deg 90%"
+        },
+        {
+            "slug": "wild-things",
+            "title": "Wild Things",
+            "description": "A pointed crown in gold and a standing silver scepter with a gold ball in its cage, shown on a shelf. Tinkercad lists the designs as about a year old, so the date is 2025 at year precision.",
+            "date": "2025",
+            "material": "PLA, gold and silver",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "costume"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-25deg 68deg 110%",
+            "sizeMm": [
+                174.0,
+                100.0,
+                208.0
+            ],
+            "alt": "A gold pointed crown and a tall silver scepter with a gold ball in its head, standing side by side",
+            "photos": [],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-22deg 64deg 100%"
+        },
+        {
+            "slug": "under-desk",
+            "title": "Under-desk mounts",
+            "description": "Under-desk mounts: a 200 mm and a 180 mm wire mount, a large and a small KVM mount, and a walking-pad remote holder. The scene lays them out as they are under the desk, with the desk shown upside-down so the view matches the photo. The wire and KVM mounts are about 2–3 years old in Tinkercad (date 2024, year precision); the remote holder is about 9 months old (2026-02).",
+            "date": "2024",
+            "material": "PLA Matte, charcoal",
+            "printer": "Bambu Lab X2D",
+            "tags": [
+                "desk",
+                "cable",
+                "kvm"
+            ],
+            "model": "model.glb",
+            "units": "mm",
+            "poster": "poster.webp",
+            "cameraOrbit": "-18deg 72deg 88%",
+            "sizeMm": [
+                994.5,
+                200.0,
+                40.0
+            ],
+            "alt": "A row of under-desk mounts: two square wire trays on corner legs, two T-shaped KVM mounts, and a small remote pocket",
+            "photos": [
+                {
+                    "src": "photos/under-desk-1.webp",
+                    "alt": "The underside of a wooden desk, with a metal frame rail, a walking-pad remote, cable and KVM gear, and power supplies"
+                }
+            ],
+            "scene": "scene.glb",
+            "scenePoster": "scene-poster.webp",
+            "sceneCameraOrbit": "-10deg 42deg 85%"
         }
     ]
 }
