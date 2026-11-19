@@ -2,6 +2,8 @@
 // Builds the "Download all" zip for every print in data/prints.json that has two or more STL files:
 // assets/prints/<slug>/stl/<slug>-stl.zip, holding the STLs in the order "stl" lists them and then that folder's
 // LICENSE.txt, with no folders inside. A print with one STL gets no zip. No dependencies, and no zip binary.
+// A variant with two or more STL files of its own gets one too, named after its label:
+// stl/<slug>-<variant-slug>-stl.zip ("All bands" gives wedding-rings-all-bands-stl.zip).
 //
 // The zip is the same bytes every time for the same files (fixed timestamp and attributes, no extra fields), so it
 // is committed without churn, and scripts/check-prints.mjs checks that the committed one lists the same files, by
@@ -20,10 +22,22 @@ const ASSETS = 'assets/prints';
 // 2026-01-01 00:00, as DOS date and time
 const DOS_DATE = ((2026 - 1980) << 9) | (1 << 5) | 1, DOS_TIME = 0;
 
+// A variant's label as part of a file name: "All bands" is "all-bands", "3.0 mm" is "3-0-mm". js/prints.js does the same.
+export const variantSlug = label => String(label).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 // The paths of a print's zip and of what goes in it, relative to the print's folder. null if it gets no zip.
-export function stlZip(p) {
-    if (!Array.isArray(p.stl) || p.stl.length < 2) return null;
-    return { path: `stl/${p.slug}-stl.zip`, files: [...p.stl.map(s => s.src), 'stl/LICENSE.txt'] };
+// With a variant, the zip of that variant's own "stl" instead.
+export function stlZip(p, v) {
+    const stl = v ? v.stl : p.stl;
+    if (!Array.isArray(stl) || stl.length < 2) return null;
+    return { path: `stl/${p.slug}${v ? `-${variantSlug(v.label)}` : ''}-stl.zip`, files: [...stl.map(s => s.src), 'stl/LICENSE.txt'] };
+}
+
+// Every zip a print gets: its own, then one for each variant that has two or more STL files of its own.
+// "of" says whose it is, for messages.
+export function stlZips(p) {
+    const variants = Array.isArray(p.variants) ? p.variants.filter(v => v && typeof v === 'object') : [];
+    return [{ of: p.slug, zip: stlZip(p) }, ...variants.map(v => ({ of: `${p.slug}, "${v.label}"`, zip: stlZip(p, v) }))].filter(z => z.zip);
 }
 
 // A zip of [{ name, data }], in that order: a local header and the deflated data for each, then the central
@@ -69,15 +83,13 @@ export function zip(files) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     const { prints } = JSON.parse(readFileSync(join(ROOT, 'data/prints.json'), 'utf8'));
     let failed = false;
-    for (const p of prints) {
-        const z = stlZip(p);
-        if (!z) continue;
+    for (const p of prints) for (const { of, zip: z } of stlZips(p)) {
         const dir = join(ROOT, ASSETS, p.slug), out = `${ASSETS}/${p.slug}/${z.path}`;
         const names = z.files.map(f => f.split('/').pop());
         const missing = z.files.filter(f => !existsSync(join(dir, f)));
         const twice = names.find((n, i) => names.indexOf(n) !== i);
         if (missing.length || twice) {
-            console.error(`✗ ${p.slug}: ` + (missing.length ? `${missing.join(', ')} ${missing.length === 1 ? 'does' : 'do'} not exist` : `two files are named ${twice}, and the zip has no folders`));
+            console.error(`✗ ${of}: ` + (missing.length ? `${missing.join(', ')} ${missing.length === 1 ? 'does' : 'do'} not exist` : `two files are named ${twice}, and the zip has no folders`));
             failed = true;
             continue;
         }

@@ -9,7 +9,7 @@ import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { join, resolve, dirname, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { crc32 } from 'node:zlib';
-import { stlZip } from './build-stl-zips.mjs';
+import { stlZips } from './build-stl-zips.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = 'data/prints.json';
@@ -291,8 +291,15 @@ data.prints.forEach((p, i) => {
     // The "Download all" zip of a print with two or more STLs, built from the STLs and the licence file by
     // scripts/build-stl-zips.mjs. The committed one has to list exactly those files, in order, each with its source's
     // size and CRC-32. Contents are compared, not bytes: another zlib may deflate the same file to different bytes.
-    const z = stlZip(p);
-    if (z && z.files.slice(0, -1).every(f => named.has(f))) {
+    // A variant with two or more STLs of its own has a zip too, named after its label, so two such labels can't
+    // come out as the same file name.
+    const zipped = new Set();
+    for (const { of, zip: z } of stlZips(p)) {
+        const where = of;
+        if (zipped.has(z.path)) { errors.push(`${where}: its zip would be ${z.path}, the same file as another variant's. Change one of the labels`); continue; }
+        zipped.add(z.path);
+        if (z.path.includes('--')) { errors.push(`${where}: the label has no letters or digits to name its zip with`); continue; }
+        if (!z.files.slice(0, -1).every(f => named.has(f))) continue;       // a bad "stl" has been reported already
         named.add(z.path);
         const names = z.files.map(f => f.split('/').pop());
         const twice = names.find((n, j) => names.indexOf(n) !== j);
