@@ -470,11 +470,12 @@
         {
             "slug": "lifting-claude",
             "title": "Lifting Claude",
-            "description": "A blocky Claude mascot holding a dumbbell in each hand, in orange, black, and dark gray PLA, rebuilt in OpenSCAD from an auto-traced original. This is the open-eye version; the squint-eyed variant and the original mesh are under Versions. The dumbbells slice at 1 h 42 min; the figure's time wasn't recorded.",
+            "description": "A blocky Claude mascot holding a dumbbell in each hand, in Mandarin Orange and Charcoal matte PLA, rebuilt in OpenSCAD from an auto-traced original. This is the squint-eyed version, with raised chevron eyes on a flat face; the open-eye version and the original mesh are under Versions.",
             "date": "2026-07-26",
             "dateKind": "designed",
-            "material": "PLA, orange, black, and dark gray",
+            "material": "PLA Matte, Mandarin Orange and Charcoal",
             "printer": "Bambu Lab X2D",
+            "printTimeMinutes": 102,
             "layerHeightMm": 0.2,
             "tags": [
                 "mascot",
@@ -486,10 +487,10 @@
             "cameraOrbit": "-30deg 70deg 110%",
             "sizeMm": [
                 84.5,
-                25.0,
+                26.5,
                 49.2
             ],
-            "alt": "A small blocky orange figure standing with a dark gray dumbbell in each hand and recessed black eyes",
+            "alt": "A small blocky orange figure standing with a dark gray dumbbell in each hand and raised black chevron eyes on a flat face",
             "photos": [],
             "iterations": [
                 {
@@ -501,11 +502,11 @@
                     }
                 },
                 {
-                    "label": "squint eyes",
-                    "note": "A variant with raised inward-pointing chevron eyes on a flat face, sharing the same body and dumbbells as the open-eye version. The open-eye design is the one shown as the main model.",
+                    "label": "open eyes",
+                    "note": "An open-eye variant from the same parametric rebuild, with recessed eye pockets and black inserts set 1.2 mm below the face. It shares the dumbbells with the squint-eyed version. It is not the version that was printed.",
                     "photo": {
-                        "src": "iterations/squint.webp",
-                        "alt": "Render of the squint-eyed Lifting Claude variant, with chevron eyes and dumbbells"
+                        "src": "iterations/open-eyes.webp",
+                        "alt": "Render of the open-eye Lifting Claude variant, with recessed black eyes and dumbbells"
                     }
                 }
             ],
@@ -513,6 +514,14 @@
             "scenePoster": "scene-poster.webp",
             "sceneCameraOrbit": "-26deg 68deg 100%",
             "stl": [
+                {
+                    "src": "stl/lifting-claude-body.stl",
+                    "label": "Body"
+                },
+                {
+                    "src": "stl/lifting-claude-eyes.stl",
+                    "label": "Eyes"
+                },
                 {
                     "src": "stl/lifting-claude-dumbbells.stl",
                     "label": "Dumbbells"
