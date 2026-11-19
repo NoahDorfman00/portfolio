@@ -217,8 +217,9 @@
         {
             "slug": "minecraft-figures",
             "title": "Minecraft figures",
-            "description": "Three matching 38.4 mm desk cubes — a creeper, a jack-o'-lantern, and a skeleton — with the game textures built as relief and four colours each. They sit in a lineup with a 15 mm gap, the same spacing as the project render. Slice times: creeper 7 h 20 min, skeleton 8 h 2 min; the jack-o'-lantern wasn't recorded.",
+            "description": "Three matching 38.4 mm desk cubes: a creeper, a jack-o'-lantern, and a skeleton, each with its game texture built as relief in four colors. They line up 15 mm apart. The creeper slices at 7 h 20 min and the skeleton at 8 h 2 min; the jack-o'-lantern's time wasn't recorded.",
             "date": "2026-10-16",
+            "dateKind": "designed",
             "material": "PLA, Bambu Green, Mistletoe Green, Ivory White, Charcoal, Mandarin Orange, Cocoa Brown, Desert Tan, Bone White, and Nardo Gray",
             "printer": "Bambu Lab X2D",
             "layerHeightMm": 0.2,
@@ -245,8 +246,9 @@
         {
             "slug": "jungle-boyz",
             "title": "Jungle Boyz",
-            "description": "A four-colour desk nameplate for Collin's Minecraft YouTube channel: JUNGLE BOYZ lettering, jungle trees and vines, and an ocelot, standing in a row of grass blocks. The plaque tab drops into the stand and leans back 6°.",
+            "description": "A four-color desk nameplate for Collin's Minecraft YouTube channel: JUNGLE BOYZ lettering, jungle trees and vines, and an ocelot, standing in a row of grass blocks. The plaque's tab drops into the stand and leans back 6°.",
             "date": "2026-10-15",
+            "dateKind": "designed",
             "material": "PLA, black, brown, green, and tan",
             "printer": "Bambu Lab X2D",
             "layerHeightMm": 0.2,
@@ -273,8 +275,9 @@
         {
             "slug": "watching-movies",
             "title": "Watching movies",
-            "description": "A 248 × 158 × 20 mm tray with a four-colour inlaid illustration in red, gold, black, and cream, built from a photograph. Designed for the X2D AMS; 0.16 mm layers are recommended on the inlay.",
+            "description": "A 248 × 158 × 20 mm tray with a four-color inlaid illustration in red, gold, black, and cream, built from a photograph. It's designed for the X2D AMS, and I recommend 0.16 mm layers on the inlay.",
             "date": "2026-09-08",
+            "dateKind": "designed",
             "material": "PLA, black, red, gold, and cream",
             "printer": "Bambu Lab X2D",
             "layerHeightMm": 0.16,
@@ -301,8 +304,10 @@
         {
             "slug": "fluke-mount",
             "title": "Fluke mount",
-            "description": "A holster that clips onto the folded front lip of a lab-bench shelf and holds a Fluke 115 multimeter below and in front of the shelf, tipped slightly forward. About 2 months old in Tinkercad; the date is 2026-09 at month precision.",
+            "description": "A holster that clips onto the folded front lip of a lab-bench shelf and holds a Fluke 115 multimeter below and in front of the shelf, tipped slightly forward.",
             "date": "2026-09",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA Matte, charcoal",
             "printer": "Bambu Lab X2D",
             "tags": [
@@ -332,8 +337,10 @@
         {
             "slug": "shower-caddy-stopper",
             "title": "Shower caddy stopper",
-            "description": "A snap-on sleeve that covers the shower arm from its bend down to the shower head. The wire caddy's hanger hooks over the arm next to the wall flange, and the stopper keeps it from sliding down toward the head. About 3 months old in Tinkercad; the date is 2026-08 at month precision.",
+            "description": "A snap-on sleeve that covers the shower arm from its bend down to the shower head. The wire caddy's hanger hooks over the arm next to the wall flange, and the stopper keeps it from sliding down toward the head.",
             "date": "2026-08",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA Matte, charcoal",
             "printer": "Bambu Lab X2D",
             "tags": [
@@ -363,9 +370,10 @@
         {
             "slug": "lifting-claude",
             "title": "Lifting Claude",
-            "description": "A blocky Claude mascot holding a dumbbell in each hand, rebuilt in OpenSCAD from an auto-traced original, in orange, black, and dark grey PLA. The open-eye version is shown; the squint-eyed variant and the original mesh are in the iteration history. The dumbbells slice at 1 h 42 min; the figure's time wasn't recorded.",
+            "description": "A blocky Claude mascot holding a dumbbell in each hand, in orange, black, and dark gray PLA, rebuilt in OpenSCAD from an auto-traced original. This is the open-eye version; the squint-eyed variant and the original mesh are under Versions. The dumbbells slice at 1 h 42 min; the figure's time wasn't recorded.",
             "date": "2026-07-26",
-            "material": "PLA, orange, black, and dark grey",
+            "dateKind": "designed",
+            "material": "PLA, orange, black, and dark gray",
             "printer": "Bambu Lab X2D",
             "layerHeightMm": 0.2,
             "tags": [
@@ -381,12 +389,12 @@
                 25.0,
                 49.2
             ],
-            "alt": "A small blocky orange figure standing with a dark grey dumbbell in each hand and recessed black eyes",
+            "alt": "A small blocky orange figure standing with a dark gray dumbbell in each hand and recessed black eyes",
             "photos": [],
             "iterations": [
                 {
                     "label": "original mesh",
-                    "note": "The auto-traced original from 18 Feb 2026, with roughly 0.5 mm slants and asymmetries. Only the body is shown; a separate eye-insert file in the project does not share this origin. Overall size is within about 0.2 mm of the later parametric rebuild.",
+                    "note": "The auto-traced original from 18 Feb 2026, with roughly 0.5 mm slants and asymmetries. Only the body is shown. Overall size is within about 0.2 mm of the later parametric rebuild.",
                     "photo": {
                         "src": "iterations/original.webp",
                         "alt": "Render of the auto-traced original Claude body, before the parametric rebuild"
@@ -408,8 +416,10 @@
         {
             "slug": "robot-vacuum",
             "title": "Robot vacuum",
-            "description": "Three prints used around a robot vacuum: a filter holder that sits in the dust bin under its hinged top door, a desk-foot bumper that caps the end of a standing-desk T-foot so the vac can't climb it, and a coffee-table bumper that fills the gap under a coffee table's base board, between its bun feet, so the vac can't wedge underneath. Tinkercad ages: desk foot about 4 months, filter holder about 3, coffee-table bumper about 1. Date 2026-07 at month precision.",
+            "description": "Three prints used around a robot vacuum: a filter holder that sits in the dust bin under its hinged top door, a bumper that caps the end of a standing-desk T-foot so the vacuum can't climb it, and a bumper that fills the gap under a coffee table's base board, between its bun feet, so the vacuum can't wedge underneath.",
             "date": "2026-07",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA Matte, charcoal",
             "printer": "Bambu Lab X2D",
             "tags": [
@@ -451,8 +461,10 @@
         {
             "slug": "chicken-coop",
             "title": "Chicken coop",
-            "description": "A small model of a fenced chicken-coop yard with a green floor and a white picket fence, and a brown sign with black engraved lettering that reads \"Chick Toys $3 ea.\" The chickens in the photo and in the scene were not printed by Noah; they are only shown for scale. The coop design is about 7 months old in Tinkercad; the date is 2026-04 at month precision.",
+            "description": "A small model of a fenced chicken-coop yard with a green floor and a white picket fence, and a brown sign with black engraved lettering that reads \"Chick Toys $3 ea.\" I didn't print the chickens; they're only shown for scale.",
             "date": "2026-04",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA, green floor, white fence, brown sign with black lettering",
             "printer": "Bambu Lab X2D",
             "tags": [
@@ -474,7 +486,7 @@
                 {
                     "src": "photos/chicken-coop-1.webp",
                     "alt": "The printed coop on a workbench: a green floor and a white picket fence, filled with small white toy chickens",
-                    "caption": "The chickens in the photo were not printed by Noah."
+                    "caption": "I didn't print the chickens."
                 }
             ],
             "scene": "scene.glb",
@@ -484,8 +496,10 @@
         {
             "slug": "lid-hanger",
             "title": "Lid hanger",
-            "description": "A Tupperware lid hanger that mounts to the underside of a cabinet's top, with slots hanging down so lids hang from it vertically. About 8 months old in Tinkercad; the date is 2026-03 at month precision.",
+            "description": "A Tupperware lid hanger that mounts to the underside of a cabinet's top. Lids hang vertically from its row of downward slots.",
             "date": "2026-03",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA Matte, charcoal",
             "printer": "Bambu Lab X2D",
             "tags": [
@@ -515,8 +529,10 @@
         {
             "slug": "wedding-rings",
             "title": "Wedding rings",
-            "description": "A belt holster for a ring box (preciousHolder): it clips onto a belt and carries the box on its side. Shown with a 4 mm wedding band and the engagement ring (theOneToRuleThemAll), both in gold, the ring's three stones in pale blue, seated the way they sit in the slits of the box's cushion. The bands come in five widths, 3.0 to 5.0 mm in 0.5 mm steps; each size and a print-all view are in the selector. Dates are from Tinkercad's relative ages, at month precision: the engagement ring is about 10 months old, the holder about 8, and the bands about 1.",
+            "description": "A belt holster for a ring box: it clips onto a belt and carries the box on its side. It's shown with a 4 mm wedding band and the engagement ring, both in gold with the ring's three stones in pale blue, seated the way they sit in the slits of the box's cushion. The bands come in five widths, 3.0 to 5.0 mm in 0.5 mm steps; pick one under Band width, or see all five together.",
             "date": "2026-01",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA Matte, charcoal holder; rings shown in gold",
             "printer": "Bambu Lab X2D",
             "tags": [
@@ -575,8 +591,10 @@
         {
             "slug": "wild-things",
             "title": "Wild Things",
-            "description": "A pointed crown in gold and a standing silver scepter with a gold ball in its cage, shown on a shelf. Tinkercad lists the designs as about a year old, so the date is 2025 at year precision.",
+            "description": "A pointed gold crown and a standing silver scepter with a gold ball in its cage.",
             "date": "2025",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA, gold and silver",
             "printer": "Bambu Lab X2D",
             "tags": [
@@ -600,8 +618,10 @@
         {
             "slug": "under-desk",
             "title": "Under-desk mounts",
-            "description": "Under-desk mounts: a 200 mm and a 180 mm wire mount, a large and a small KVM mount, and a walking-pad remote holder. The scene lays them out as they are under the desk, with the desk shown upside-down so the view matches the photo. The wire and KVM mounts are about 2–3 years old in Tinkercad (date 2024, year precision); the remote holder is about 9 months old (2026-02).",
+            "description": "Five mounts for the underside of my desk: a 200 mm and a 180 mm wire mount, a large and a small KVM mount, and a holder for the walking-pad remote. Show in setting lays them out the way they sit under the desk, with the desk upside-down so the view matches the photo.",
             "date": "2024",
+            "dateKind": "designed",
+            "dateApprox": true,
             "material": "PLA Matte, charcoal",
             "printer": "Bambu Lab X2D",
             "tags": [

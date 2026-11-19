@@ -62,6 +62,8 @@ const PRINT = {
     description: str,
     placeholder: optional(v => typeof v === 'boolean' || 'must be true or false'),
     date,
+    dateKind: optional(v => v === 'printed' || v === 'designed' || 'must be "printed" or "designed": what "date" is the date of'),
+    dateApprox: optional(v => typeof v === 'boolean' || 'must be true or false'),
     material: str,
     printer: str,
     printTimeMinutes: optional(v => (Number.isInteger(v) && v > 0) || 'must be a whole number of minutes above 0. Leave the field out if the time isn\'t known'),

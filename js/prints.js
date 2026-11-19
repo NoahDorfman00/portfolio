@@ -42,7 +42,7 @@
             p.printTimeMinutes && ['Print time', duration(p.printTimeMinutes)],
             full && p.layerHeightMm && ['Layer height', `${p.layerHeightMm} mm`],
             full && ['Size', h('span', { 'data-size': true }, p.sizeMm ? dims(p.sizeMm) : '—')],
-            ['Printed', date(p.date)],
+            [p.dateKind === 'designed' ? 'Designed' : 'Printed', (p.dateApprox ? 'about ' : '') + date(p.date)],
             full && p.tags.length && ['Tags', p.tags.join(', ')]
         ].filter(Boolean);
         return h('dl', { class: 'facts' }, rows.map(([k, v]) => [h('dt', null, k), h('dd', null, v)]));
