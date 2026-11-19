@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-11-18T20:38:12.315Z",
+  "generatedAt": "2026-11-19T07:33:26.049Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Merge pull request #6 from NoahDorfman00/prints-download-modal",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/cf37c83ca8729d6e424d4197427e5ab65363a856",
-    "date": "2026-11-18T19:44:57Z"
+    "message": "Merge pull request #8 from NoahDorfman00/prints-plain-shelf",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/ccb8eab03ed0776ec61467df57e964ed255d3ac8",
+    "date": "2026-11-19T04:21:11Z"
   },
   "active": [
     "portfolio",
+    "liftbook",
     "liftbooksite",
     "fit9to5",
     "flashcards",
-    "liftbook",
     "deskcal",
     "flycastarcade"
   ],
@@ -23,8 +23,15 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-11-18T19:44:57Z",
+      "pushedAt": "2026-11-19T04:21:11Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
+    },
+    {
+      "name": "liftbook",
+      "description": null,
+      "language": "TypeScript",
+      "pushedAt": "2026-11-19T03:41:54Z",
+      "url": "https://github.com/NoahDorfman00/liftbook"
     },
     {
       "name": "liftbooksite",
@@ -48,13 +55,6 @@
       "url": "https://github.com/NoahDorfman00/flashcards"
     },
     {
-      "name": "liftbook",
-      "description": null,
-      "language": "TypeScript",
-      "pushedAt": "2026-10-29T06:34:33Z",
-      "url": "https://github.com/NoahDorfman00/liftbook"
-    },
-    {
       "name": "deskcal",
       "description": "A \"what's my next meeting\" desk display for a Raspberry Pi touchscreen, fed by Google Apps Script",
       "language": "Python",
@@ -65,15 +65,15 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.5
+      "pct": 18.2
     },
     {
       "name": "TypeScript",
-      "pct": 16.3
+      "pct": 17.1
     },
     {
       "name": "C++",
-      "pct": 14.6
+      "pct": 14.4
     },
     {
       "name": "JavaScript",
@@ -81,11 +81,11 @@
     },
     {
       "name": "C",
-      "pct": 13.8
+      "pct": 13.6
     },
     {
       "name": "Other",
-      "pct": 22.7
+      "pct": 22.6
     }
   ]
 }
