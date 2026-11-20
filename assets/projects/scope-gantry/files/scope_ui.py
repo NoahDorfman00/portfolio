@@ -9,6 +9,8 @@ import json, os, shutil, subprocess, threading, time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 COUNT = 12                 # LEDs on the ring
+ZERO_LED = 11              # ring index of the LED at the top of the dial (Turn = 0)
+MIRRORED = True            # the ring's wiring order runs anticlockwise from where the viewer stands
 PIN = 18                   # GPIO18 = physical pin 12
 RGBW = False               # True if each LED has a white/yellow phosphor patch
 PORT = 80
@@ -47,10 +49,14 @@ def clamp(v, lo, hi):
 
 
 def lit_pixels():
+    """LEDs to light, as ring indexes. The page works in dial positions: 0 at the top, counting clockwise as the
+    viewer sees the ring. ZERO_LED and MIRRORED turn a dial position into the LED that is really there."""
     n, rot = state["lit"], state["rot"]
     if state["arc"]:                                   # one continuous run: light from one side
-        return {(rot + k) % COUNT for k in range(n)}
-    return {(rot + round(k * COUNT / n)) % COUNT for k in range(n)}   # spread evenly round the ring
+        spots = {(rot + k) % COUNT for k in range(n)}
+    else:
+        spots = {(rot + round(k * COUNT / n)) % COUNT for k in range(n)}   # spread evenly round the ring
+    return {(ZERO_LED + (-p if MIRRORED else p)) % COUNT for p in spots}
 
 
 def apply():
