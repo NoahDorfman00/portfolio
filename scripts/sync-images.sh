@@ -37,6 +37,7 @@ asset() {
 
 # shot <url> <out> <width> <height> [crop w:h:x:y, in window pixels]
 shot() {
+    rm -f "$tmp/shot.png"    # or a page that fails to load reuses the previous page's screenshot
     "$CHROME" --headless=new --hide-scrollbars --force-device-scale-factor=1 \
         --window-size="$3,$4" --virtual-time-budget=8000 \
         --screenshot="$tmp/shot.png" "$1" >/dev/null 2>&1 \
