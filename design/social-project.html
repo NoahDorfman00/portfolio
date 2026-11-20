@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- Source for each project's social card (assets/projects/<slug>/social.jpg).
+     One template, filled from the query string. Render: see design/DESIGN.md ("Social image").
+     ?title=  project name (use | for a line break)
+     &dek=    one sentence; wrap the phrase to underline in [brackets]
+     &img=    path to the picture, from the site root
+     &pos=    object-position for the picture (default "50% 50%")
+     &zoom=   scale the picture up from "cover" (default 1) -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+html, body { width: 1200px; height: 630px; overflow: hidden; }
+.card { width: 1200px; height: 630px; display: grid; grid-template-columns: 492px 1fr; }
+.text { padding: 56px 40px 56px 64px; display: grid; grid-template-rows: auto 1fr; }
+.text .bar { font-size: 22px; padding-bottom: 16px; border-bottom-width: 3px; margin: 0; }
+.text .bar span { font-family: var(--mono); font-size: 18px; color: var(--muted); font-weight: 400; }
+.text .body { align-self: end; }
+.text h1 { font-size: 84px; font-weight: 600; letter-spacing: -0.04em; line-height: .94; }
+.text p { font-size: 26px; line-height: 1.36; color: var(--ink-2); margin-top: 24px; }
+.text p mark { background: linear-gradient(transparent 58%, rgba(255, 179, 65, .5) 58%); color: inherit; }
+.pic { overflow: hidden; border-left: 3px solid var(--ink); background: var(--paper); }
+.pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="text">
+        <div class="bar"><span>Noah Dorfman</span></div>
+        <div class="body">
+            <h1 id="title"></h1>
+            <p id="dek"></p>
+        </div>
+    </div>
+    <div class="pic"><img id="img" alt=""></div>
+</div>
+<script>
+const q = new URLSearchParams(location.search);
+const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+document.getElementById('title').innerHTML = esc(q.get('title') || '').replace(/\|/g, '<br>');
+document.getElementById('dek').innerHTML = esc(q.get('dek') || '').replace(/\[(.+?)\]/g, '<mark>$1</mark>');
+const img = document.getElementById('img');
+img.src = q.get('img') || '';
+img.style.objectPosition = q.get('pos') || '50% 50%';
+const zoom = parseFloat(q.get('zoom') || '1');
+if (zoom !== 1) { img.style.transform = `scale(${zoom})`; img.style.transformOrigin = q.get('pos') || '50% 50%'; }
+</script>
+</body>
+</html>
