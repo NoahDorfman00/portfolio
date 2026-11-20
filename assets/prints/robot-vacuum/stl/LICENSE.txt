@@ -1,0 +1,9 @@
+The STL files in this folder are © Noah Dorfman and licensed under the
+Creative Commons Attribution-NonCommercial 4.0 International License
+(CC BY-NC 4.0): https://creativecommons.org/licenses/by-nc/4.0/
+
+You may print, share and adapt them, with credit to Noah Dorfman
+(https://noahgdorfman.com/prints/), for non-commercial purposes only.
+
+This licence covers only the STL files in this folder. It does not cover
+the rest of the noahgdorfman.com website, its code or its other assets.

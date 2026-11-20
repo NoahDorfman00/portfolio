@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prints — Noah Dorfman</title>
+<meta name="description" content="Things that came off my 3D printer, as models you can turn over, with the photos, the settings and the versions that came first.">
+<link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<link rel="canonical" href="https://noahgdorfman.com/prints/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noah Dorfman">
+<meta property="og:url" content="https://noahgdorfman.com/prints/">
+<meta property="og:title" content="Prints — Noah Dorfman">
+<meta property="og:description" content="Things that came off my 3D printer, as models you can turn over, with the photos, the settings and the versions that came first.">
+<meta property="og:image" content="https://noahgdorfman.com/assets/prints/social.jpg?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Prints: a 3D model of a small orange figure lifting dumbbells">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://noahgdorfman.com/assets/prints/social.jpg?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <div class="bar">
+            <a class="name" href="/">Noah Dorfman</a>
+            <nav><a href="/#work">Work</a><a href="/prints/">Prints</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+        </div>
+    </header>
+
+    <a class="crumb" href="/">← Home</a>
+
+    <section class="top wide">
+        <div>
+            <h1>Prints</h1>
+            <p class="dek">Things that came off my 3D printer, as models you can pick up and turn over. Drag one to spin it. Open it for the photos, the settings, and the versions that came before the one that worked.</p>
+        </div>
+    </section>
+
+    <section class="row" id="prints">
+        <div class="label">Off the printer</div>
+        <div>
+            <!-- Drawn by /js/prints.js from /data/prints.json. To add a print, see docs/prints-gallery.md -->
+            <div class="prints" id="prints-list" aria-live="polite"></div>
+            <noscript><p class="warn"><b>Heads up:</b> this page draws itself with JavaScript, which is switched off. The list it reads from is at <a class="link" href="/data/prints.json">/data/prints.json</a>, and each print's picture is at <code>/assets/prints/&lt;slug&gt;/poster.webp</code>.</p></noscript>
+        </div>
+    </section>
+
+    <dialog class="print-dialog" id="print-dialog" aria-labelledby="pd-title"></dialog>
+    <dialog class="print-dl" id="print-dl" aria-labelledby="pdl-title"></dialog>
+
+    <footer><span>© 2026 Noah Dorfman · Set in IBM Plex</span><span>noahgdorfman.com</span></footer>
+</div>
+<script src="/js/prints.js"></script>
+</body>
+</html>
