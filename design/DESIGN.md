@@ -112,14 +112,11 @@ Hero media: `.top.wide` + `.hero-media` for landscape images and embeds (cropped
 
 Bump the `?v=` on the `og:image` URLs when it changes so link previews refresh.
 
-A project page can have its own card at `assets/projects/<slug>/social.jpg`, rendered from [`social-project.html`](social-project.html). That template takes the title, one sentence and a picture from the query string (the options are listed at the top of the file). The scope gantry's:
+Project pages and the prints page have their own cards, rendered from [`social-project.html`](social-project.html) by [`scripts/social-cards.sh`](../scripts/social-cards.sh). Each line of that script's list is one card: title, one sentence with the underlined phrase in brackets, the picture and how to crop it. Run it with a slug to redo one card (`scripts/social-cards.sh deskcal`). Cards are saved as `social.jpg` beside the project's other images; the Race Board's is `card.jpg` because `sync-images.sh` already writes a `social.jpg` there.
 
-```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=6000 --screenshot=/tmp/social.png "http://localhost:8737/design/social-project.html?title=Scope%7Cgantry&dek=A%20microscope%20that%20hangs%20under%20my%20bench%20shelf%20and%20%5Bslides%20to%20wherever%20the%20board%20is%5D.&img=/assets/projects/scope-gantry/model.jpg&pos=38%25%2055%25&zoom=1.25"
-sips -s format jpeg -s formatOptions 88 /tmp/social.png --out assets/projects/scope-gantry/social.jpg
-```
+Flashcards, Artificial Italian and FIT 9to5 use the card from their own site instead, which `sync-images.sh` keeps current.
 
-A page with a card also gets the full set of tags in its head (`og:url`, `og:description`, `og:image` with its size, `twitter:card`); copy them from `projects/scope-gantry.html`.
+Every page carries the full set of tags in its head (`canonical`, `og:url`, `og:description`, `og:image` with its size and alt text, `twitter:card`); copy them from any project page when adding one.
 
 ## Favicon
 
