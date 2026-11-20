@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-19T07:33:26.049Z",
+  "generatedAt": "2026-11-20T20:27:56.624Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Merge pull request #8 from NoahDorfman00/prints-plain-shelf",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/ccb8eab03ed0776ec61467df57e964ed255d3ac8",
-    "date": "2026-11-19T04:21:11Z"
+    "message": "Merge pull request #10 from NoahDorfman00/social-cards-rest",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/bdce6263e448089fc672b5d6c10668fc370cc05c",
+    "date": "2026-11-20T20:26:04Z"
   },
   "active": [
     "portfolio",
@@ -23,7 +23,7 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-11-19T04:21:11Z",
+      "pushedAt": "2026-11-20T20:26:04Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
