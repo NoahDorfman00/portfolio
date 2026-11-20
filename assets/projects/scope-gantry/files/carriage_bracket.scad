@@ -1,4 +1,5 @@
-// Carriage bracket for the bench scope gantry
+// Carriage bracket for the bench scope gantry, v2: the boom now sits in a channel and is also
+// clamped from both sides (4 more M3x10 + T-nuts in the boom's side slots), so it can't yaw.
 // Joins the X carriage (on the front of the shelf lip) to the boom (behind the lip, under the shelf).
 // It drops from the carriage, passes under the lip's curl, rises behind it, and ends in a plate
 // that sits on top of the boom.
@@ -35,12 +36,18 @@ top_t       = 6;
 top_len     = 48;     // overlap on the boom
 boom_screws = [15, 38];   // from the boom's front end
 key_w       = 5.8;    // key into the boom's top slot
-key_h       = 1.4;
+key_h       = 0;      // no key: it bottomed on the T-nuts before the plate clamped
 
 /* [Hardware] */
 m3_clear    = 3.4;
 head_d      = 6.4;
 head_cb     = 1.5;    // counterbore in the top plate: leaves 4.5 mm under the head
+
+/* [Side clamps] */
+boom_fit    = 0.3;    // total side clearance, boom in the channel
+side_screws = [12, 36];   // from the boom's front end, at the boom's mid height
+side_grip   = 5;      // plastic left under each side screw's head
+cheek_lift  = 0.5;    // cheeks stop this far above the boom's underside
 
 $fn = 48; eps = 0.01;
 
@@ -63,15 +70,18 @@ module bracket() {
   difference() {
     union() {
       rotate([90, 0, 90]) translate([0, 0, -width/2]) linear_extrude(width) profile();
-      // key into the boom's top slot, chamfered so it prints without support on its side
-      hull() {
-        translate([-key_w/2, y_riser0 - top_len, boom_top - eps]) cube([key_w, top_len - 1, eps]);
-        translate([-key_w/2 + key_h, y_riser0 - top_len, boom_top - key_h]) cube([key_w - 2*key_h + 0.6, top_len - 1, eps]);
-      }
+      // cheeks: solid blocks either side of the boom, out to the bracket's full width
+      for (sx = [-1, 1]) translate([sx > 0 ? boom/2 + boom_fit/2 : -width/2, y_riser0 - top_len, boom_top - boom + cheek_lift])
+        cube([width/2 - boom/2 - boom_fit/2, top_len + eps, boom - cheek_lift + eps]);
     }
     // carriage screws, heads on the front
     for (sx = [-1, 1], sz = [-1, 1]) translate([sx*pat/2, y_face - eps, car_zc + sz*pat/2]) rotate([-90, 0, 0])
       cylinder(d = m3_clear, h = plate_t + 2*eps);
+    // side screws, heads sunk deep in the cheeks
+    for (sx = [-1, 1], d = side_screws) translate([sx*(boom/2 - 1), y_riser0 - d, boom_top - boom/2]) rotate([0, sx*90, 0]) {
+      cylinder(d = m3_clear, h = width);
+      translate([0, 0, 1 + boom_fit/2 + side_grip]) cylinder(d = head_d, h = width);
+    }
     // boom screws through the top plate
     for (d = boom_screws) translate([0, y_riser0 - d, boom_top - key_h - eps]) {
       cylinder(d = m3_clear, h = top_t + key_h + 2*eps);
