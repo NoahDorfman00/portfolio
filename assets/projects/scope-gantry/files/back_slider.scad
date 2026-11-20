@@ -1,37 +1,45 @@
-// Back slider v2 for the bench scope gantry (two parts: body + cap)
-// The back rail (2020 T-slot) is bolted between the uprights, level with the boom, so the boom
-// stops just in front of it. The body wraps the rail and a saddle on its front grips the boom's
-// rear end from above (boom drops in from below; the Y rail on the boom's underside stays clear).
-// UHMW tape strips (10 mil, cut ~6 mm wide) line the floor and cap on the flats either side of
-// the rail's T-slot. Front/back there is deliberate play so the slider can't fight the front rail.
-// Hardware: 4x M3x10 + T-nuts (saddle to boom sides), 4x M3x10 + 4 heat-set inserts (cap).
+// Back slider v3 for the bench scope gantry (body here; its cap is chain_cap.scad)
+// Changes from v2:
+//  - front/back play on the back rail is 3 mm each side (was 1): the front rail and the rigid
+//    carriage bracket keep the boom square, this part only carries the boom's back end
+//  - it HANGS on the rail by the cap's two UHMW strips. The floor is only an anti-lift guard,
+//    0.6 mm clear of the rail, no tape needed
+//  - saddle screw holes are vertical slots and the saddle's top is 2 mm clear of the boom, so the
+//    boom's back end finds its own height before the four screws are tightened
+//  - two bumpers under the floor stop the Y carriage at the rear end of its rail
+//  - prints UPSIDE DOWN (wall tops and saddle top on the bed), no supports; the floor is a bridge
+// Hardware: 4x M3x10 + T-nuts (saddle to boom sides), 4 heat-set inserts for the cap's M3x10.
 //
 // Frame: X along the back rail, Y toward you (along the boom), Z up. Origin = back rail center.
 
 /* [Rail fit] */
 rail        = 20;
-side_float  = 1.0;    // play front/back, each side
-tape_t      = 0.25;   // UHMW tape thickness (10 mil)
-pad_proud   = 0.10;   // how far the tape stands above the plastic
-slide_slack = 0.15;   // total vertical running clearance. Raise if too tight, lower if it rattles
-strip_w     = 6.5;
-strip_y     = 6.75;
+side_float  = 3.0;    // play front/back, each side
+pad_proud   = 0.10;   // cap tape stands this far below the cap
+lift_gap    = 0.6;    // rail underside to floor
 
 /* [Body] */
-len         = 50;     // along the back rail
-floor_t     = 4.0;    // keep thin: the Y rail's overhang passes just underneath
+len         = 50;
+floor_t     = 4.0;
 wall_t      = 7;
-cap_t       = 4.5;
 
 /* [Boom saddle] */
 boom        = 20;
-boom_drop   = 5;      // boom center sits this far below the back rail center
-boom_fit    = 0.4;    // total side clearance on the boom
-cheek_t     = 5;      // sets M3x10 engagement into the boom's side T-nuts
-saddle_len  = 40;     // along the boom
-saddle_top  = 4;
-boom_gap    = 1;      // boom end to slider wall
-screw_y     = [12, 30];   // screw positions along the saddle
+boom_drop   = 5;      // nominal: boom center below back rail center
+boom_fit    = 0.4;
+cheek_t     = 5;
+saddle_len  = 40;
+boom_gap    = 1;
+screw_y     = [12, 30];
+v_adj       = 2;      // boom height adjustment, +/-
+rail_relief = 2;      // groove under the floor so the Y rail's overhang can rise with the boom
+yrail_w     = 12;
+
+/* [Y carriage stop] */
+stop_y      = 4;      // stop face, forward of the back rail center. The carriage's rear face lands here
+stop_len    = 16;
+stop_x      = [7.5, 20];   // each side of the Y rail; the MGN12H block is 13.5 either side of center
+stop_bot    = -30;    // carriage block spans about -18 .. -28
 
 /* [Hardware] */
 m3_clear    = 3.4;
@@ -41,58 +49,41 @@ cap_screw_x = 17;
 
 $fn = 48; eps = 0.01;
 
-inner_w  = rail + 2*side_float;
-inner_h  = rail + 2*pad_proud + slide_slack;
-pocket   = tape_t - pad_proud;
-z_floor  = -inner_h/2;              // floor top
-z_bot    = z_floor - floor_t;       // underside of the part
-z_top    = inner_h/2;               // wall top
-wall_y0  = inner_w/2;
+z_top    = rail/2 + pad_proud;      // wall top = cap underside
+z_floor  = -rail/2 - lift_gap;
+z_bot    = z_floor - floor_t;
+wall_y0  = rail/2 + side_float;
 wall_y1  = wall_y0 + wall_t;
 wall_yc  = wall_y0 + wall_t/2;
 boom_zc  = -boom_drop;
 boom_top = boom_zc + boom/2;
 cheek_x0 = boom/2 + boom_fit/2;
 
-module strips(z) {
-  for (s = [-1, 1]) translate([-len/2 - eps, s*strip_y - strip_w/2, z]) cube([len + 2*eps, strip_w, pocket + eps]);
-}
-
 module body() {
   difference() {
     union() {
-      translate([-len/2, -wall_y1, z_bot]) cube([len, 2*wall_y1, floor_t]);                       // floor
-      for (s = [-1, 1]) translate([-len/2, s > 0 ? wall_y0 : -wall_y1, z_bot]) cube([len, wall_t, z_top - z_bot]);  // walls
-      // saddle: two cheeks and a top tie, in front of the front wall
+      translate([-len/2, -wall_y1, z_bot]) cube([len, 2*wall_y1, floor_t]);
+      for (s = [-1, 1]) translate([-len/2, s > 0 ? wall_y0 : -wall_y1, z_bot]) cube([len, wall_t, z_top - z_bot]);
       for (s = [-1, 1]) translate([s > 0 ? cheek_x0 : -cheek_x0 - cheek_t, wall_y1 - eps, z_bot])
-        cube([cheek_t, saddle_len + eps, boom_top - z_bot]);
-      translate([-cheek_x0 - cheek_t, wall_y1 - eps, boom_top]) cube([2*(cheek_x0 + cheek_t), saddle_len + eps, saddle_top]);
+        cube([cheek_t, saddle_len + eps, z_top - z_bot]);
+      translate([-cheek_x0 - cheek_t, wall_y1 - eps, boom_top + v_adj]) cube([2*(cheek_x0 + cheek_t), saddle_len + eps, z_top - boom_top - v_adj]);
+      // Y carriage bumpers
+      for (s = [-1, 1]) translate([s > 0 ? stop_x[0] : -stop_x[1], stop_y - stop_len, stop_bot]) cube([stop_x[1] - stop_x[0], stop_len, z_bot - stop_bot + eps]);
     }
-    strips(z_floor - pocket);
-    // saddle screws into T-nuts in the boom's side slots
-    for (s = [-1, 1], y = screw_y) translate([s*(cheek_x0 - eps), wall_y1 + boom_gap + y, boom_zc]) rotate([0, s*90, 0])
-      cylinder(d = m3_clear, h = cheek_t + 2*eps);
-    // inserts for the cap
+    // groove for the Y rail's overhang
+    translate([-yrail_w/2 - 1.5, stop_y - stop_len - 2, z_bot - eps]) cube([yrail_w + 3, wall_y1 - stop_y + stop_len + 3, rail_relief + eps]);
+    // saddle screws: vertical slots
+    for (s = [-1, 1], y = screw_y) hull() for (dz = [-v_adj, v_adj])
+      translate([s*(cheek_x0 - eps), wall_y1 + boom_gap + y, boom_zc + dz]) rotate([0, s*90, 0]) cylinder(d = m3_clear, h = cheek_t + 2*eps);
     for (sx = [-1, 1], sy = [-1, 1]) translate([sx*cap_screw_x, sy*wall_yc, z_top - insert_len]) cylinder(d = insert_d, h = insert_len + eps);
-  }
-}
-
-module cap() {
-  difference() {
-    translate([-len/2, -wall_y1, 0]) cube([len, 2*wall_y1, cap_t]);
-    strips(-eps);
-    for (sx = [-1, 1], sy = [-1, 1]) translate([sx*cap_screw_x, sy*wall_yc, -eps]) cylinder(d = m3_clear, h = cap_t + 2*eps);
   }
 }
 
 mode = "print";   // "print" | "assembly"
 if (mode == "assembly") {
   color("royalblue") body();
-  color("cornflowerblue") translate([0, 0, z_top]) cap();
-  color("silver") translate([-70, -rail/2, -rail/2]) cube([140, rail, rail]);                                  // back rail
-  color("lightgray") translate([-boom/2, wall_y1 + boom_gap, boom_zc - boom/2]) cube([boom, 110, boom]);       // boom
-  color("dimgray") translate([-6, -40, boom_zc - boom/2 - 8]) cube([12, 170, 8]);                              // Y rail overhang
-} else {
-  translate([0, 0, -z_bot]) body();                               // prints as it sits, no supports (short bridge over the boom slot)
-  translate([len + 10, 0, cap_t]) rotate([180, 0, 0]) cap();      // cap flipped: pockets face up
-}
+  color("silver", 0.6) translate([-70, -rail/2, -rail/2]) cube([140, rail, rail]);
+  color("lightgray") translate([-boom/2, wall_y1 + boom_gap, boom_zc - boom/2]) cube([boom, 110, boom]);
+  color("dimgray") translate([-6, 0, boom_zc - boom/2 - 8]) cube([12, 130, 8]);
+  color("orange") translate([-13.5, stop_y, boom_zc - boom/2 - 13]) cube([27, 45.4, 10]);   // Y carriage at the stop
+} else translate([0, 0, z_top]) rotate([180, 0, 0]) body();

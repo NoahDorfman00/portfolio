@@ -61,6 +61,7 @@
     // X axis: backer extrusion bolted through the lip, MGN12 rail on its front
     box(1450, 20, 20, 0, 382, 404, mats.alu);
     box(1450, 12, 8, 0, 382, 418, mats.steel);
+    [-713, 713].forEach(x => { box(20, 7, 39, x, 395.5, 414.5, mats.print); box(20, 17, 11, x, 383.5, 428.5, mats.print); });   // end stops in the top slot
     for (let i = 0; i < 8; i++) { const b = cyl(2.8, 3, -700 + i * 200, 382, 389, mats.scope); b.rotation.x = Math.PI / 2; }
 
     // Back rail: bolted between the uprights on the shelf's own top bolts, with a collar at each end
@@ -79,17 +80,19 @@
     box(56, 15.5, 70, 0, 358.75, 399, mats.print, G);
     box(56, 34, 8, 0, 368, 368, mats.print, G);
     box(56, 6, 56, 0, 382, 344, mats.print, G);
+    [-19.1, 19.1].forEach(x => box(17.8, 19.5, 48, x, 369.25, 340, mats.print, G));      // cheeks either side of the boom
     box(20, 20, 280, 0, 369, 224, mats.alu, G);
     box(12, 8, 300, 0, 355, 214, mats.steel, G);
-    box(50, 4, 36, 0, BACK_Y - 12.2, BACK_Z, mats.print, G);
-    [-14.5, 14.5].forEach(dz => box(50, 20.35, 7, 0, BACK_Y, BACK_Z + dz, mats.print, G));
-    box(50, 4.5, 36, 0, BACK_Y + 12.4, BACK_Z, mats.print, G);
-    [-12.7, 12.7].forEach(x => box(5, 19.2, 40, x, 369.4, BACK_Z + 38, mats.print, G));
-    box(30.4, 4, 40, 0, 381, BACK_Z + 38, mats.print, G);
+    box(50, 4, 40, 0, BACK_Y - 12.6, BACK_Z, mats.print, G);
+    [-16.5, 16.5].forEach(dz => box(50, 20.7, 7, 0, BACK_Y, BACK_Z + dz, mats.print, G));
+    box(50, 4.5, 40, 0, BACK_Y + 12.35, BACK_Z, mats.print, G);
+    [-12.7, 12.7].forEach(x => box(5, 24.7, 40, x, BACK_Y - 2.25, BACK_Z + 40, mats.print, G));
+    box(30.4, 3.1, 40, 0, BACK_Y + 8.55, BACK_Z + 40, mats.print, G);
+    [-13.75, 13.75].forEach(x => box(12.5, 15.4, 16, x, BACK_Y - 22.3, BACK_Z - 4, mats.print, G));   // bumpers that stop the Y carriage
 
     // Cable chain: on its side behind the shelf's back lip. Its fixed end hangs on a printed clip on the lip,
     // 219 mm right of centre, and its moving end bolts to an arm on the back slider's cap. The U opens to the
-    // left and stops short of the left upright at full travel. Printed rests on the lip sit just under it.
+    // left and stops short of the left upright at full travel.
     const CH = { t: 15, w: 22, R: 22.5, yc: 409, zf: 69.5, xa: 219, tab: 55, k: 710 };
     const chFixed = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mats.scope);
     const chMoving = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mats.scope);
@@ -101,10 +104,9 @@
         m.position.set(-CH.R * Math.cos(a), 0, -CH.R - CH.R * Math.sin(a)); m.rotation.y = -(a + Math.PI / 2);
         chLoop.add(m);
     }
-    [[CH.xa, 40], [50, 14], [-150, 14], [-350, 14], [-550, 14]].forEach(([x, w]) => {
-        box(w, 51, 13, x, 418.5, 83.5, mats.print); box(w, 3, 24, x, 442.5, 88, mats.print); box(w, 22, 7, x, 431, 96.5, mats.print);
-    });
-    box(95, 4.5, 39, 22.5, BACK_Y + 12.4, 27.5, mats.print, G);      // the cap's arm, back behind the rail
+    box(40, 51, 13, CH.xa, 418.5, 83.5, mats.print); box(40, 3, 24, CH.xa, 442.5, 88, mats.print); box(40, 22, 7, CH.xa, 431, 96.5, mats.print);   // anchor clip on the lip
+    box(50, 4.5, 37, 0, BACK_Y + 12.35, 26.5, mats.print, G);        // the cap's arm, back behind the rail
+    box(45, 4.5, 24, 47.5, BACK_Y + 12.35, 20, mats.print, G);       // and out to the side, behind the collar
     box(95, 37, 9, 22.5, 402.7, 12.5, mats.print, G);                // and the face the chain bolts to
     const lead = new THREE.Mesh(new THREE.BufferGeometry(), mats.steel); G.add(lead);   // power lead, slider to head
     function chain(x, cy) {
@@ -153,7 +155,7 @@
 
     // Where the lens can reach, and where the shelf's lip is, drawn on the bench
     const Y_MIN = 87, Y_MAX = 341, ROD_MAX = ROD_L - 44;
-    const reach = [[-690 + LX, Y_MIN + 42 + FWD], [690 + LX, Y_MIN + 42 + FWD], [690 + LX, Y_MAX + ROD_MAX + 42 + FWD], [-690 + LX, Y_MAX + ROD_MAX + 42 + FWD]]
+    const reach = [[-675 + LX, Y_MIN + 42 + FWD], [675 + LX, Y_MIN + 42 + FWD], [675 + LX, Y_MAX + ROD_MAX + 42 + FWD], [-675 + LX, Y_MAX + ROD_MAX + 42 + FWD]]
         .map(p => new THREE.Vector3(p[0], 3, p[1]));
     const outline = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(reach), new THREE.LineDashedMaterial({ color: 0x141414, dashSize: 18, gapSize: 12 }));
     outline.computeLineDistances(); scene.add(outline);
