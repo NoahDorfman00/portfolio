@@ -112,6 +112,15 @@ Hero media: `.top.wide` + `.hero-media` for landscape images and embeds (cropped
 
 Bump the `?v=` on the `og:image` URLs when it changes so link previews refresh.
 
+A project page can have its own card at `assets/projects/<slug>/social.jpg`, rendered from [`social-project.html`](social-project.html). That template takes the title, one sentence and a picture from the query string (the options are listed at the top of the file). The scope gantry's:
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=6000 --screenshot=/tmp/social.png "http://localhost:8737/design/social-project.html?title=Scope%7Cgantry&dek=A%20microscope%20that%20hangs%20under%20my%20bench%20shelf%20and%20%5Bslides%20to%20wherever%20the%20board%20is%5D.&img=/assets/projects/scope-gantry/model.jpg&pos=38%25%2055%25&zoom=1.25"
+sips -s format jpeg -s formatOptions 88 /tmp/social.png --out assets/projects/scope-gantry/social.jpg
+```
+
+A page with a card also gets the full set of tags in its head (`og:url`, `og:description`, `og:image` with its size, `twitter:card`); copy them from `projects/scope-gantry.html`.
+
 ## Favicon
 
 "ND" in IBM Plex Sans SemiBold, paper on an ink square, with the amber link underline beneath it. [`favicon.py`](favicon.py) writes the outlined SVGs; rasterize the PNG and ICO by inlining each SVG in a page, screenshotting with headless Chrome at a 600×600 window, and cropping to size (macOS Chrome won't render a smaller window). Outputs: `assets/favicon.svg`, `/favicon.ico` (32 px), `assets/apple-touch-icon.png` (180 px, square corners; iOS rounds them). Bump the `?v=` on the icon links when it changes.
