@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-20T20:27:56.624Z",
+  "generatedAt": "2026-11-21T07:18:31.514Z",
   "since": "2017-10-08T18:32:55Z",
   "publicRepos": 26,
   "lastCommit": {
     "repo": "portfolio",
     "repoUrl": "https://github.com/NoahDorfman00/portfolio",
-    "message": "Merge pull request #10 from NoahDorfman00/social-cards-rest",
-    "url": "https://github.com/NoahDorfman00/portfolio/commit/bdce6263e448089fc672b5d6c10668fc370cc05c",
-    "date": "2026-11-20T20:26:04Z"
+    "message": "Scope gantry: finished build, final parts and photos (#12)",
+    "url": "https://github.com/NoahDorfman00/portfolio/commit/d40b92841d1293610423cc8f3a48571ef503c605",
+    "date": "2026-11-20T22:17:33Z"
   },
   "active": [
     "portfolio",
@@ -23,7 +23,7 @@
       "name": "portfolio",
       "description": "Portfolio site, presenting past and current projects, contact information, and some other goodies.",
       "language": "HTML",
-      "pushedAt": "2026-11-20T20:26:04Z",
+      "pushedAt": "2026-11-20T22:17:33Z",
       "url": "https://github.com/NoahDorfman00/portfolio"
     },
     {
@@ -65,27 +65,27 @@
   "languages": [
     {
       "name": "HTML",
-      "pct": 18.2
+      "pct": 18.5
     },
     {
       "name": "TypeScript",
-      "pct": 17.1
+      "pct": 17
     },
     {
       "name": "C++",
-      "pct": 14.4
+      "pct": 14.3
     },
     {
       "name": "JavaScript",
-      "pct": 14.1
+      "pct": 14
     },
     {
       "name": "C",
-      "pct": 13.6
+      "pct": 13.5
     },
     {
       "name": "Other",
-      "pct": 22.6
+      "pct": 22.7
     }
   ]
 }
